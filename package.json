@@ -6,8 +6,7 @@
   "private": true,
   "workspaces": [
     "client",
-    "server",
-    "shared"
+    "server"
   ],
   "scripts": {
     "start": "concurrently \"yarn workspace server start \" \"yarn workspace client start \""
