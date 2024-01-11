@@ -5,7 +5,7 @@ const validateOptions = (options)=>{
     return options.length === 4;
 }
 
-const QuizSchema = mongoose.Schema({
+const QuizSchema = new mongoose.Schema({
     roomId: {
         type: String,
         required: true,

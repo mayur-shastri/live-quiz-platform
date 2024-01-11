@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const QuestionSchema = mongoose.Schema({
+const QuestionSchema = new mongoose.Schema({
             questionType: {
                 type: String,
                 enum: ["singleMCQ","multipleMCQ","descriptive"],
