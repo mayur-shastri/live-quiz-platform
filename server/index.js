@@ -3,7 +3,10 @@ const http = require('http');
 const cors = require('cors');
 const app = express();
 const server = http.createServer(app);
+
 const AuthRoutes = require('./Routes/Auth');
+const QuizRoutes = require('./Routes/Quiz');
+
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 // const GoogleStrategy = require('passport-google-oauth20').Strategy;
@@ -38,6 +41,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/',AuthRoutes);
+app.use('/',QuizRoutes);
 
 app.get('/',(req,res)=>{
     res.send({greeting: "Hello World"});
