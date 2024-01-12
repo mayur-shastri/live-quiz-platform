@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+import Register from './components/Register';
+import Login from './components/Login';
 
 function App() {
 
@@ -18,6 +20,8 @@ function App() {
   return (
     <>
       <h1>{greeting}</h1>
+      {/* <Register/> */}
+      <Login/>
     </>
   )
 }

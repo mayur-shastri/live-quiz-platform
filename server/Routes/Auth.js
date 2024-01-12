@@ -1,12 +1,11 @@
 const router = require('express').Router();
-const mongoose = require('mongoose');
 const User = require('../Models/User');
-const passportLocalMongoose = require('passport-local-mongoose');
+const passport = require('passport');
 
 router.route('/register')
     .post(async (req,res)=>{
-        const {username,password} = req.body;
-        const newUser = User({username});
+        const {username,password,email} = req.body;
+        const newUser = User({username,email});
         await User.register(newUser,password,(err,user)=>{
             if(err){
                 return res.status(500).send(err.message);
@@ -25,7 +24,7 @@ router.route('/login')
         if(req.user){
             res.status(200).send({ message: 'Login successful!' });
         } else{
-            es.status(401).send({ message: 'Login failed!' });r
+            res.status(401).send({ message: 'Login failed!' });
         } // the responses sent should be used to flash messages on the client side
     });
 

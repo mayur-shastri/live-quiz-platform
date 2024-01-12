@@ -7,15 +7,23 @@ const UserSchema = new mongoose.Schema({
     //     type: String,
     //     required: true,
     // },
-    
-    // Local authentication
     email: {
         type: String,
         required: true,
+    },
+
+    quizzes: {
+        type: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'quiz',
+            }
+        ],
+        required: false,
     }
 });
 
-UserSchema.plugin(passportLocalMongoose);
+UserSchema.plugin(passportLocalMongoose); // Local authentication
 
 const User = mongoose.model('user', UserSchema);
 

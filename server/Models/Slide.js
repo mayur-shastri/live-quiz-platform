@@ -1,16 +1,16 @@
 const mongoose = require('mongoose');
 
-const QuestionSchema = new mongoose.Schema({
-            questionType: {
+const SlideSchema = new mongoose.Schema({
+            slideType: {
                 type: String,
-                enum: ["singleMCQ","multipleMCQ","descriptive"],
+                enum: ["singleMCQ","multipleMCQ","descriptive",],
                 required: true,
             },
             text: {
                 type: String,
                 required: true,
             },
-            // For option type questions
+            // For option type slides
             options: {
                 type: [
                     {
@@ -21,7 +21,10 @@ const QuestionSchema = new mongoose.Schema({
                         optionValue: {
                             type: String,
                             required: true,
-                        }
+                        },
+                        optionImageUrl: {
+                            type: String,
+                        },
                     }
                 ],
                 validate: validateOptions,
@@ -32,8 +35,11 @@ const QuestionSchema = new mongoose.Schema({
             },
             // For descriptive type
             correctAnswers: [String],
+            imageUrl: {
+                type: String,
+            },
 });
 
-const Question = mongoose.model(QuestionSchema);
+const Slide = mongoose.model('slide',SlideSchema);
 
-module.exports = Question;
+module.exports = Slide;
