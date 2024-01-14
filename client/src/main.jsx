@@ -8,21 +8,25 @@ import Help from './screens/Help.jsx'
 import Feedback from './screens/Feedback.jsx'
 import Trash from './screens/Trash.jsx'
 import Layout from './Layout.jsx'
+import theme from './theme'
+import { ThemeProvider } from '@mui/material/styles';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path='/' element={<Layout/>}>
-      <Route path='/home' element={<Dashboard/>}></Route>
-      <Route path='/quizzes' element={<Quizzes/>}></Route>
-      <Route path='/help' element={<Help/>}></Route>
-      <Route path='/feedback' element={<Feedback/>} ></Route>
-      <Route path='/trash' element={<Trash/>}></Route>
+    <Route path='/' element={<Layout />}>
+      <Route path='/home' element={<Dashboard />}></Route>
+      <Route path='/quizzes' element={<Quizzes />}></Route>
+      <Route path='/help' element={<Help />}></Route>
+      <Route path='/feedback' element={<Feedback />} ></Route>
+      <Route path='/trash' element={<Trash />}></Route>
     </Route>
   )
 );
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ThemeProvider theme={theme}>
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </React.StrictMode>,
 )
