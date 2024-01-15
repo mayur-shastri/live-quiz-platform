@@ -1,20 +1,26 @@
 import { useState } from 'react';
 import { instance as configuredAxios } from '../../axiosConfig';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [buttonState, setButtonState] = useState(false);
 
+  const navigate = useNavigate();
+
   const submitData = async (evt) => {
     evt.preventDefault();
     const res = await configuredAxios.post('/login', { username, password });
     console.log(res.data.message);
     setButtonState(true);
+    if(res.data.message === 'Login successful!'){
+      navigate('/app/home');
+    }
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded shadow-md">
+    <div className="max-w-md mx-auto mt-10 p-6 bg-white border rounded shadow-md">
       <form onSubmit={submitData}>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">

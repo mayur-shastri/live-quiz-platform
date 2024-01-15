@@ -41,13 +41,13 @@ export default function SideNavbar() {
                 </Toolbar>
                 <Divider />
                 <List>
-                    <SideNavbarTile title="Home" to="/home" icon="home" selectedTile={selectedTile} setSelectedTile={setSelectedTile} />
-                    <SideNavbarTile title="My Quizzes" to="/quizzes" icon="question_mark" selectedTile={selectedTile} setSelectedTile={setSelectedTile} />
+                    <SideNavbarTile title="Home" to="/app/home" icon="home" selectedTile={selectedTile} setSelectedTile={setSelectedTile} />
+                    <SideNavbarTile title="My Quizzes" to="/app/quizzes" icon="question_mark" selectedTile={selectedTile} setSelectedTile={setSelectedTile} />
                     <Divider />
-                    <SideNavbarTile title="Help" to="/help" icon="info" selectedTile={selectedTile} setSelectedTile={setSelectedTile} />
-                    <SideNavbarTile title="Feedback" to="/feedback" icon="feedback" selectedTile={selectedTile} setSelectedTile={setSelectedTile} />
+                    <SideNavbarTile title="Help" to="/app/help" icon="info" selectedTile={selectedTile} setSelectedTile={setSelectedTile} />
+                    <SideNavbarTile title="Feedback" to="/app/feedback" icon="feedback" selectedTile={selectedTile} setSelectedTile={setSelectedTile} />
                     <Divider />
-                    <SideNavbarTile title="Trash" to="/trash" icon="trash" selectedTile={selectedTile} setSelectedTile={setSelectedTile} />
+                    <SideNavbarTile title="Trash" to="/app/trash" icon="trash" selectedTile={selectedTile} setSelectedTile={setSelectedTile} />
                 </List>
             </Drawer>
             <Box
@@ -55,6 +55,6 @@ export default function SideNavbar() {
                 sx={{ flexGrow: 1, bgcolor: 'background.default'}}
             >
             </Box>
-        </Box>
+         </Box>
     );
 }

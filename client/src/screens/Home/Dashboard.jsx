@@ -1,5 +1,6 @@
 import {instance as configuredAxios} from '../../axiosConfig';
 import { useEffect, useState } from "react";
+import Typography from '@mui/material/Typography'
 
 export default function Dashboard(){
 
@@ -27,8 +28,10 @@ export default function Dashboard(){
     },[]);
 
     return (
-        <div className="h-screen">
-            <h1>Welcome {username}</h1>
+        <div className="flex flex-col h-screen items-start justify-start w-full">
+            <Typography variant="h3" color="initial" sx={{marginTop: '1em', marginLeft: '1em'}}>
+                Welcome {username}!
+            </Typography>
         </div>
     );
 }

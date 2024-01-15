@@ -11,7 +11,7 @@ const theme = createTheme({
   },
 
   typography: {
-    fontFamily: 'Roboto, sans-serif', // Specify your preferred font
+    fontFamily: 'M PLUS Rounded 1c, Roboto, sans-serif', // Specify your preferred font
     fontSize: 15,
   },
 

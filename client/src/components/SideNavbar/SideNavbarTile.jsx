@@ -20,6 +20,7 @@ const icons = {
 export default function SideNavbarTile({ title, to, icon, selectedTile, setSelectedTile}) {
     
     const handleClick = () => {
+        console.log(to);
         setSelectedTile(to);
     }
 
@@ -35,4 +36,4 @@ export default function SideNavbarTile({ title, to, icon, selectedTile, setSelec
         </ListItem>
         </Link>
     );
-}   
+}
