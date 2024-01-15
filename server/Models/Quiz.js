@@ -29,7 +29,12 @@ const QuizSchema = new mongoose.Schema({
     firstSlideCreationTime: {
         type: Date,
         default: null,
-    } // set this when the first slide is created. this will be used to track expiry of room code
+    },// set this when the first slide is created. this will be used to track expiry of room code
+    lastAccessed: {
+        type: Date,
+        default: Date.now(), // should be time of creation
+    }, // store the last time creator hit the edit endpoint of the quiz
+    
 });
 
 const Quiz = mongoose.model('quiz', QuizSchema);
