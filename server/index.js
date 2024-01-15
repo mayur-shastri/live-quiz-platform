@@ -3,9 +3,10 @@ const http = require('http');
 const cors = require('cors');
 const app = express();
 const server = http.createServer(app);
-
+ 
 const AuthRoutes = require('./Routes/Auth');
 const QuizRoutes = require('./Routes/Quiz');
+const UserRoutes = require('./Routes/User');
 
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
@@ -17,6 +18,7 @@ const sessionConfig = {
     secret: 'replace-with-a-real-secret',
     resave: false,
     saveUninitialized: false,
+    name: 'session',
     cookie: {
         httpOnly: true,
         maxAge: 1000*60*60*24*7, // 1 week
@@ -38,10 +40,18 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use(express.json());
-app.use(cors());
+
+const corsOptions = {
+    origin: 'http://localhost:5173',
+    credentials: true,
+    optionSuccessStatus: 200,
+}
+
+app.use(cors(corsOptions));
 
 app.use('/',AuthRoutes);
 app.use('/',QuizRoutes);
+app.use('/',UserRoutes);
 
 app.get('/',(req,res)=>{
     res.send({greeting: "Hello World"});

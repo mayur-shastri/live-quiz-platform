@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { instance as configuredAxios } from '../axiosConfig';
+import { instance as configuredAxios } from '../../axiosConfig';
 
 export default function Login() {
   const [username, setUsername] = useState('');

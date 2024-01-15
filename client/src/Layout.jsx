@@ -1,18 +1,20 @@
 import { Outlet } from "react-router-dom";
 import SideNavBar from "./components/SideNavbar/SideNavbar";
 import Navbar from "./components/Appbar/Navbar";
+import ProtectedRoutes from "./Utilities/ProtectedRoutes";
 
 export default function Layout() {
     return (
-        <div className="flex flex-col h-screen">
-            {/* <Navbar/> */}
-            <div className="flex flex-grow">
-                    <SideNavBar/>
-                <div className="flex-grow">
-                <Navbar/>
-                    <Outlet />
+        <ProtectedRoutes>
+            <div className="flex flex-col h-screen">
+                <div className="flex flex-grow">
+                    <SideNavBar />
+                    <div className="flex-grow">
+                        <Navbar />
+                        <Outlet />
+                    </div>
                 </div>
             </div>
-        </div>
+        </ProtectedRoutes>
     );
 }

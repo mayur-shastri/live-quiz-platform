@@ -1,4 +1,4 @@
-import {instance as configuredAxios} from '../axiosConfig';
+import {instance as configuredAxios} from '../../axiosConfig';
 import { useState } from 'react';
 
 export default function Register(){
