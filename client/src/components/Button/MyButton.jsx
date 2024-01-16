@@ -13,7 +13,7 @@ export default function MyButton({ icon, text, onClick }) {
         <Button variant="contained" 
         startIcon={icons[icon]} 
         onClick={onClick}
-        sx={{marginLeft: '1rem'}}>
+        sx={{marginLeft: '1rem', borderRadius: '1.5rem', padding: '1rem'}}>
             {text}
         </Button>
     );

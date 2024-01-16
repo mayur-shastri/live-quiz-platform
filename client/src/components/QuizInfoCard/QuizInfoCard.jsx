@@ -7,7 +7,7 @@ import OptionsButton from './OptionsButton';
 export default function QuizInfoCard({imageUrl, title, lastAccessed}) {
 
   return (
-    <Card sx={{height:270, width: 400, margin: '2rem', boxShadow: 1, borderRadius: '0.5rem'}}>
+    <Card sx={{height:270, width: 400, marginLeft: '1rem', marginBottom: '1rem', boxShadow: 1, borderRadius: '0.5rem'}}>
       <CardHeader
       sx={{height: 60}}
         action={

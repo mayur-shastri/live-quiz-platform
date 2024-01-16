@@ -39,6 +39,11 @@ export default function Dashboard() {
                 <MyButton text="Create Quiz" icon="plusIcon" onClick={()=>{}}/>
                 <MyButton text="Join Quiz" icon="groupAddIcon" onClick={()=>{}}/>
             </div>
+            <div className="flex flex-col items-start justify-start w-full ml-8">
+                <Typography variant="body1" color="initial" sx={{marginBottom: '1rem', fontWeight: 'bold' }}>
+                    Recently viewed
+                </Typography>
+            </div>
             <div className='flex flex-row'>
                 {
                     userData.quizzes ?
