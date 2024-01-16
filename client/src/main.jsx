@@ -14,26 +14,31 @@ import Landing from './screens/Landing.jsx'
 import Login from './screens/Authentication/Login.jsx'
 import Register from './screens/Authentication/Register.jsx'
 import EditQuiz from './screens/EditQuiz/EditQuiz.jsx'
+import ProtectedRoutes from './Utilities/ProtectedRoutes.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path='/' element={<Landing />}/>
-      <Route path='/login' element={<Login />}/>
-      <Route path='/register' element={<Register />}/>
-      <Route path='/:user_id/:quiz_id/edit' element={<EditQuiz />}/>
+      <Route path='/' element={<Landing />} />
+      <Route path='/login' element={<Login />} />
+      <Route path='/register' element={<Register />} />
+      <Route path='/:user_id/:quiz_id/edit' element={
+        <ProtectedRoutes>
+          <EditQuiz />
+        </ProtectedRoutes>
+      } />
       <Route path='/app' element={<Layout />}>
-      <Route path='home' element={<Dashboard />}></Route>
-      <Route path='quizzes' element={<Quizzes />}></Route>
-      <Route path='help' element={<Help />}></Route>
-      <Route path='feedback' element={<Feedback />} ></Route>
-      <Route path='trash' element={<Trash />}></Route>
-    </Route>
+        <Route path='home' element={<Dashboard />}></Route>
+        <Route path='quizzes' element={<Quizzes />}></Route>
+        <Route path='help' element={<Help />}></Route>
+        <Route path='feedback' element={<Feedback />} ></Route>
+        <Route path='trash' element={<Trash />}></Route>
+      </Route>
     </>
   )
 );
 
-ReactDOM.createRoot(document.getElementById('root')).render(  
+ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <RouterProvider router={router} />

@@ -35,11 +35,18 @@ the quiz_id and the user is redirected to :user_id/:quiz_id/edit (client side ro
 
 // 3) /quizzes: cient side route that renders a grid-view of all the quizzes created 
 // by the user. (needs a server-side get route to /:user_id/quizzes for fetching image, title of the presentation)
+// (done)
 
-/* results: how to display? 
-1)in mentimeter, votes are immediately rendered on the presenter's screen 
-2) Once the presentor clicks on show leaderboard, the leaderboard is shown 
-to all the players*/
+/* How the quiz works:
+    0) A waiting screen is shown to the presenter with a start quiz button.
+    until the start button is pressed, participants can join the room using the roomCode
+    1) For every question slide, a leaderboard slide is created
+    2) When the presenter clicks on the next button, the leaderboard slide is shown
+    3) When the presenter clicks on the next button again, the next question slide is shown
+    4) When the presenter clicks on the next button, updated leaderboard is shown with the new scores
+    5) When previous button is clicked, the leaderboard is shown in its previous state
+    6) When the presenter clicks on the end quiz button, the quiz ends and the final leaderboard is shown
+*/
 
 router.route('/:user_id/quizzes')
     .get(async (req,res)=>{

@@ -16,7 +16,7 @@ export default function QuizInfoCard({imageUrl, title, lastAccessed, quiz_id, us
         title={title}
         // subheader={`Last Accessed: ${lastAccessed}`}
         // subheader={`Last Accessed: ${new Date(lastAccessed).toLocaleDateString()}`}
-        subheader={`Last Accessed: ${new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(lastAccessed))}`}
+        subheader={`Last Edited: ${new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(lastAccessed))}`}
       />
       <CardMedia
         component="img"
