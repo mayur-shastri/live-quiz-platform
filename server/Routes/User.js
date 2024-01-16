@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const {isLoggedIn} = require('../Middleware/Auth');
 const User = require('../Models/User');
+
 router.route('/userdata')
     .get(isLoggedIn, async (req,res)=>{
         const id = req.user._id;

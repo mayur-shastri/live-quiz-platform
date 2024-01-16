@@ -2,22 +2,16 @@ import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
-import IconButton from '@mui/material/IconButton';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import OptionsButton from './OptionsButton';
 
 export default function QuizInfoCard({imageUrl, title, lastAccessed}) {
-  const [expanded, setExpanded] = React.useState(false);
 
-  const handleExpandClick = () => {
-    // ...
-  };
   return (
-    <Card sx={{height:280, width: 345, marginTop: '1em', marginLeft: '2em', boxShadow: 1, borderRadius: '1em'}}>
+    <Card sx={{height:270, width: 400, margin: '2rem', boxShadow: 1, borderRadius: '0.5rem'}}>
       <CardHeader
+      sx={{height: 60}}
         action={
-          <IconButton aria-label="settings" onClick={handleExpandClick}>
-            <MoreVertIcon />
-          </IconButton>
+          <OptionsButton/>
         }
         title={title}
         // subheader={`Last Accessed: ${lastAccessed}`}
