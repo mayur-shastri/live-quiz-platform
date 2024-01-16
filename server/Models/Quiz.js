@@ -24,7 +24,7 @@ const QuizSchema = new mongoose.Schema({
     },
     creationDateTime: {
         type: Date,
-        default: Date.now(), 
+        default: Date.now(),
     },
     firstSlideCreationTime: {
         type: Date,

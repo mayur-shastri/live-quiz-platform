@@ -9,6 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ShareIcon from '@mui/icons-material/Share';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useNavigate } from 'react-router-dom';
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -51,8 +52,9 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-export default function OptionsButton() {
+export default function OptionsButton({quiz_id,user_id}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const navigate = useNavigate();
   const open = Boolean(anchorEl);
   const handleExpandClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -64,6 +66,7 @@ export default function OptionsButton() {
 
   const onEdit = () =>{
     setAnchorEl(null);
+    navigate(`/${user_id}/${quiz_id}/edit`);
   }
   
   const onShare = () =>{

@@ -13,6 +13,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import Landing from './screens/Landing.jsx'
 import Login from './screens/Authentication/Login.jsx'
 import Register from './screens/Authentication/Register.jsx'
+import EditQuiz from './screens/EditQuiz/EditQuiz.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -20,6 +21,7 @@ const router = createBrowserRouter(
       <Route path='/' element={<Landing />}/>
       <Route path='/login' element={<Login />}/>
       <Route path='/register' element={<Register />}/>
+      <Route path='/:user_id/:quiz_id/edit' element={<EditQuiz />}/>
       <Route path='/app' element={<Layout />}>
       <Route path='home' element={<Dashboard />}></Route>
       <Route path='quizzes' element={<Quizzes />}></Route>
