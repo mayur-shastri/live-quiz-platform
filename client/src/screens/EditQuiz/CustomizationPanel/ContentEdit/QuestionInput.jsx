@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Input as BaseInput } from '@mui/base/Input';
 import { styled } from '@mui/system';
-import { Typography } from '@mui/material';
+import { TextareaAutosize, Typography } from '@mui/material';
 
 const Input = React.forwardRef(function CustomInput(props, ref) {
   return <BaseInput slots={{ input: InputElement }} {...props} ref={ref} />;
@@ -14,7 +14,7 @@ export default function QuestionInput() {
     <Typography variant="body1" sx={{ p: 2, paddingTop: 1, fontWeight: 'bold', textAlign: 'start' }}>
         Description
         </Typography>
-        <Input aria-label="Description" placeholder="Detailed Question"/>
+        <TextareaAutosize minRows={3} sx={{ marginBottom: 1, border: '1px solid #000'}} aria-label="Description" placeholder="Detailed Question"/>
     </>
   );
 }

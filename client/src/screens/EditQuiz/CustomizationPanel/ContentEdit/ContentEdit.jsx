@@ -3,6 +3,8 @@ import React, { useEffect } from 'react'
 import SelectSlide from './SelectSlide';
 import { useState } from 'react';
 import QuestionInput from './QuestionInput';
+import OptionsInput from './OptionsGroup/OptionsInput';
+import {v4 as uuid} from 'uuid';
 
 /* 
 Syncing the user input with the database can be achieved using:
@@ -12,12 +14,13 @@ Syncing the user input with the database can be achieved using:
 
 function ContentEdit({ drawerWidth }) {
 
+    const [selectedSlideType, setSelectedSlideType] = useState("Single Correct MCQ");
+    const [options, setOptions] = useState([{id: uuid(), value: '', correct: false}]);
+
     useEffect(()=>{
         console.log(selectedSlideType);
-    },[]);
-
-    const [selectedSlideType, setSelectedSlideType] = useState("Single Correct MCQ");
-
+        console.log(options);
+    },[options,selectedSlideType]);
 
     return (
         <Box sx={{
@@ -28,7 +31,7 @@ function ContentEdit({ drawerWidth }) {
             borderRadius: '10px',
             width: drawerWidth,
             margin: '0.5rem 0 0.5rem 0',
-            overflow: 'hidden', // scrollbar appears  if needed
+            overflow: 'auto', // scrollbar appears  if needed
             position: 'relative', // so that drawer can be positioned relative to this
         }}>
             <Drawer
@@ -42,7 +45,7 @@ function ContentEdit({ drawerWidth }) {
                     '& .MuiDrawer-paper': {
                         width: '100%',
                         height: '100vh',
-                        overflowY: 'auto', // scrollbar appears  if needed
+                        // overflowY: 'auto', // scrollbar appears  if needed
                         boxSizing: 'border-box',
                         position: 'absolute', // position the drawer absolutely within the Box
 
@@ -57,6 +60,8 @@ function ContentEdit({ drawerWidth }) {
                 <Divider sx={{ borderColor: 'black' }} />
                 <Typography variant="body1" sx={{ p: 2, fontWeight: 'bold', textAlign: 'start' }}>Question</Typography>
                 <QuestionInput/>
+                <Typography variant="body1" sx={{ p: 2, fontWeight: 'bold', textAlign: 'start' }}>Options</Typography>
+                <OptionsInput options={options} setOptions={setOptions}/>
             </Drawer>
         </Box>
     );
