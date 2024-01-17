@@ -2,6 +2,13 @@ import { Box, Divider, Drawer, Typography } from '@mui/material';
 import React, { useEffect } from 'react'
 import SelectSlide from './SelectSlide';
 import { useState } from 'react';
+import QuestionInput from './QuestionInput';
+
+/* 
+Syncing the user input with the database can be achieved using:
+1) Debounce - wait for a few seconds after user input(when user input devices become inactive) to update the database
+2) WebSockets - update the database in real time
+*/
 
 function ContentEdit({ drawerWidth }) {
 
@@ -48,6 +55,8 @@ function ContentEdit({ drawerWidth }) {
                 <Typography variant="body1" sx={{ p: 2, fontWeight: 'bold', textAlign: 'start' }}>Slide Type</Typography>
                 <SelectSlide selectedSlideType={selectedSlideType} setSelectedSlideType={setSelectedSlideType}/>
                 <Divider sx={{ borderColor: 'black' }} />
+                <Typography variant="body1" sx={{ p: 2, fontWeight: 'bold', textAlign: 'start' }}>Question</Typography>
+                <QuestionInput/>
             </Drawer>
         </Box>
     );

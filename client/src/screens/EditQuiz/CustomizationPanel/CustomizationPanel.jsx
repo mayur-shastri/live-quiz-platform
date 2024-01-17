@@ -15,7 +15,7 @@ export default function CustomizationPanel() {
             display: 'flex',
             width: panelWidth,
             margin: '1.2rem',
-            border: '1px solid black',
+            // border: '1px solid black',
             borderRadius: '10px',
             height: 'calc(100vh - 120px)',
             marginLeft: 'auto',
