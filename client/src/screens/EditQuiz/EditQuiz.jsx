@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import CustomizationPanel from './CustomizationPanel/CustomizationPanel';
 import SlideBar from './SlidesBar';
 import SlidePreview from './SlidePreview/SlidePreview';
-import Toolbar from './Appbar/Toolbar';
+import Toolsbar from './Appbar/Toolsbar';
 
 export default function EditQuiz() {
 
@@ -10,7 +10,7 @@ export default function EditQuiz() {
 
     return (
         <div className='flex flex-col justify-center items-center'>
-            <Toolbar />
+            <Toolsbar />
             <div className='flex flex-row flex-grow w-full'>
                 <SlideBar />
                 <SlidePreview />

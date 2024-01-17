@@ -1,12 +1,10 @@
 import { Divider, Drawer, List, Toolbar, Typography, Container, Box } from "@mui/material";
-import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import PanelButton from "../Buttons/PanelButton";
-import ContentEdit from "./ContentEdit";
+import ContentEdit from "./ContentEdit/ContentEdit";
 
 export default function CustomizationPanel() {
 
-    const location = useLocation();
     const [selectedPanelButton, setSelectedPanelButton] = useState('content');
 
     const panelWidth = 500;
@@ -23,7 +21,7 @@ export default function CustomizationPanel() {
             marginLeft: 'auto',
             padding: '0',
         }}>
-            <ContentEdit drawerWidth={drawerWidth}/>
+            <ContentEdit drawerWidth={drawerWidth} selectedPanelButton={selectedPanelButton} setSelectedPanelButton={setSelectedPanelButton}/>
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',

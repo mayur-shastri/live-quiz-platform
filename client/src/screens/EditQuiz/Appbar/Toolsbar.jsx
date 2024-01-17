@@ -1,6 +1,6 @@
 import "./Navbar.css";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-export default function Toolbar(){
+export default function Toolsbar(){
     
     return (
         <div className="flex flex-row justify-end p-2 Navbar w-full  ">
