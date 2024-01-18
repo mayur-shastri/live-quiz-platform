@@ -6,6 +6,7 @@ import { OptionGroup as BaseOptionGroup } from '@mui/base/OptionGroup';
 import { Popper as BasePopper } from '@mui/base/Popper';
 import { styled } from '@mui/system';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+
 export default function SelectSlide({ selectedSlideType, setSelectedSlideType}) {
   
     const handleChange = (event) => {
@@ -13,7 +14,7 @@ export default function SelectSlide({ selectedSlideType, setSelectedSlideType}) 
     };
 
     return (
-    <Select defaultValue="Single Correct MCQ" onChange={handleChange} sx={{ width: '100%', mb: 2}}>
+    <Select defaultValue="Single Correct MCQ" onChange={handleChange} sx={{ width: '100%', mb: 2, overflow: 'hidden'}}>
       <OptionGroup label="Quiz-type Slides">
         <Option value="Single Correct MCQ">Single Correct MCQ</Option>
         <Option value="Multiple Correct MCQ">Multiple Correct MCQ</Option>
@@ -111,7 +112,7 @@ Button.propTypes = {
 const StyledButton = styled('button', { shouldForwardProp: () => true })(
   ({ theme }) => `
   position: relative;
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: ${theme.typography.fontFamily};
   font-size: 0.875rem;
   box-sizing: border-box;
   padding: 8px 12px;

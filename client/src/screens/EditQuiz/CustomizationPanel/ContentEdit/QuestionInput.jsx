@@ -14,7 +14,9 @@ export default function QuestionInput() {
     <Typography variant="body1" sx={{ p: 2, paddingTop: 1, fontWeight: 'bold', textAlign: 'start' }}>
         Description
         </Typography>
-        <TextareaAutosize minRows={3} sx={{ marginBottom: 1, border: '1px solid #000'}} aria-label="Description" placeholder="Detailed Question"/>
+        <TextareaAutosize minRows={3} 
+        sx={{ marginBottom: 1,}} 
+        aria-label="Description" placeholder="Detailed Question"/>
     </>
   );
 }

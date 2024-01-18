@@ -1,26 +1,17 @@
 import { Box, Divider, Drawer, Typography } from '@mui/material';
-import React, { useEffect } from 'react'
-import SelectSlide from './SelectSlide';
-import { useState } from 'react';
-import QuestionInput from './QuestionInput';
-import OptionsInput from './OptionsGroup/OptionsInput';
-import {v4 as uuid} from 'uuid';
-
+import React, { useState, useEffect } from 'react'
+import ImageUploadButton from './ImageUploadButton';
+import LayoutButtonsGrid from './LayoutButtonsGrid';
 /* 
 Syncing the user input with the database can be achieved using:
 1) Debounce - wait for a few seconds after user input(when user input devices become inactive) to update the database
 2) WebSockets - update the database in real time
 */
 
-function ContentEdit({ drawerWidth }) {
+function DesignEdit({ drawerWidth }) {
 
-    const [selectedSlideType, setSelectedSlideType] = useState("Single Correct MCQ");
-    const [options, setOptions] = useState([{id: uuid(), value: '', correct: false}]);
-
-    useEffect(()=>{
-        console.log(selectedSlideType);
-        console.log(options);
-    },[options,selectedSlideType]);
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedLayoutButton, setSelectedLayoutButton] = useState('default');
 
     return (
         <Box sx={{
@@ -52,20 +43,17 @@ function ContentEdit({ drawerWidth }) {
                 }}
             >
                 {/* Drawer content goes here */}
-                <Typography variant="body1" sx={{ p: 2, fontWeight: 'bold', textAlign: 'start' }}>Content</Typography>
+                <Typography variant="body1" sx={{ p: 2, fontWeight: 'bold', textAlign: 'start' }}>Design</Typography>
                 <Divider sx={{ borderColor: 'black' }} />
-                <Typography variant="body1" sx={{ p: 2, fontWeight: 'bold', textAlign: 'start' }}>Slide Type</Typography>
-                <SelectSlide selectedSlideType={selectedSlideType} setSelectedSlideType={setSelectedSlideType}/>
+                <Typography variant="body1" sx={{ p: 2, fontWeight: 'bold', textAlign: 'start' }}>Upload Image</Typography>
+                <ImageUploadButton setSelectedImage={setSelectedImage} />
                 <Divider sx={{ borderColor: 'black' }} />
-                <Typography variant="body1" sx={{ p: 2, fontWeight: 'bold', textAlign: 'start' }}>Question</Typography>
-                <QuestionInput/>
-                <Typography variant="body1" sx={{ p: 2, fontWeight: 'bold', textAlign: 'start' }}>Options</Typography>
-                <OptionsInput options={options} setOptions={setOptions}/>
-                {/* time limit input component (maybe) */}
-                {/* image input component */}
+                <Typography variant="body1" sx={{ p: 2, fontWeight: 'bold', textAlign: 'start' }}>Slide Layout</Typography>
+                <LayoutButtonsGrid selectedLayoutButton={selectedLayoutButton} setSelectedLayoutButton={setSelectedLayoutButton}/>
+                <Divider sx={{ borderColor: 'black', p:2}} />
             </Drawer>
         </Box>
     );
 }
 
-export default ContentEdit;
+export default DesignEdit;

@@ -12,7 +12,6 @@ export default function PanelButton({ text, icon, selectedPanelButton, setSelect
     }
 
     const handleClick = ()=>{
-        console.log(icon);
         setSelectedPanelButton(icon);
     }
 

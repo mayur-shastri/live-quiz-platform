@@ -24,7 +24,7 @@ export default function OptionsInput({options, setOptions}) {
                     return <MyOption key={option.id} option={option} deleteOption={deleteOption} number={index+1} setOptions={setOptions}/>;
                 })
             }
-            <Button variant="contained" sx={{marginTop: 1}} onClick={handleClick}>Add Option</Button>
+            <Button variant="contained" sx={{my: 2 }} onClick={handleClick}>Add Option</Button>
         </div>
     );
 }

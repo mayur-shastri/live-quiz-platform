@@ -2,11 +2,12 @@ import { Divider, Drawer, List, Toolbar, Typography, Container, Box } from "@mui
 import { useState } from "react";
 import PanelButton from "../Buttons/PanelButton";
 import ContentEdit from "./ContentEdit/ContentEdit";
+import DesignEdit from "./DesignEdit/DesignEdit";
 
 export default function CustomizationPanel() {
 
     const [selectedPanelButton, setSelectedPanelButton] = useState('content');
-
+    
     const panelWidth = 500;
     const drawerWidth = 350;
 
@@ -21,7 +22,9 @@ export default function CustomizationPanel() {
             marginLeft: 'auto',
             padding: '0',
         }}>
+            {selectedPanelButton === 'content' ? 
             <ContentEdit drawerWidth={drawerWidth} selectedPanelButton={selectedPanelButton} setSelectedPanelButton={setSelectedPanelButton}/>
+            : <DesignEdit drawerWidth={drawerWidth}/>}
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
