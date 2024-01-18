@@ -1,17 +1,26 @@
 import { Divider, Drawer, List, Toolbar, Typography, Container, Box } from "@mui/material";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import PanelButton from "../Buttons/PanelButton";
 import ContentEdit from "./ContentEdit/ContentEdit";
 import DesignEdit from "./DesignEdit/DesignEdit";
+import QuizContext from "../Context Provider/QuizContext";
 
-export default function CustomizationPanel() {
+export default function CustomizationPanel({
+    // selectedLayoutButton, setSelectedLayoutButton,
+    // selectedSlideType, setSelectedSlideType,
+    // options, setOptions,
+    // question, setQuestion
+    slide,
+}) {
+    
+    useEffect(()=>{
+        console.log(slide);
+    });
 
-    const [selectedPanelButton, setSelectedPanelButton] = useState('content');
-    const [selectedLayoutButton, setSelectedLayoutButton] = useState('default');
-
+    const {selectedPanelButton, setSelectedPanelButton} = useContext(QuizContext);
     const panelWidth = 500;
     const drawerWidth = 350;
-    
+
     return (
         <Container sx={{
             display: 'flex',
@@ -23,21 +32,29 @@ export default function CustomizationPanel() {
             marginLeft: 'auto',
             padding: '0',
         }}>
-            {selectedPanelButton === 'content' ? 
-            <ContentEdit drawerWidth={drawerWidth} selectedPanelButton={selectedPanelButton} setSelectedPanelButton={setSelectedPanelButton}/>
-            : <DesignEdit drawerWidth={drawerWidth} selectedLayoutButton={selectedLayoutButton} setSelectedLayoutButton={setSelectedLayoutButton}/>}
+            {selectedPanelButton === 'content' ?
+                <ContentEdit drawerWidth={drawerWidth} slide={slide}
+                // selectedPanelButton={selectedPanelButton} setSelectedPanelButton={setSelectedPanelButton}
+                // selectedSlideType={selectedSlideType} setSelectedSlideType={setSelectedSlideType}
+                // options={options} setOptions={setOptions}
+                // question={question} setQuestion={setQuestion}
+                />
+                : <DesignEdit drawerWidth={drawerWidth}
+                    slide={slide}
+                //  selectedLayoutButton={selectedLayoutButton} setSelectedLayoutButton={setSelectedLayoutButton}
+                />}
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
                 height: '30%',
                 border: '1px solid black',
                 borderRadius: '10px',
-                width: panelWidth - drawerWidth ,
+                width: panelWidth - drawerWidth,
                 mt: '1rem',
                 ml: '1rem',
             }}>
-                <PanelButton text="Content" icon="content" selectedPanelButton={selectedPanelButton} setSelectedPanelButton={setSelectedPanelButton}/>
-                <PanelButton text="Design" icon="design" selectedPanelButton={selectedPanelButton} setSelectedPanelButton={setSelectedPanelButton}/>
+                <PanelButton text="Content" icon="content" />
+                <PanelButton text="Design" icon="design" />
             </Box>
         </Container>
     );

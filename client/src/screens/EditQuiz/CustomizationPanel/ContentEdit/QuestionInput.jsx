@@ -2,22 +2,47 @@ import * as React from 'react';
 import { Input as BaseInput } from '@mui/base/Input';
 import { styled } from '@mui/system';
 import { TextareaAutosize, Typography } from '@mui/material';
+import { useContext } from 'react';
+import QuizContext from '../../Context Provider/QuizContext';
 
 const Input = React.forwardRef(function CustomInput(props, ref) {
   return <BaseInput slots={{ input: InputElement }} {...props} ref={ref} />;
 });
 
-export default function QuestionInput({question, setQuestion}) {
+export default function QuestionInput({
+  // question, setQuestion
+  slide,
+}) {
+
+  const {slides, setSlides} = useContext(QuizContext);
 
   const handleHeadingChange = (e)=>{
-    setQuestion((currentQuestion)=>{
-      return {...currentQuestion, heading: e.target.value};
+    // setQuestion((currentQuestion)=>{
+    //   return {...currentQuestion, heading: e.target.value};
+    // });
+    setSlides((currentSlides)=>{
+      return currentSlides.map((s)=>{
+        if(s.id === slide.id){
+          // s.question.heading = e.target.value;
+          return {...s, heading: e.target.value}
+        }
+        return s;
+      })
     });
   }
 
   const handleDescriptionChange = (e)=>{
-    setQuestion((currentQuestion)=>{
-      return {...currentQuestion, description: e.target.value};
+    // setQuestion((currentQuestion)=>{
+    //   return {...currentQuestion, description: e.target.value};
+    // });
+    setSlides((currentSlides)=>{
+      return currentSlides.map((s)=>{
+        if(s.id === slide.id){
+          // s.question.description = e.target.value;
+          return {...s, description: e.target.value};
+        }
+        return s;
+      })
     });
   }
 
@@ -25,7 +50,7 @@ export default function QuestionInput({question, setQuestion}) {
     <>
     <Input aria-label="Question" 
     placeholder="Question heading.."
-    value={question.heading}
+    value={slide.question.heading}
     onChange={handleHeadingChange}/>
     <Typography variant="body1" 
     sx={{ p: 2, paddingTop: 1, fontWeight: 'bold', textAlign: 'start' }}>
@@ -34,7 +59,7 @@ export default function QuestionInput({question, setQuestion}) {
         <TextareaAutosize minRows={3} 
         sx={{ marginBottom: 1,}} 
         aria-label="Description" placeholder="Detailed Question"
-        value={question.description}
+        value={slide.question.description}
         onChange={handleDescriptionChange}/>
     </>
   );

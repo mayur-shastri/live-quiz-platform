@@ -6,19 +6,35 @@ import { OptionGroup as BaseOptionGroup } from '@mui/base/OptionGroup';
 import { Popper as BasePopper } from '@mui/base/Popper';
 import { styled } from '@mui/system';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { useContext } from 'react';
+import QuizContext from '../../Context Provider/QuizContext';
 
-export default function SelectSlide({ selectedSlideType, setSelectedSlideType}) {
-  
+export default function SelectSlide({ 
+  // selectedSlideType, setSelectedSlideType
+  slide
+}) {
+
+    const {slides, setSlides} = useContext(QuizContext);
+
     const handleChange = (event) => {
-        setSelectedSlideType(event.target.value);
+        setSlides((currentSlides)=>{
+          return currentSlides.map((s)=>{
+            if(s.id === slide.id){
+              console.log(event.target.value);
+              return {...s, selectedSlideType: event.target.textContent};
+            }
+            return s;
+          }
+          )
+        });
     };
 
     return (
-    <Select defaultValue="Single Correct MCQ" onChange={handleChange} sx={{ width: '100%', mb: 2, overflow: 'hidden'}}>
+    <Select value={slide.selectedSlideType} onChange={handleChange} sx={{ width: '100%', mb: 2, overflow: 'hidden'}}>
       <OptionGroup label="Quiz-type Slides">
-        <Option value="Single Correct MCQ">Single Correct MCQ</Option>
-        <Option value="Multiple Correct MCQ">Multiple Correct MCQ</Option>
-        <Option value="Descriptive Answer">Descriptive Answer</Option>
+        <Option value={"Single Correct MCQ"}>Single Correct MCQ</Option>
+        <Option value={"Multiple Correct MCQ"}>Multiple Correct MCQ</Option>
+        <Option value={"Descriptive Answer"}>Descriptive Answer</Option>
       </OptionGroup>
       <OptionGroup label="Content-type Slides">
         {/* Add some content type slide options later */}

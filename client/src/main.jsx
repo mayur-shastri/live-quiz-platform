@@ -15,6 +15,7 @@ import Login from './screens/Authentication/Login.jsx'
 import Register from './screens/Authentication/Register.jsx'
 import EditQuiz from './screens/EditQuiz/EditQuiz.jsx'
 import ProtectedRoutes from './Utilities/ProtectedRoutes.jsx'
+import QuizProvider from './screens/EditQuiz/Context Provider/QuizProvider.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,7 +25,9 @@ const router = createBrowserRouter(
       <Route path='/register' element={<Register />} />
       <Route path='/:user_id/:quiz_id/edit' element={
         <ProtectedRoutes>
-          <EditQuiz />
+          <QuizProvider>
+            <EditQuiz />
+          </QuizProvider>
         </ProtectedRoutes>
       } />
       <Route path='/app' element={<Layout />}>

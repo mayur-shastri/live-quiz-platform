@@ -1,13 +1,24 @@
 import { IconButton, Typography } from '@mui/material';
-import React from 'react';
+import React, { useContext } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
+import QuizContext from '../Context Provider/QuizContext';
 
-function SlideSelectButton({ slideData, deleteSlide, number }) {
+function SlideSelectButton({ slideType, deleteSlide, number, id }) {
+
+    const {activeSlideId, setActiveSlideId} = useContext(QuizContext);
+
+    const setToActiveSlide = ()=>{
+        setActiveSlideId(id);
+    }
 
     return (
-        <div className='w-170 flex flex-col justify-end items-center bg-red-500 m-1 p-2'>
-            <div className='flex flex-row justify-between items-center'>
-                <Typography variant='body2' sx={{ color: 'white' }}>{number}</Typography>
+        <div 
+        onClick={setToActiveSlide}
+        className={`w-170 flex flex-col justify-end items-center m-1 p-2 border 
+        ${activeSlideId === id ? 'border-4 border-primary' : 'border-black'}`}
+        >
+            <div className='flex flex-row justify-between items-center w-full'>
+                <Typography variant='body2'>{number}</Typography>
                 <IconButton sx={{ width: '1rem', height: '1rem', padding: 2 }}
                     onClick={deleteSlide}
                 >
@@ -15,8 +26,8 @@ function SlideSelectButton({ slideData, deleteSlide, number }) {
                 </IconButton>
             </div>
             <div className='flex flex-col justify-center items-center border'>
-                <div className='text-white font-bold'>
-                    {slideData.type}
+                <div className='font-bold'>
+                    {slideType}
                 </div>
             </div>
         </div>

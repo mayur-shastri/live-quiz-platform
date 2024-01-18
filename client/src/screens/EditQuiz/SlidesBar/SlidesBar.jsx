@@ -8,12 +8,15 @@ import { v4 as uuid } from 'uuid';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { useState } from 'react';
 import SlideSelectButton from './SlideSelectButton';
+import { Divider } from '@mui/material';
+import QuizContext from '../Context Provider/QuizContext';
+import { useContext } from 'react';
 
 const drawerWidth = 180;
 
 export default function SlidesBar() {
 
-    const [slides, setSlides] = useState([]);
+    const { slides, setSlides } = useContext(QuizContext);
 
     const handleDragEnd = (result) => {
         const { destination, source } = result;
@@ -35,17 +38,20 @@ export default function SlidesBar() {
         setSlides((currentSlides) => {
             const newSlide = {
                 id: uuid(),
-                slideData: {
-                    type: 'Single Correct MCQ'
-                },
+                selectedSlideType: 'Single Correct MCQ',
+                options: [],
+                question: { heading: '', description: '' },
+                selectedLayoutButton: 'default',
+                imageUrl: null,
             }
             return [...currentSlides, newSlide];
         });
     }
 
-    const deleteSlide = (id)=>{
-        setSlides((currentSlides)=>{
-            return currentSlides.filter((slide)=>{
+    const deleteSlide = (event,id) => {
+        event.stopPropagation();
+        setSlides((currentSlides) => {
+            return currentSlides.filter((slide) => {
                 return slide.id !== id;
             });
         });
@@ -69,6 +75,7 @@ export default function SlidesBar() {
             >
                 <List>
                     <NewSlideButton onClick={addSlide} />
+                    <Divider />
                     <DragDropContext onDragEnd={handleDragEnd}>
                         <Droppable droppableId="slides">
                             {(provided) => (
@@ -78,7 +85,7 @@ export default function SlidesBar() {
                                             <Draggable key={slide.id} draggableId={slide.id} index={index}>
                                                 {(provided) => (
                                                     <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                                        <SlideSelectButton deleteSlide={()=>{deleteSlide(slide.id);}} slideData={slide.slideData} number={index+1}/>
+                                                        <SlideSelectButton deleteSlide={() => { deleteSlide(slide.id); }} slideType={slide.slideType} number={index+1} id={slide.id} />
                                                     </div>
                                                 )}
                                             </Draggable>

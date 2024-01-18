@@ -4,7 +4,11 @@ import ColorLensIcon from '@mui/icons-material/ColorLens';
 import { alpha } from '@mui/system';
 import { blue } from '@mui/material/colors';
 import theme from '../../../theme';
-export default function PanelButton({ text, icon, selectedPanelButton, setSelectedPanelButton }) {
+import { useContext } from 'react';
+import QuizContext from '../Context Provider/QuizContext';
+export default function PanelButton({ text, icon}) {
+
+    const {selectedPanelButton, setSelectedPanelButton} = useContext(QuizContext);
 
     const icons = {
         "content": <EditIcon />,

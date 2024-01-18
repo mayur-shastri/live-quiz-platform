@@ -1,8 +1,10 @@
 import { useState } from 'react';
 
-export default function ImageUploadButton() {
+export default function ImageUploadButton({slide}) {
     const [selectedFile, setSelectedFile] = useState(null);
     const [preview, setPreview] = useState(null);
+
+    // do something with active Slide's imageUrl in this component...
 
     const handleFileChange = (e) => {
         setSelectedFile(e.target.files[0]);

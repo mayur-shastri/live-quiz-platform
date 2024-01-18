@@ -8,9 +8,12 @@ Syncing the user input with the database can be achieved using:
 2) WebSockets - update the database in real time
 */
 
-function DesignEdit({ drawerWidth, selectedLayoutButton, setSelectedLayoutButton}) {
+function DesignEdit({ drawerWidth, 
+    // selectedLayoutButton, setSelectedLayoutButton,
+    slide
+}) {
 
-    const [selectedImage, setSelectedImage] = useState(null);
+    // const [selectedImage, setSelectedImage] = useState(null);
 
     return (
         <Box sx={{
@@ -45,10 +48,16 @@ function DesignEdit({ drawerWidth, selectedLayoutButton, setSelectedLayoutButton
                 <Typography variant="body1" sx={{ p: 2, fontWeight: 'bold', textAlign: 'start' }}>Design</Typography>
                 <Divider sx={{ borderColor: 'black' }} />
                 <Typography variant="body1" sx={{ p: 2, fontWeight: 'bold', textAlign: 'start' }}>Upload Image</Typography>
-                <ImageUploadButton setSelectedImage={setSelectedImage} />
+                <ImageUploadButton 
+                // setSelectedImage={setSelectedImage} 
+                slide={slide}
+                />
                 <Divider sx={{ borderColor: 'black' }} />
                 <Typography variant="body1" sx={{ p: 2, fontWeight: 'bold', textAlign: 'start' }}>Slide Layout</Typography>
-                <LayoutButtonsGrid selectedLayoutButton={selectedLayoutButton} setSelectedLayoutButton={setSelectedLayoutButton}/>
+                <LayoutButtonsGrid 
+                slide={slide}
+                // selectedLayoutButton={selectedLayoutButton} setSelectedLayoutButton={setSelectedLayoutButton}
+                />
                 <Divider sx={{ borderColor: 'black', p:2}} />
             </Drawer>
         </Box>

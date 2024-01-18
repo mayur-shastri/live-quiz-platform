@@ -4,8 +4,15 @@ import theme from '../../../theme';
 import ShortTextIcon from '@mui/icons-material/ShortText';
 import SquareIcon from '@mui/icons-material/Square';
 import { blue } from '@mui/material/colors';
+import { useContext } from 'react';
+import QuizContext from '../Context Provider/QuizContext';
 
-function LayoutButton({icon,selectedLayoutButton,setSelectedLayoutButton}) {
+function LayoutButton({icon,
+    // selectedLayoutButton,setSelectedLayoutButton
+    slide
+}) {
+
+    const {slides, setSlides} = useContext(QuizContext);
 
     const icons = {
         "default": <FilterListIcon/>,
@@ -20,7 +27,14 @@ function LayoutButton({icon,selectedLayoutButton,setSelectedLayoutButton}) {
     }
 
     const handleClick = ()=>{
-        setSelectedLayoutButton(icon);
+        // setSelectedLayoutButton(icon);
+        setSlides((currentSlides)=>{
+            return currentSlides.map((s)=>{
+                if(s.id === slide.id){
+                    s.selectedLayoutButton = icon;
+                }
+            });
+        });
     }
 
     return (
@@ -34,7 +48,7 @@ function LayoutButton({icon,selectedLayoutButton,setSelectedLayoutButton}) {
                 justifyContent: 'center',
                 width: '100%',
                 height: '100%',
-                backgroundColor: selectedLayoutButton === icon ? alpha(blue[700], 0.1) : 'transparent', 
+                // backgroundColor: selectedLayoutButton === icon ? alpha(blue[700], 0.1) : 'transparent', 
                 color: theme.palette.primary,
                 padding: 1,
             }}

@@ -12,11 +12,11 @@ Syncing the user input with the database can be achieved using:
 2) WebSockets - update the database in real time
 */
 
-function ContentEdit({ drawerWidth }) {
-
-    const [selectedSlideType, setSelectedSlideType] = useState("Single Correct MCQ");
-    const [options, setOptions] = useState([{id: uuid(), value: '', correct: false}]);
-    const [question, setQuestion] = useState({heading: '', description: ''});
+function ContentEdit({ drawerWidth, slide
+    // selectedSlideType, setSelectedSlideType,
+    // options, setOptions,
+    // question, setQuestion
+}) {
 
     // useEffect(()=>{
     //     console.log(selectedSlideType);
@@ -57,12 +57,21 @@ function ContentEdit({ drawerWidth }) {
                 <Typography variant="body1" sx={{ p: 2, fontWeight: 'bold', textAlign: 'start' }}>Content</Typography>
                 <Divider sx={{ borderColor: 'black' }} />
                 <Typography variant="body1" sx={{ p: 2, fontWeight: 'bold', textAlign: 'start' }}>Slide Type</Typography>
-                <SelectSlide selectedSlideType={selectedSlideType} setSelectedSlideType={setSelectedSlideType}/>
+                <SelectSlide 
+                slide={slide}
+                // selectedSlideType={selectedSlideType} setSelectedSlideType={setSelectedSlideType}
+                />
                 <Divider sx={{ borderColor: 'black' }} />
                 <Typography variant="body1" sx={{ p: 2, fontWeight: 'bold', textAlign: 'start' }}>Question</Typography>
-                <QuestionInput question={question} setQuestion={setQuestion}/>
+                <QuestionInput 
+                slide={slide}
+                // question={question} setQuestion={setQuestion}
+                />
                 <Typography variant="body1" sx={{ p: 2, fontWeight: 'bold', textAlign: 'start' }}>Options</Typography>
-                <OptionsInput options={options} setOptions={setOptions}/>
+                <OptionsInput 
+                slide={slide}
+                // options={options} setOptions={setOptions}
+                />
                 {/* time limit input component (maybe) */}
                 {/* image input component */}
             </Drawer>
