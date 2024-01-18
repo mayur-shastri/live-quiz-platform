@@ -8,10 +8,9 @@ Syncing the user input with the database can be achieved using:
 2) WebSockets - update the database in real time
 */
 
-function DesignEdit({ drawerWidth }) {
+function DesignEdit({ drawerWidth, selectedLayoutButton, setSelectedLayoutButton}) {
 
     const [selectedImage, setSelectedImage] = useState(null);
-    const [selectedLayoutButton, setSelectedLayoutButton] = useState('default');
 
     return (
         <Box sx={{

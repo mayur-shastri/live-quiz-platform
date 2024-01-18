@@ -20,6 +20,9 @@ export default function SelectSlide({ selectedSlideType, setSelectedSlideType}) 
         <Option value="Multiple Correct MCQ">Multiple Correct MCQ</Option>
         <Option value="Descriptive Answer">Descriptive Answer</Option>
       </OptionGroup>
+      <OptionGroup label="Content-type Slides">
+        {/* Add some content type slide options later */}
+      </OptionGroup>
     </Select>
   );
 }

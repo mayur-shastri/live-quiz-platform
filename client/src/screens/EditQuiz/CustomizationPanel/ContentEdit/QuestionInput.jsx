@@ -7,16 +7,35 @@ const Input = React.forwardRef(function CustomInput(props, ref) {
   return <BaseInput slots={{ input: InputElement }} {...props} ref={ref} />;
 });
 
-export default function QuestionInput() {
+export default function QuestionInput({question, setQuestion}) {
+
+  const handleHeadingChange = (e)=>{
+    setQuestion((currentQuestion)=>{
+      return {...currentQuestion, heading: e.target.value};
+    });
+  }
+
+  const handleDescriptionChange = (e)=>{
+    setQuestion((currentQuestion)=>{
+      return {...currentQuestion, description: e.target.value};
+    });
+  }
+
   return (
     <>
-    <Input aria-label="Question" placeholder="Question heading.."/>
-    <Typography variant="body1" sx={{ p: 2, paddingTop: 1, fontWeight: 'bold', textAlign: 'start' }}>
+    <Input aria-label="Question" 
+    placeholder="Question heading.."
+    value={question.heading}
+    onChange={handleHeadingChange}/>
+    <Typography variant="body1" 
+    sx={{ p: 2, paddingTop: 1, fontWeight: 'bold', textAlign: 'start' }}>
         Description
         </Typography>
         <TextareaAutosize minRows={3} 
         sx={{ marginBottom: 1,}} 
-        aria-label="Description" placeholder="Detailed Question"/>
+        aria-label="Description" placeholder="Detailed Question"
+        value={question.description}
+        onChange={handleDescriptionChange}/>
     </>
   );
 }

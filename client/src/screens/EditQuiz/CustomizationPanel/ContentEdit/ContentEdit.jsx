@@ -16,11 +16,13 @@ function ContentEdit({ drawerWidth }) {
 
     const [selectedSlideType, setSelectedSlideType] = useState("Single Correct MCQ");
     const [options, setOptions] = useState([{id: uuid(), value: '', correct: false}]);
+    const [question, setQuestion] = useState({heading: '', description: ''});
 
-    useEffect(()=>{
-        console.log(selectedSlideType);
-        console.log(options);
-    },[options,selectedSlideType]);
+    // useEffect(()=>{
+    //     console.log(selectedSlideType);
+    //     console.log(options);
+    //     console.log(question);
+    // },[options,selectedSlideType,question]);
 
     return (
         <Box sx={{
@@ -58,7 +60,7 @@ function ContentEdit({ drawerWidth }) {
                 <SelectSlide selectedSlideType={selectedSlideType} setSelectedSlideType={setSelectedSlideType}/>
                 <Divider sx={{ borderColor: 'black' }} />
                 <Typography variant="body1" sx={{ p: 2, fontWeight: 'bold', textAlign: 'start' }}>Question</Typography>
-                <QuestionInput/>
+                <QuestionInput question={question} setQuestion={setQuestion}/>
                 <Typography variant="body1" sx={{ p: 2, fontWeight: 'bold', textAlign: 'start' }}>Options</Typography>
                 <OptionsInput options={options} setOptions={setOptions}/>
                 {/* time limit input component (maybe) */}

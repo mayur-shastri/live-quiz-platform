@@ -2,5 +2,5 @@
     position: sticky; /* or absolute, fixed, or sticky, depending on your needs */
     top: 0;
     padding: 1em;
-    z-index: 1300; /* This should be higher than the z-index of the SideNavBar */
+    z-index: 1300; /* This should be higher than the z-index of the SlidesBar */
 }

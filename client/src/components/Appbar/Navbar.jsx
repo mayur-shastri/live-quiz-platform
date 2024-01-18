@@ -2,7 +2,7 @@ import Search from "./Search";
 import "./Navbar.css";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 export default function Navbar(){
-    
+    // Add a component to edit the name of the quiz
     return (
         <div className="flex flex-row justify-end p-2 Navbar">
             <Search className="ml-auto"/>

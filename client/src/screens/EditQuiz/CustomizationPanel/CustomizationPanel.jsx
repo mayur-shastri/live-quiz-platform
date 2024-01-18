@@ -7,10 +7,11 @@ import DesignEdit from "./DesignEdit/DesignEdit";
 export default function CustomizationPanel() {
 
     const [selectedPanelButton, setSelectedPanelButton] = useState('content');
-    
+    const [selectedLayoutButton, setSelectedLayoutButton] = useState('default');
+
     const panelWidth = 500;
     const drawerWidth = 350;
-
+    
     return (
         <Container sx={{
             display: 'flex',
@@ -24,7 +25,7 @@ export default function CustomizationPanel() {
         }}>
             {selectedPanelButton === 'content' ? 
             <ContentEdit drawerWidth={drawerWidth} selectedPanelButton={selectedPanelButton} setSelectedPanelButton={setSelectedPanelButton}/>
-            : <DesignEdit drawerWidth={drawerWidth}/>}
+            : <DesignEdit drawerWidth={drawerWidth} selectedLayoutButton={selectedLayoutButton} setSelectedLayoutButton={setSelectedLayoutButton}/>}
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
