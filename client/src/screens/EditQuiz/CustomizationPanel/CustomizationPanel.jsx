@@ -6,18 +6,14 @@ import DesignEdit from "./DesignEdit/DesignEdit";
 import QuizContext from "../Context Provider/QuizContext";
 
 export default function CustomizationPanel({
-    // selectedLayoutButton, setSelectedLayoutButton,
-    // selectedSlideType, setSelectedSlideType,
-    // options, setOptions,
-    // question, setQuestion
     slide,
 }) {
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         console.log(slide);
     });
 
-    const {selectedPanelButton, setSelectedPanelButton} = useContext(QuizContext);
+    const { selectedPanelButton, setSelectedPanelButton } = useContext(QuizContext);
     const panelWidth = 500;
     const drawerWidth = 350;
 
@@ -34,14 +30,9 @@ export default function CustomizationPanel({
         }}>
             {selectedPanelButton === 'content' ?
                 <ContentEdit drawerWidth={drawerWidth} slide={slide}
-                // selectedPanelButton={selectedPanelButton} setSelectedPanelButton={setSelectedPanelButton}
-                // selectedSlideType={selectedSlideType} setSelectedSlideType={setSelectedSlideType}
-                // options={options} setOptions={setOptions}
-                // question={question} setQuestion={setQuestion}
                 />
                 : <DesignEdit drawerWidth={drawerWidth}
                     slide={slide}
-                //  selectedLayoutButton={selectedLayoutButton} setSelectedLayoutButton={setSelectedLayoutButton}
                 />}
             <Box sx={{
                 display: 'flex',

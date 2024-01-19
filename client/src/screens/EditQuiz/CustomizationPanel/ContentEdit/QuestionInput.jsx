@@ -10,21 +10,16 @@ const Input = React.forwardRef(function CustomInput(props, ref) {
 });
 
 export default function QuestionInput({
-  // question, setQuestion
   slide,
 }) {
 
   const {slides, setSlides} = useContext(QuizContext);
 
   const handleHeadingChange = (e)=>{
-    // setQuestion((currentQuestion)=>{
-    //   return {...currentQuestion, heading: e.target.value};
-    // });
     setSlides((currentSlides)=>{
       return currentSlides.map((s)=>{
         if(s.id === slide.id){
-          // s.question.heading = e.target.value;
-          return {...s, heading: e.target.value}
+          return {...s, question: {...s.question, heading: e.target.value}}
         }
         return s;
       })
@@ -32,14 +27,10 @@ export default function QuestionInput({
   }
 
   const handleDescriptionChange = (e)=>{
-    // setQuestion((currentQuestion)=>{
-    //   return {...currentQuestion, description: e.target.value};
-    // });
     setSlides((currentSlides)=>{
       return currentSlides.map((s)=>{
         if(s.id === slide.id){
-          // s.question.description = e.target.value;
-          return {...s, description: e.target.value};
+          return {...s, question: {...s.question, description: e.target.value}};
         }
         return s;
       })

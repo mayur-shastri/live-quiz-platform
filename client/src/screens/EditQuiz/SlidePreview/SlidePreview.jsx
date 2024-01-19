@@ -1,7 +1,21 @@
-export default function SlidePreview(){
+import DefaultPreview from "./DefaultPreview";
+import ImageLeftPreview from "./ImageLeftPreview";
+import ImageRightPreview from "./ImageRightPreview";
+
+export default function SlidePreview({slide}){
+
     return (
-        <>
-            <h1>SlidePreview</h1>
-        </>
+
+        <div className="border border-black m-7 mr-0" style={{flexGrow: 1}}>
+            {
+            slide.selectedLayoutButton === 'default'?
+                <DefaultPreview/>
+            : slide.selectedLayoutButton === 'imageLeft'?
+                <ImageLeftPreview/> 
+            : slide.selectedLayoutButton === 'imageRight'?
+                <ImageRightPreview/>
+            : null
+            }
+        </div>
     );
 }

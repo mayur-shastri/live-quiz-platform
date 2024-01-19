@@ -6,36 +6,33 @@ import { useContext } from "react";
 import QuizContext from "../../../Context Provider/QuizContext";
 
 export default function OptionsInput({
-    // options, setOptions
     slide
 }) {
 
     const {slides, setSlides} = useContext(QuizContext);
 
     const deleteOption = (idToDelete)=>{
-        // setOptions(options.filter((option)=>{
-        //     return option.id !== idToDelete;
-        // }));
         setSlides((currentSlides)=>{
             return currentSlides.map((s)=>{
                 if(s.id === slide.id){
-                    s.options = s.options.filter((option)=>{
+                    const newOptions = s.options.filter((option)=>{
                         return option.id !== idToDelete;
                     });
+                    return {...s, options:  newOptions};
                 }
+                return s;
             })
         });
     }
 
     const handleClick = ()=>{
-        // setOptions((currentOptions)=>{
-        //     return [...currentOptions, {id: uuid(), value: '', correct: false}];
-        // });
         setSlides((currentSlides)=>{
             return currentSlides.map((s)=>{
                 if(s.id === slide.id){
-                    s.options = [...s.options, {id: uuid(), value: '', correct: false}];
+                    const newOptions = [...s.options, {id: uuid(), value: '', correct: false}];
+                    return {...s, options: newOptions};
                 }
+                return s;
             })
         });
     }
@@ -43,9 +40,6 @@ export default function OptionsInput({
     return (
         <div className="flex flex-col">
             {
-                // options.map((option, index) => {
-                //     return <MyOption key={option.id} option={option} deleteOption={deleteOption} number={index+1} setOptions={setOptions}/>;
-                // })
                 slides.map((s)=>{
                     if(s.id === slide.id){
                         return s.options.map((option, index)=>{
@@ -53,7 +47,7 @@ export default function OptionsInput({
                             key={option.id} option={option}
                             deleteOption={deleteOption} 
                             number={index+1} 
-                            // setOptions={setOptions}
+                            slide={slide}
                             />
                         })
                     }

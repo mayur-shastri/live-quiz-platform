@@ -9,11 +9,8 @@ Syncing the user input with the database can be achieved using:
 */
 
 function DesignEdit({ drawerWidth, 
-    // selectedLayoutButton, setSelectedLayoutButton,
     slide
 }) {
-
-    // const [selectedImage, setSelectedImage] = useState(null);
 
     return (
         <Box sx={{
@@ -49,14 +46,12 @@ function DesignEdit({ drawerWidth,
                 <Divider sx={{ borderColor: 'black' }} />
                 <Typography variant="body1" sx={{ p: 2, fontWeight: 'bold', textAlign: 'start' }}>Upload Image</Typography>
                 <ImageUploadButton 
-                // setSelectedImage={setSelectedImage} 
                 slide={slide}
                 />
                 <Divider sx={{ borderColor: 'black' }} />
                 <Typography variant="body1" sx={{ p: 2, fontWeight: 'bold', textAlign: 'start' }}>Slide Layout</Typography>
                 <LayoutButtonsGrid 
                 slide={slide}
-                // selectedLayoutButton={selectedLayoutButton} setSelectedLayoutButton={setSelectedLayoutButton}
                 />
                 <Divider sx={{ borderColor: 'black', p:2}} />
             </Drawer>

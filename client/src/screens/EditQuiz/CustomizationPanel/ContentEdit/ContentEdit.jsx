@@ -13,16 +13,7 @@ Syncing the user input with the database can be achieved using:
 */
 
 function ContentEdit({ drawerWidth, slide
-    // selectedSlideType, setSelectedSlideType,
-    // options, setOptions,
-    // question, setQuestion
 }) {
-
-    // useEffect(()=>{
-    //     console.log(selectedSlideType);
-    //     console.log(options);
-    //     console.log(question);
-    // },[options,selectedSlideType,question]);
 
     return (
         <Box sx={{
@@ -59,18 +50,15 @@ function ContentEdit({ drawerWidth, slide
                 <Typography variant="body1" sx={{ p: 2, fontWeight: 'bold', textAlign: 'start' }}>Slide Type</Typography>
                 <SelectSlide 
                 slide={slide}
-                // selectedSlideType={selectedSlideType} setSelectedSlideType={setSelectedSlideType}
                 />
                 <Divider sx={{ borderColor: 'black' }} />
                 <Typography variant="body1" sx={{ p: 2, fontWeight: 'bold', textAlign: 'start' }}>Question</Typography>
                 <QuestionInput 
                 slide={slide}
-                // question={question} setQuestion={setQuestion}
                 />
                 <Typography variant="body1" sx={{ p: 2, fontWeight: 'bold', textAlign: 'start' }}>Options</Typography>
                 <OptionsInput 
                 slide={slide}
-                // options={options} setOptions={setOptions}
                 />
                 {/* time limit input component (maybe) */}
                 {/* image input component */}

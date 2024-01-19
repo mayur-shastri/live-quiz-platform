@@ -48,8 +48,8 @@ export default function SlidesBar() {
         });
     }
 
-    const deleteSlide = (event,id) => {
-        event.stopPropagation();
+    const deleteSlide = (id) => {
+        // event.stopPropagation();
         setSlides((currentSlides) => {
             return currentSlides.filter((slide) => {
                 return slide.id !== id;
@@ -85,7 +85,7 @@ export default function SlidesBar() {
                                             <Draggable key={slide.id} draggableId={slide.id} index={index}>
                                                 {(provided) => (
                                                     <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                                        <SlideSelectButton deleteSlide={() => { deleteSlide(slide.id); }} slideType={slide.slideType} number={index+1} id={slide.id} />
+                                                        <SlideSelectButton deleteSlide={() => { deleteSlide(slide.id); }} slideType={slide.selectedSlideType} number={index+1} id={slide.id} />
                                                     </div>
                                                 )}
                                             </Draggable>

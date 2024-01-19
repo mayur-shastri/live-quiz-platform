@@ -8,43 +8,43 @@ const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 export default function MyOption({
     option, deleteOption, number,
-    // setOptions
+    slide
 }) {
 
     const { slides, setSlides } = useContext(QuizContext);
 
     const handleChange = (e) => {
-        // setOptions((currentOptions) => {
-        //     return currentOptions.map((option) => {
-        //         if (option.id === e.target.id) {
-        //             return { ...option, value: e.target.value };
-        //         }
-        //         return option;
-        //     })
-        // })
         setSlides((currentSlides) => {
             return currentSlides.map((s) => {
                 if (s.id === slide.id) {
-                    s.options = s.options.map((option) => {
+                   const newOptions = s.options.map((option) => {
                         if (option.id === e.target.id) {
                             return { ...option, value: e.target.value };
                         }
                         return option;
-                    })
+                    });
+                    return {...s, options: newOptions};
                 }
-            })
+                return s;
+            });
         });
     }
 
     const handleCheck = (e) => {
-        setOptions((currentOptions) => {
-            return currentOptions.map((option) => {
-                if (option.id === e.target.id) {
-                    return { ...option, correct: e.target.checked };
+        setSlides((currentSlides) => {
+            return currentSlides.map((s) => {
+                if (s.id === slide.id) {
+                    const newOptions = s.options.map((option) => {
+                        if (option.id === e.target.id) {
+                            return { ...option, correct: e.target.checked };
+                        }
+                        return option;
+                    });
+                    return {...s, options: newOptions};
                 }
-                return option;
+                return s;
             })
-        })
+        });
     }
 
     return (
