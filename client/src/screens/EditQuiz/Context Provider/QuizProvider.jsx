@@ -11,7 +11,6 @@ function QuizProvider({ children }) {
     //     question: { heading: '', description: '' },
     //     selectedLayoutButton: null,
     //     imageUrl: null,
-    //     backgroundImageUrl: null, // add sometime later
     //     correctAnswers: [], //array of correct strings of answers for descriptive type questions
     // }
 

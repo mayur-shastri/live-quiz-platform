@@ -39,6 +39,9 @@ export default function SelectSlide({
       <OptionGroup label="Content-type Slides">
         {/* Add some content type slide options later */}
       </OptionGroup>
+      <OptionGroup label="Leaderboard">
+        <Option value={"Leaderboard"}>Leaderboard</Option>
+      </OptionGroup>
     </Select>
   );
 }

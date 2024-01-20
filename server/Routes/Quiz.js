@@ -37,7 +37,7 @@ the quiz_id and the user is redirected to :user_id/:quiz_id/edit (client side ro
 // by the user. (needs a server-side get route to /:user_id/quizzes for fetching image, title of the presentation)
 // (done)
 
-/* How the quiz works:
+/* How the mentimeter quiz works:
     0) A waiting screen is shown to the presenter with a start quiz button.
     until the start button is pressed, participants can join the room using the roomCode
     1) For every question slide, a leaderboard slide is created
@@ -46,6 +46,18 @@ the quiz_id and the user is redirected to :user_id/:quiz_id/edit (client side ro
     4) When the presenter clicks on the next button, updated leaderboard is shown with the new scores
     5) When previous button is clicked, the leaderboard is shown in its previous state
     6) When the presenter clicks on the end quiz button, the quiz ends and the final leaderboard is shown
+
+    Changes: User can add leaderboard slides in between question slides
+             at any point and the current leaderboard state will be shown
+
+    Thoughts:
+    1) For MCQ questions, if votes are shown real time, it will defeat the purpose of the quiz
+    But, if the votes are shown only after the presenter clicks on the next button, then
+    there is no need for websocket connections, or is there? idk
+    websockets are probably still necessary for room related stuff
+    2) The quiz needs a presentation mode. more work for me
+    3) Participant related components are not yet done. more work for me
+    4) 2 and 3 are "present mode" from the respective perspectives of the presenter and the participant
 */
 
 router.route('/:user_id/quizzes')
