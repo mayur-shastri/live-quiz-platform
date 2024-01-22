@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import QuizContext from './QuizContext';
 
 function QuizProvider({ children }) {
-    
+     
     // Example slide data
     // {
     //     id: null,

@@ -7,6 +7,7 @@ const server = http.createServer(app);
 const AuthRoutes = require('./Routes/Auth');
 const QuizRoutes = require('./Routes/Quiz');
 const UserRoutes = require('./Routes/User');
+const SlideRoutes = require('./Routes/Slide');
 
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
@@ -52,6 +53,7 @@ app.use(cors(corsOptions));
 app.use('/',AuthRoutes);
 app.use('/',QuizRoutes);
 app.use('/',UserRoutes);
+app.use('/',SlideRoutes);
 
 app.get('/',(req,res)=>{
     res.send({greeting: "Hello World"});

@@ -4,12 +4,13 @@ const SlideSchema = new mongoose.Schema({
     id: {
         type: String,
         required: true,
+        unique: true,
     },
     selectedSlideType: {
         type: String,
-        enum: [
-            // fill this...
-        ],
+        // enum: [
+        //     // fill this...
+        // ],
         required: true,
     },
     question: {
@@ -44,7 +45,6 @@ const SlideSchema = new mongoose.Schema({
                 // },
             }
         ],
-        validate: validateOptions,
         required: false,
     },
     selectedLayoutButton: {
@@ -59,9 +59,14 @@ const SlideSchema = new mongoose.Schema({
     imageUrl: {
         type: String,
     },
-    // backgroundImageUrl: {
-    //         type: String,
-    //     },
+    textColor: {
+        type: String,
+        required: true,
+    },
+    backgroundColor : {
+        type: String,
+        required: true,
+    },
 });
 
 const Slide = mongoose.model('slide', SlideSchema);

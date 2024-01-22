@@ -2,6 +2,8 @@ import { Box, Divider, Drawer, Typography } from '@mui/material';
 import React, { useState, useEffect } from 'react'
 import ImageUploadButton from './ImageUploadButton';
 import LayoutButtonsGrid from './LayoutButtonsGrid';
+import TextColorPicker from './TextColorPicker';
+import BackgroundColorPicker from './BackgroundColorPicker';
 /* 
 Syncing the user input with the database can be achieved using:
 1) Debounce - wait for a few seconds after user input(when user input devices become inactive) to update the database
@@ -54,6 +56,11 @@ function DesignEdit({ drawerWidth,
                 slide={slide}
                 />
                 <Divider sx={{ borderColor: 'black', p:2}} />
+                <Typography variant="body1" sx={{ p: 2, fontWeight: 'bold', textAlign: 'start' }}>Text Color</Typography>
+                <TextColorPicker slide={slide}/>
+                <Divider sx={{ borderColor: 'black', p:2}} />
+                <Typography variant="body1" sx={{ p: 2, fontWeight: 'bold', textAlign: 'start' }}>Background Color</Typography>
+                <BackgroundColorPicker slide={slide}/>
             </Drawer>
         </Box>
     );

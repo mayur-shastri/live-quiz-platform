@@ -6,4 +6,12 @@ const isLoggedIn = (req,res,next)=>{
     }
 }
 
-module.exports = {isLoggedIn};
+const isAuthorized = (req,res,next)=>{
+    const {user_id} = req.params;
+    if(req.user._id.equals(user_id)){
+        return next();
+    } 
+    res.status(401).send({message: "You aren't authorized to perform this action"});
+}
+
+module.exports = {isLoggedIn, isAuthorized};

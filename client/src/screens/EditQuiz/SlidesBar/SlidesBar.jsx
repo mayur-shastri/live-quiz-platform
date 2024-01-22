@@ -43,6 +43,8 @@ export default function SlidesBar() {
                 question: { heading: '', description: '' },
                 selectedLayoutButton: 'default',
                 imageUrl: null,
+                textColor: 'black',
+                backgroundColor: 'white',
             }
             return [...currentSlides, newSlide];
         });
