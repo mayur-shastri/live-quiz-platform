@@ -31,23 +31,26 @@ export default function EditQuiz() {
         }
     }
 
-    const saveSlides = async (slides) => {
+    useEffect(()=>{
+        console.log(isSaving);
+    }, [isSaving]);
+
+    const saveSlides = async (slidesRefCurrent) => {
         setIsEditing(false);
         setIsSaving(true);
         try{
-        const response = await configuredAxios.put(`${user_id}/${quiz_id}/slides`, { slides: slidesRef.current });
+        const response = await configuredAxios.put(`${user_id}/${quiz_id}/slides`, { slides: slidesRefCurrent });
+        // setIsSaving(false);
         return response.data.message;
         } catch(e){
             console.log(e);
         } finally{
-            setIsSaving(false);
+            setTimeout(()=>{setIsSaving(false)}, 1000);
         }
     }
 
     useEffect(() => {
         getSlides().then((fetchedSlides) => {
-            console.log("Fetched slides");
-            console.log(fetchedSlides);
             setSlides(fetchedSlides);
         });
     }, []);
@@ -66,11 +69,9 @@ export default function EditQuiz() {
 
     useEffect(() => {
         window.addEventListener('click', handleUserActivity);
-        // window.addEventListener('mousemove', handleUserActivity);
         window.addEventListener('keydown', handleUserActivity);
         return ()=>{
             window.removeEventListener('click', handleUserActivity);
-            // window.removeEventListener('mousemove', handleUserActivity);
             window.removeEventListener('keydown', handleUserActivity);
         }
     }, []); // for autosave
@@ -87,6 +88,8 @@ export default function EditQuiz() {
                         <div className='p-2 w-full'>
                             <div className="flex flex-col flex-grow justify-center items-center border border-black m-7 mt-1 mb-1 rounded-2xl h-full">
                                 <div className='font-bold text-2xl'>Add a new slide</div>
+                                <div className='font-bold text-2xl'>Or</div>
+                                <div className='font-bold text-2xl'>Select an existing slide</div>
                             </div>
                         </div>
                         :
