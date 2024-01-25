@@ -10,9 +10,7 @@ export default function ImageUploadButton({ slide, user_id }) {
     const { setSlides } = useContext(QuizContext);
 
     const [selectedFile, setSelectedFile] = useState(null);
-    const [preview, setPreview] = useState(null); //set to loading animation
-    // const [showButton, setShowButton] = useState(true);
-    // do something with active Slide's imageUrl in this component...
+    const [preview, setPreview] = useState(slide.imageUrl); //set to loading animation
 
     const handleFileChange = async (e) => {
         setSelectedFile(e.target.files[0]);
@@ -53,7 +51,6 @@ export default function ImageUploadButton({ slide, user_id }) {
             });
         });
         setPreview(null);
-        // setShowButton(true);
     }
  
     return (
@@ -79,7 +76,6 @@ export default function ImageUploadButton({ slide, user_id }) {
                 preview || slide.imageUrl ?
                 <div className='flex flex-row justify-between w-full mt-1 border rounded-md border-gray-300 items-center'>
                     <img src={preview} alt="preview" className="m-1 border w-16 h-16 object-cover" />
-                    {/* <label htmlFor="fileUpload">update image</label> */}
                     <IconButton aria-label="" onClick={onDelete}>
                         <DeleteOutlineIcon sx={{ color: "red" }} />
                     </IconButton>
