@@ -97,7 +97,7 @@ export default function EditQuiz() {
                             return activeSlideId === slide.id ?
                                 <div key={index} className='flex flex-row flex-grow w-full' >
                                     <SlidePreview slide={slide} />
-                                    <CustomizationPanel slide={slide} />
+                                    <CustomizationPanel user_id={user_id} slide={slide} />
                                 </div>
                                 : null
                         })

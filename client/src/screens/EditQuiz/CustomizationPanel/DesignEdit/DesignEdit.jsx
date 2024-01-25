@@ -11,7 +11,7 @@ Syncing the user input with the database can be achieved using:
 */
 
 function DesignEdit({ drawerWidth, 
-    slide
+    slide, user_id
 }) {
 
     return (
@@ -49,6 +49,7 @@ function DesignEdit({ drawerWidth,
                 <Typography variant="body1" sx={{ p: 2, fontWeight: 'bold', textAlign: 'start' }}>Upload Image</Typography>
                 <ImageUploadButton 
                 slide={slide}
+                user_id={user_id}
                 />
                 <Divider sx={{ borderColor: 'black' }} />
                 <Typography variant="body1" sx={{ p: 2, fontWeight: 'bold', textAlign: 'start' }}>Slide Layout</Typography>

@@ -6,7 +6,7 @@ import DesignEdit from "./DesignEdit/DesignEdit";
 import QuizContext from "../Context Provider/QuizContext";
 
 export default function CustomizationPanel({
-    slide,
+    slide,user_id
 }) {
 
     useEffect(() => {
@@ -33,6 +33,7 @@ export default function CustomizationPanel({
                 />
                 : <DesignEdit drawerWidth={drawerWidth}
                     slide={slide}
+                    user_id={user_id}
                 />}
             <Box sx={{
                 display: 'flex',

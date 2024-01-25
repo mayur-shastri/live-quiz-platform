@@ -8,6 +8,7 @@ const AuthRoutes = require('./Routes/Auth');
 const QuizRoutes = require('./Routes/Quiz');
 const UserRoutes = require('./Routes/User');
 const SlideRoutes = require('./Routes/Slide');
+const ImageUploadRoutes = require('./Routes/ImageUpload');
 
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
@@ -51,6 +52,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use('/',AuthRoutes);
+app.use('/', ImageUploadRoutes);
 app.use('/',QuizRoutes);
 app.use('/',UserRoutes);
 app.use('/',SlideRoutes);

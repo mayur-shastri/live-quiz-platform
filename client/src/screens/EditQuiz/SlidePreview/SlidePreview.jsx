@@ -6,9 +6,9 @@ export default function SlidePreview({ slide }) {
 
     const style = slide.backgroundImageUrl !== null ? {
         flexGrow: 1,
-        // backgroundImage: `url(${slide.imageUrl})`,
+        backgroundImage: `url(${slide.imageUrl})`,
         backgroundColor: slide.backgroundColor,
-        backgroundImage: `url('https://images.unsplash.com/photo-1682685797857-97de838c192e?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`,
+        // backgroundImage: `url('https://images.unsplash.com/photo-1682685797857-97de838c192e?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`,
     } : {
         flexGrow: 1,
         backgroundColor: slide.backgroundColor,
@@ -29,7 +29,8 @@ export default function SlidePreview({ slide }) {
                     style={{
                         flexShrink: 0,
                         // backgroundColor: slide.backgroundColor,
-                        backgroundImage: `url('https://images.unsplash.com/photo-1682685797857-97de838c192e?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`,
+                        // backgroundImage: `url('https://images.unsplash.com/photo-1682685797857-97de838c192e?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`,
+                        backgroundImage: `url(${slide.imageUrl})`,
                     }}
                     className="w-72 rounded-2xl"
                     >
@@ -45,7 +46,8 @@ export default function SlidePreview({ slide }) {
                     <div 
                     style={{
                         flexShrink: 0,
-                        backgroundImage: `url('https://images.unsplash.com/photo-1682685797857-97de838c192e?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`,
+                        // backgroundImage: `url('https://images.unsplash.com/photo-1682685797857-97de838c192e?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`,
+                        backgroundImage: `url(${slide.imageUrl})`,
                     }}
                     className="w-72 rounded-2xl"
                     >
