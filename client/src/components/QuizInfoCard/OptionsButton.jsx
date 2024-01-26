@@ -14,7 +14,6 @@ import { instance as configuredAxios } from '../../axiosConfig';
 import { useContext } from 'react';
 import FlashContext from '../../context providers/Flash/FlashContext';
 
-
 const StyledMenu = styled((props) => (
   <Menu
     elevation={0}
