@@ -8,6 +8,7 @@ router.route('/:user_id/:quiz_id/slides')
     .get(isLoggedIn, isAuthorized, catchAsync(async (req, res) => {
         const { quiz_id } = req.params;
         const quiz = await Quiz.findById(quiz_id).populate('slides');
+        console.log(quiz.slides);
         if (quiz) {
             const userSlides = quiz.slides;
             if (userSlides) {

@@ -14,6 +14,7 @@ import { instance as configuredAxios } from '../../axiosConfig';
 import { useContext } from 'react';
 import FlashContext from '../../context providers/Flash/FlashContext';
 
+
 const StyledMenu = styled((props) => (
   <Menu
     elevation={0}
@@ -57,7 +58,7 @@ const StyledMenu = styled((props) => (
 
 export default function OptionsButton({ quiz_id, user_id, setUserData }) {
 
-  const {setIsVisible, setFlashMessage, setFlashType} = useContext(FlashContext);
+  const { setIsVisible, setFlashMessage, setFlashType } = useContext(FlashContext);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const navigate = useNavigate();
@@ -79,8 +80,18 @@ export default function OptionsButton({ quiz_id, user_id, setUserData }) {
     setAnchorEl(null);
   }
 
-  const onDuplicate = () => {
+  const onDuplicate = async () => {
     setAnchorEl(null);
+    const res = await configuredAxios.post(`/${user_id}/${quiz_id}`);
+    if (res.status === 200) {
+      const userData = await configuredAxios.get(`/userdata`);
+      console.log(userData);
+      setUserData(userData.data.user);
+    }
+    setIsVisible(true);
+    setFlashMessage(res.data.message);
+    setFlashType(res.data.flashType);
+
   }
 
   const onDelete = async () => {
@@ -89,14 +100,10 @@ export default function OptionsButton({ quiz_id, user_id, setUserData }) {
     if (res.status === 200) {
       const userData = await configuredAxios.get(`/userdata`);
       setUserData(userData.data.user);
-      setIsVisible(true);
-      setFlashMessage("Quiz deleted successfully");
-      setFlashType("success");
-    } else {
-      setIsVisible(true);
-      setFlashMessage("Something went wrong");
-      setFlashType("error");
     }
+    setIsVisible(true);
+    setFlashMessage(res.data.message);
+    setFlashType(res.data.flashType);
   }
 
   return (

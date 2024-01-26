@@ -24,6 +24,7 @@ export default function EditQuiz() {
     const getSlides = async () => {
         try {
             const response = await configuredAxios.get(`${user_id}/${quiz_id}/slides`);
+            console.log('*****SLIDES*****');
             console.log(response.data.slides);
             return response.data.slides;
         } catch(e){
