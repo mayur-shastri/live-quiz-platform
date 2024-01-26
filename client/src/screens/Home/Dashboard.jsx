@@ -65,7 +65,7 @@ export default function Dashboard() {
                         // })
                         userData.quizzes.slice(0, 3).map((quiz, index) => {
                             return (
-                                <QuizInfoCard key={index} imageUrl="https://www.softmaker.com/images/smo/presentations/presentations_windows_en.png" title={quiz.title} lastAccessed={quiz.lastAccessed} user_id={userData._id} quiz_id={quiz._id} />
+                                <QuizInfoCard key={index} imageUrl="https://www.softmaker.com/images/smo/presentations/presentations_windows_en.png" title={quiz.title} lastAccessed={quiz.lastAccessed} user_id={userData._id} quiz_id={quiz._id} setUserData={setUserData}/>
                             );
                         })
                         : null

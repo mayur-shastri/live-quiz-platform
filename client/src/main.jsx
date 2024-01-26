@@ -16,13 +16,22 @@ import Register from './screens/Authentication/Register.jsx'
 import EditQuiz from './screens/EditQuiz/EditQuiz.jsx'
 import ProtectedRoutes from './Utilities/ProtectedRoutes.jsx'
 import QuizProvider from './screens/EditQuiz/Context Provider/QuizProvider.jsx'
+import FlashProvider from './context providers/Flash/FlashProvider.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path='/' element={<Landing />} />
-      <Route path='/login' element={<Login />} />
-      <Route path='/register' element={<Register />} />
+      <Route path='/login' element={
+        <FlashProvider>
+          <Login />
+        </FlashProvider>
+      } />
+      <Route path='/register' element={
+        <FlashProvider>
+          <Register />
+        </FlashProvider>
+      } />
       <Route path='/:user_id/:quiz_id/edit' element={
         <ProtectedRoutes>
           <QuizProvider>
@@ -30,7 +39,11 @@ const router = createBrowserRouter(
           </QuizProvider>
         </ProtectedRoutes>
       } />
-      <Route path='/app' element={<Layout />}>
+
+      <Route path='/app' element={
+        <FlashProvider>
+          <Layout />
+        </FlashProvider>}>
         <Route path='home' element={<Dashboard />}></Route>
         <Route path='quizzes' element={<Quizzes />}></Route>
         <Route path='help' element={<Help />}></Route>

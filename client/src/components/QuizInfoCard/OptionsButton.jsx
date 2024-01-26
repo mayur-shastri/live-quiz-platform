@@ -10,6 +10,9 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ShareIcon from '@mui/icons-material/Share';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
+import { instance as configuredAxios } from '../../axiosConfig';
+import { useContext } from 'react';
+import FlashContext from '../../context providers/Flash/FlashContext';
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -52,7 +55,10 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-export default function OptionsButton({quiz_id,user_id}) {
+export default function OptionsButton({ quiz_id, user_id, setUserData }) {
+
+  const {setIsVisible, setFlashMessage, setFlashType} = useContext(FlashContext);
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const navigate = useNavigate();
   const open = Boolean(anchorEl);
@@ -64,28 +70,40 @@ export default function OptionsButton({quiz_id,user_id}) {
     setAnchorEl(null);
   };
 
-  const onEdit = () =>{
+  const onEdit = () => {
     setAnchorEl(null);
     navigate(`/${user_id}/${quiz_id}/edit`);
   }
-  
-  const onShare = () =>{
+
+  const onShare = () => {
     setAnchorEl(null);
   }
-  
-  const onDuplicate = () =>{
+
+  const onDuplicate = () => {
     setAnchorEl(null);
   }
-  
-  const onDelete = () =>{
+
+  const onDelete = async () => {
     setAnchorEl(null);
+    const res = await configuredAxios.delete(`/${user_id}/${quiz_id}`);
+    if (res.status === 200) {
+      const userData = await configuredAxios.get(`/userdata`);
+      setUserData(userData.data.user);
+      setIsVisible(true);
+      setFlashMessage("Quiz deleted successfully");
+      setFlashType("success");
+    } else {
+      setIsVisible(true);
+      setFlashMessage("Something went wrong");
+      setFlashType("error");
+    }
   }
 
   return (
     <div>
       <IconButton aria-label="settings" onClick={handleExpandClick}>
-            <MoreVertIcon />
-          </IconButton>
+        <MoreVertIcon />
+      </IconButton>
       <StyledMenu
         id="demo-customized-menu"
         MenuListProps={{

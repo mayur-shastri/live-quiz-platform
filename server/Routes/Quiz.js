@@ -2,8 +2,9 @@ const router = require('express').Router();
 const Quiz = require('../Models/Quiz');
 const User = require('../Models/User');
 const { v4: uuid, } = require('uuid');
-const {isLoggedIn} = require('../Middleware/Auth');
+const {isLoggedIn, isAuthorized} = require('../Middleware/Auth');
 const catchAsync = require('../Utilities/catchAsync');
+
 const generateRoomCode = async ()=>{
     let roomCode;
     do{
@@ -86,7 +87,18 @@ router.route('/:user_id/quizzes')
         await user.save();
         res.status(200).send({quiz_id: quiz._id});
         
-    })); // this data will be used to reroute the user to :user_id/:quiz_id/edit (client side route)
+    })) // this data will be used to reroute the user to :user_id/:quiz_id/edit (client side route)
 
+router.route('/:user_id/:quiz_id')
+    .delete(isLoggedIn, isAuthorized, catchAsync(async (req,res,next)=>{
+        const {user_id, quiz_id} = req.params;
+        const result = await Quiz.findByIdAndDelete(quiz_id);
+        if(result){
+            res.status(200).send({message: 'Quiz deleted!'});
+        } else{
+            res.status(404).send({message: 'Quiz not found!'});
+        }
+        next();
+    }));
 
 module.exports = router;
