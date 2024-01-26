@@ -2,9 +2,10 @@ const router = require('express').Router();
 const Slide = require('../Models/Slide');
 const Quiz = require('../Models/Quiz');
 const { isLoggedIn, isAuthorized } = require('../Middleware/Auth');
+const catchAsync = require('../Utilities/catchAsync');
 
 router.route('/:user_id/:quiz_id/slides')
-    .get(isLoggedIn, isAuthorized, async (req, res) => {
+    .get(isLoggedIn, isAuthorized, catchAsync(async (req, res) => {
         const { quiz_id } = req.params;
         const quiz = await Quiz.findById(quiz_id).populate('slides');
         if (quiz) {
@@ -17,8 +18,8 @@ router.route('/:user_id/:quiz_id/slides')
         } else {
             res.status(404).send({ message: "Quiz not found" });
         }
-    })
-    .put(isLoggedIn, isAuthorized, async (req, res) => {
+    }))
+    .put(isLoggedIn, isAuthorized, catchAsync(async (req, res) => {
         const { user_id, quiz_id } = req.params;
         const { slides } = req.body;
         const quiz = await Quiz.findById(quiz_id).populate('slides');
@@ -71,6 +72,6 @@ router.route('/:user_id/:quiz_id/slides')
         } catch (e) {
             res.status(500).send({ message: "Internal Server Error" });
         }
-    });
+    }));
 
 module.exports = router;

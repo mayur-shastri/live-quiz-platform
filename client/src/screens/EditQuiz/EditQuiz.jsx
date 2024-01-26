@@ -40,7 +40,6 @@ export default function EditQuiz() {
         setIsSaving(true);
         try{
         const response = await configuredAxios.put(`${user_id}/${quiz_id}/slides`, { slides: slidesRefCurrent });
-        // setIsSaving(false);
         return response.data.message;
         } catch(e){
             console.log(e);

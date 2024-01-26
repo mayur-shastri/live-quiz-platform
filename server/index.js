@@ -61,6 +61,11 @@ app.get('/',(req,res)=>{
     res.send({greeting: "Hello World"});
 });
 
+app.use((err,req,res,next)=>{
+    const {status = 500, message = 'Something went wrong'} = err;
+    res.status(status).send({message});
+});
+
 const port = process.env.PORT || 3000;
 
 server.listen(port,()=>{

@@ -3,7 +3,7 @@ const Quiz = require('../Models/Quiz');
 const User = require('../Models/User');
 const { v4: uuid, } = require('uuid');
 const {isLoggedIn} = require('../Middleware/Auth');
-
+const catchAsync = require('../Utilities/catchAsync');
 const generateRoomCode = async ()=>{
     let roomCode;
     do{
@@ -62,14 +62,14 @@ the quiz_id and the user is redirected to :user_id/:quiz_id/edit (client side ro
 */
 
 router.route('/:user_id/quizzes')
-    .get(isLoggedIn, async (req,res)=>{
+    .get(isLoggedIn, catchAsync(async (req,res)=>{
         const {user_id} = req.params;
         const user = await User.findById(user_id).populate('quizzes');
         if(user){
             res.status(200).send({quizzes: user.quizzes});
         }
-    }) //this data will be used to display the quizzes on the "My quizzes" page.
-    .post(isLoggedIn, async (req,res)=>{
+    })) //this data will be used to display the quizzes on the "My quizzes" page.
+    .post(isLoggedIn, catchAsync(async (req,res)=>{
         const {user_id} = req.params;
         
         const quiz = new Quiz({
@@ -86,7 +86,7 @@ router.route('/:user_id/quizzes')
         await user.save();
         res.status(200).send({quiz_id: quiz._id});
         
-    }); // this data will be used to reroute the user to :user_id/:quiz_id/edit (client side route)
+    })); // this data will be used to reroute the user to :user_id/:quiz_id/edit (client side route)
 
 
 module.exports = router;

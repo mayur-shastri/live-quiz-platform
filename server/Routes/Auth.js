@@ -1,9 +1,10 @@
 const router = require('express').Router();
 const User = require('../Models/User');
 const passport = require('passport');
+const catchAsync = require('../Utilities/catchAsync');
 
 router.route('/register')
-    .post(async (req,res)=>{
+    .post(catchAsync(async (req,res)=>{
         const {username,password,email} = req.body;
         const existingUser = await User.findOne({email});
         if(existingUser){
@@ -21,14 +22,14 @@ router.route('/register')
                 return res.status(200).send({message: 'User Created!'});
             });
         });
-    });
+    }));
 
 router.route('/login')
     .post(passport.authenticate('local') ,(req,res)=>{
         if(req.user){
-            res.status(200).send({ message: 'Login successful!' });
+            return res.status(200).send({ message: 'Login successful!' });
         } else{
-            res.status(401).send({ message: 'Login failed!' });
+            return res.status(401).send({ message: 'Login failed!' });
         } // the responses sent should be used to flash messages on the client side
     });
 

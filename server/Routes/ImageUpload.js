@@ -6,7 +6,7 @@ const multer = require('multer');
 const path = require('path');
 const cloudinary = require('cloudinary').v2;
 const { isLoggedIn, isAuthorized } = require('../Middleware/Auth');
-
+const catchAsync = require('../Utilities/catchAsync');
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
@@ -16,7 +16,7 @@ cloudinary.config({
 const upload = multer({ storage: multer.memoryStorage() });
 
 router.route('/:user_id/:slide_id/upload-image')
-    .post(isLoggedIn, isAuthorized, upload.single('image'), async (req, res) => {
+    .post(isLoggedIn, isAuthorized, upload.single('image'), catchAsync(async (req, res) => {
         const { slide_id } = req.params;
         console.log(slide_id);
         try {
@@ -32,10 +32,10 @@ router.route('/:user_id/:slide_id/upload-image')
         } catch (error) {
             res.status(500).send({ message: 'An error occurred while uploading the image' });
         }
-    });
+    }));
 
 router.route('/:user_id/:slide_id/delete-image')
-    .delete(isLoggedIn, isAuthorized, async (req, res) => {
+    .delete(isLoggedIn, isAuthorized, catchAsync(async (req, res) => {
         const { slide_id } = req.params;
         try {
             const result = await cloudinary.uploader.destroy(`live-quiz/${slide_id}`);
@@ -43,6 +43,6 @@ router.route('/:user_id/:slide_id/delete-image')
         } catch (error) {
             res.status(500).send({ message: 'An error occurred while deleting the image' });
         }
-    });
+    }));
 
 module.exports = router;
