@@ -12,7 +12,7 @@ export default function Dashboard() {
         const getUserData = async () => {
             const userData = await configuredAxios.get(`/userdata`);
             return userData.data;
-            /* 
+            /*  
             The userData object looks like this:
             {
                 "user": {

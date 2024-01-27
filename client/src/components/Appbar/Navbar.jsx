@@ -1,15 +1,11 @@
 import Search from "./Search";
 import "./Navbar.css";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ProfileIcon from "../ProfileIcon/ProfileIcon";
 export default function Navbar(){
-    // Add a component to edit the name of the quiz
     return (
         <div className="flex flex-row justify-end p-2 Navbar">
             <Search className="ml-auto"/>
-            <div className="flex flex-row justify-center items-center"
-            style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'gray', marginLeft: '10px' }}>
-                <AccountCircleIcon />
-            </div>
+            <ProfileIcon/>
         </div>
     );
 }

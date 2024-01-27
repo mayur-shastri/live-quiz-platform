@@ -22,7 +22,7 @@ const generateRoomCode = async () => {
 /* when the create button is pressed, a post request to /:user_id/quizzes which creates the quiz and responds with
 the quiz_id and the user is redirected to :user_id/:quiz_id/edit (client side route) (done)  */
 
-// 1.5) complete the EditQuiz component
+// 1.5) complete the EditQuiz component (done)
 
 /*
     roomCode expiration logic:
@@ -129,7 +129,6 @@ router.route('/:user_id/:quiz_id')
                 newQuiz.slides.push(newSlide._id);
             }
             newQuiz.roomCode = await generateRoomCode();
-            console.log(newQuiz);
             await newQuiz.save();
             const user = await User.findById(newQuiz.creator);
             user.quizzes.push(newQuiz._id);
@@ -139,5 +138,23 @@ router.route('/:user_id/:quiz_id')
             res.status(500).send({message: 'Internal server error!', flashType: 'danger'});
         }
     })); //duplication route
+
+router.route('/:user_id/quizzes/search')
+    .get(isLoggedIn, isAuthorized, catchAsync(async (req,res)=>{
+        const {user_id} = req.params;
+        const {query} = req.body;
+        const foundQuizzes = await Quiz.find({
+            creator: user_id,
+            title: {
+                $regex: query,
+                $options: 'i', // case insensitive
+            }
+        });
+        if(foundQuizzes){
+            res.status(200).send({foundQuizzes, message: 'Some quizzes found!'});
+        } else{
+            res.status(404).send({message: 'No quizzes found!'});
+        }
+    }));
 
 module.exports = router;

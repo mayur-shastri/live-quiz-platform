@@ -5,6 +5,9 @@ import editAnimation from '../../../assets/edit-animation.json';
 import syncAnimation from '../../../assets/cloud-sync-green-2.json';
 import { useLottie } from 'lottie-react';
 import { useEffect } from "react";
+import PresentButton from "../Buttons/PresentButton";
+import BackButton from "../Buttons/BackButton";
+import ProfileIcon from "../../../components/ProfileIcon/ProfileIcon";
 
 export default function Toolsbar({ isEditing, isSaving }) {
 
@@ -26,30 +29,34 @@ export default function Toolsbar({ isEditing, isSaving }) {
         },
     };
 
-    const { View, play, stop, goToAndStop } = useLottie(syncAnimationOptions, 
-        { height: 45, width: 50 , speed: 5});
+    const { View, play, stop, goToAndStop } = useLottie(syncAnimationOptions,
+        { height: 45, width: 50, speed: 5 });
 
     useEffect(() => {
         if (isSaving) {
             play();
         } else {
-            setTimeout(()=>{
+            setTimeout(() => {
                 goToAndStop(68, true);
             }, 1000);
         }
     }, [isSaving, play, goToAndStop]);
-    
+
     return (
-        <div className="flex flex-row justify-end p-2 Navbar w-full" style={{ border: '1px solid black' }}>
-            <div className="flex flex-row justify-center items-center mx-2" style={{ pointerEvents: 'none' }}>
-                <Lottie options={editAnimationOptions} height={40} width={40} isStopped={!isEditing} />
+        // Add a component to edit the name of the quiz
+        <div className="flex flex-row justify-between p-2 Navbar w-full" style={{ border: '1px solid black' }}>
+            <BackButton />
+            <div className="flex flex-row justify-center items-center ml-40">
+                <div className="flex flex-row justify-center items-center" style={{ pointerEvents: 'none' }}>
+                    <Lottie options={editAnimationOptions} height={40} width={40} isStopped={!isEditing} />
+                </div>
+                <div className="flex flex-row justify-center items-center">
+                    {View}
+                </div>
             </div>
-            <div className="flex flex-row justify-center items-center mx-2">
-                {View}
-            </div>
-            <div className="flex flex-row justify-center items-center p-2 mx-2"
-                style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'gray', marginLeft: '10px' }}>
-                <AccountCircleIcon />
+            <div className="flex flex-row">
+                <PresentButton />
+                <ProfileIcon/>
             </div>
         </div>
     );
