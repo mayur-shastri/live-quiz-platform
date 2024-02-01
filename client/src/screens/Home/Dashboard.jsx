@@ -39,6 +39,10 @@ export default function Dashboard() {
         navigate(`/${user_id}/${quiz_id}/edit`);
     }
 
+    const joinQuiz = ()=>{
+        navigate('/join');
+    }
+
     return (
         <>
             <div className="flex flex-col items-start justify-start w-full">
@@ -48,7 +52,7 @@ export default function Dashboard() {
             </div>
             <div className='flex flex-row justify-start items-center m-8'>
                 <MyButton text="Create Quiz" icon="plusIcon" onClick={createQuiz}/>
-                <MyButton text="Join Quiz" icon="groupAddIcon" onClick={()=>{}}/>
+                <MyButton text="Join Quiz" icon="groupAddIcon" onClick={joinQuiz}/>
             </div>
             <div className="flex flex-col items-start justify-start w-full ml-8">
                 <Typography variant="body1" color="initial" sx={{marginBottom: '1rem', fontWeight: 'bold' }}>

@@ -63,6 +63,13 @@ the quiz_id and the user is redirected to :user_id/:quiz_id/edit (client side ro
     4) 2 and 3 are "present mode" from the respective perspectives of the presenter and the participant
 */
 
+/*
+    In present mode, allow creator to enable and disable broadcast of a question while presenting, 
+    and set a timer for the question during the presentation. Once the timer runs out, the broadcast of question
+    is disabled and the presenter can move on to the next question. The presenter can also disable the timer.
+    The presenter can also disable the broadcast of the question before the timer runs out. 
+*/
+
 router.route('/:user_id/quizzes')
     .get(isLoggedIn, catchAsync(async (req, res) => {
         const { user_id } = req.params;

@@ -1,10 +1,15 @@
 import { Button } from '@mui/material';
 import React from 'react'
 import PresentToAllIcon from '@mui/icons-material/PresentToAll';
+import { useNavigate } from 'react-router-dom';
 
 function PresentButton() {
 
-    const onPresent = () => {}
+    const navigate = useNavigate();
+
+    const onPresent = () => {
+        navigate('/presenter/waiting');
+    }
 
     return (
         <Button variant="contained" 

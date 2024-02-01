@@ -17,6 +17,11 @@ import EditQuiz from './screens/EditQuiz/EditQuiz.jsx'
 import ProtectedRoutes from './Utilities/ProtectedRoutes.jsx'
 import QuizProvider from './screens/EditQuiz/Context Provider/QuizProvider.jsx'
 import FlashProvider from './context providers/Flash/FlashProvider.jsx'
+import EnterCode from './screens/Join Quiz/EnterCode.jsx'
+import ParticipantScreen from './screens/Presentation/Participant/ParticipantScreen.jsx'
+import WaitingPage from './screens/Presentation/Participant/WaitingPage.jsx'
+import PresenterScreen from './screens/Presentation/Creator/PresenterScreen.jsx'
+import WaitingPagePresenter from './screens/Presentation/Creator/WaitingPagePresenter.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -50,14 +55,33 @@ const router = createBrowserRouter(
         <Route path='feedback' element={<Feedback />} ></Route>
         <Route path='trash' element={<Trash />}></Route>
       </Route>
+      <Route path='join' element={
+        <ProtectedRoutes>
+          <EnterCode />
+        </ProtectedRoutes>
+      }></Route>
+      <Route path='participant' element={
+        <ProtectedRoutes>
+          <ParticipantScreen/>
+        </ProtectedRoutes>
+      }>
+        <Route path='waiting' element={<WaitingPage />}></Route>
+      </Route>
+      <Route path='presenter' element={
+        <ProtectedRoutes>
+          <PresenterScreen/>
+        </ProtectedRoutes>
+      }>
+        <Route path='waiting' element={<WaitingPagePresenter />}></Route>
+      </Route>
     </>
   )
 );
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <ThemeProvider theme={theme}>
       <RouterProvider router={router} />
     </ThemeProvider>
-  </React.StrictMode>,
+  // </React.StrictMode>,
 )

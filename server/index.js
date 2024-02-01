@@ -3,12 +3,15 @@ const http = require('http');
 const cors = require('cors');
 const app = express();
 const server = http.createServer(app);
- 
+const expressWs = require('express-ws')(app, server);
+const helmet = require('helmet');
+
 const AuthRoutes = require('./Routes/Auth');
 const QuizRoutes = require('./Routes/Quiz');
 const UserRoutes = require('./Routes/User');
 const SlideRoutes = require('./Routes/Slide');
 const ImageUploadRoutes = require('./Routes/ImageUpload');
+const PresentRoutes = require('./Routes/Present');
 
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
@@ -51,11 +54,25 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+const port = process.env.PORT || 3000;
+
+server.listen(port,()=>{
+    console.log(`Server running on port ${port}`);
+});
+
+app.use(helmet.contentSecurityPolicy({
+    directives: {
+        defaultSrc: ["'none'"],
+        connectSrc: ["'self'", 'ws:'],
+    }
+}));
+
 app.use('/',AuthRoutes);
 app.use('/', ImageUploadRoutes);
 app.use('/',QuizRoutes);
 app.use('/',UserRoutes);
 app.use('/',SlideRoutes);
+app.use('/', PresentRoutes);
 
 app.get('/',(req,res)=>{
     res.send({greeting: "Hello World"});
@@ -64,10 +81,4 @@ app.get('/',(req,res)=>{
 app.use((err,req,res,next)=>{
     const {status = 500, message = 'Something went wrong'} = err;
     res.status(status).send({message});
-});
-
-const port = process.env.PORT || 3000;
-
-server.listen(port,()=>{
-    console.log(`Server running on port ${port}`);
 });
