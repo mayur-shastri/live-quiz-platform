@@ -3,12 +3,12 @@ import React from 'react'
 import PresentToAllIcon from '@mui/icons-material/PresentToAll';
 import { useNavigate } from 'react-router-dom';
 
-function PresentButton() {
+function PresentButton({user_id, quiz_id}) {
 
     const navigate = useNavigate();
 
     const onPresent = () => {
-        navigate('/presenter/waiting');
+        navigate('/presenter/waiting', {state: {user_id, quiz_id}});
     }
 
     return (

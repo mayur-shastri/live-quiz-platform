@@ -1,11 +1,17 @@
-function connectWebSocketServer() {
+function connectWebSocketServer(roomCode, userId) {
     return new Promise((resolve, reject) => {
         const ws = new WebSocket('ws://localhost:3000/participant');
-        const num = Math.floor(Math.random() * 100);
+
+        const payLoad = {
+            method: "initializeParticipant",
+            user_id: userId,
+            roomCode: roomCode,
+        }
+
         ws.onopen = () => {
             console.log("********connected********");
             try {
-                ws.send(JSON.stringify({ message: "Hello", num }));
+                ws.send(JSON.stringify(payLoad));
             } catch (e) {
                 console.log(e);
             }

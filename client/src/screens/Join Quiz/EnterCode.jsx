@@ -3,15 +3,32 @@ import { ArrowRight } from 'lucide-react'
 import { useNavigate } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import {instance as configuredAxios} from '../../axiosConfig';
+import Loading from '../Splash/Loading';
 
 export default function EnterCode() {
 
+    const [userId, setUserId] = useState(null);
+    const [loading, setLoading] = useState(false);
     const [roomCode, setRoomCode] = useState('');
-    const [joinPressed, setJoinPressed] = useState(false);
-    const navigate = useNavigate();;
+    const navigate = useNavigate();
+    
+    useEffect(()=>{
+        const fetchUserId = async ()=>{
+            try{
+                const response = await configuredAxios.get('/userData');
+                setLoading(false);
+                const fetchedUser = response.data;
+                setUserId(fetchedUser.user._id);
+            } catch(e){
+                console.log(e);
+            }
+        }
+        fetchUserId();
+    }, []);
 
     const joinQuiz = () => {
-        navigate('/participant/waiting');
+        navigate('/participant/waiting', {state: {roomCode, userId}});
     }
 
     const backToHome = () => {
@@ -20,6 +37,10 @@ export default function EnterCode() {
 
     const handleInputChange = (e) => {
         setRoomCode(e.target.value);
+    }
+
+    if(loading){
+        return <Loading/>
     }
 
     return (

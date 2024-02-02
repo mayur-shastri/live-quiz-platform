@@ -1,10 +1,16 @@
-const connectPresenterToWebSocketServer = () => {
+const connectPresenterToWebSocketServer = (user_id,quiz_id) => {
     return new Promise((resolve, reject) => {
         const ws = new WebSocket('ws://localhost:3000/presenter');
 
+        const payLoad = {
+            method: "initializePresenter",
+            user_id: user_id,
+            quiz_id: quiz_id,
+        }
+
         ws.onopen = () => {
             try {
-                ws.send(JSON.stringify({ message: "Hello. I am the presenter" }));
+                ws.send(JSON.stringify(payLoad));
             } catch (e) {
                 console.log(e);
             }

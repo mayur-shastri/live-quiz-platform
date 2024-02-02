@@ -24,8 +24,6 @@ export default function EditQuiz() {
     const getSlides = async () => {
         try {
             const response = await configuredAxios.get(`${user_id}/${quiz_id}/slides`);
-            console.log('*****SLIDES*****');
-            console.log(response.data.slides);
             return response.data.slides;
         } catch(e){
             console.log(e);
@@ -80,7 +78,7 @@ export default function EditQuiz() {
         <div className='flex flex-col justify-center items-center w-full h-screen'
             style={{ maxWidth: '100%' }}
         >
-            <Toolsbar isEditing={isEditing} isSaving={isSaving}/>
+            <Toolsbar isEditing={isEditing} isSaving={isSaving} user_id={user_id} quiz_id={quiz_id}/>
             <div className='flex flex-row flex-grow w-full h-full'>
                 <SlidesBar />
                 {

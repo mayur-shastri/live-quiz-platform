@@ -9,7 +9,7 @@ import PresentButton from "../Buttons/PresentButton";
 import BackButton from "../Buttons/BackButton";
 import ProfileIcon from "../../../components/ProfileIcon/ProfileIcon";
 
-export default function Toolsbar({ isEditing, isSaving }) {
+export default function Toolsbar({ isEditing, isSaving, quiz_id, user_id }) {
 
     const editAnimationOptions = {
         loop: true,
@@ -55,7 +55,7 @@ export default function Toolsbar({ isEditing, isSaving }) {
                 </div>
             </div>
             <div className="flex flex-row">
-                <PresentButton />
+                <PresentButton quiz_id={quiz_id} user_id={user_id}/>
                 <ProfileIcon/>
             </div>
         </div>

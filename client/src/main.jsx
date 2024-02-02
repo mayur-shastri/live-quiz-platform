@@ -62,17 +62,21 @@ const router = createBrowserRouter(
       }></Route>
       <Route path='participant' element={
         <ProtectedRoutes>
-          <ParticipantScreen/>
+          <ParticipantScreen />
         </ProtectedRoutes>
       }>
         <Route path='waiting' element={<WaitingPage />}></Route>
       </Route>
       <Route path='presenter' element={
         <ProtectedRoutes>
-          <PresenterScreen/>
+          <PresenterScreen />
         </ProtectedRoutes>
       }>
-        <Route path='waiting' element={<WaitingPagePresenter />}></Route>
+        <Route path='waiting' element={
+          <ProtectedRoutes>
+            <WaitingPagePresenter />
+          </ProtectedRoutes>
+        }></Route>
       </Route>
     </>
   )
@@ -80,8 +84,8 @@ const router = createBrowserRouter(
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   // <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <RouterProvider router={router} />
-    </ThemeProvider>
+  <ThemeProvider theme={theme}>
+    <RouterProvider router={router} />
+  </ThemeProvider>
   // </React.StrictMode>,
 )
