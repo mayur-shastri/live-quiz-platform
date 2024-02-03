@@ -22,6 +22,8 @@ import ParticipantScreen from './screens/Presentation/Participant/ParticipantScr
 import WaitingPage from './screens/Presentation/Participant/WaitingPage.jsx'
 import PresenterScreen from './screens/Presentation/Creator/PresenterScreen.jsx'
 import WaitingPagePresenter from './screens/Presentation/Creator/WaitingPagePresenter.jsx'
+import RealTimeDataProvider from './context providers/RealTimeData (presenter)/RealTimeDataProvider.jsx'
+import RealTimeParticipantDataProvider from './context providers/RealTimeData (participant)/RealTimeParticipantDataProvider.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -62,14 +64,18 @@ const router = createBrowserRouter(
       }></Route>
       <Route path='participant' element={
         <ProtectedRoutes>
-          <ParticipantScreen />
+          <RealTimeParticipantDataProvider>
+            <ParticipantScreen />
+          </RealTimeParticipantDataProvider>
         </ProtectedRoutes>
       }>
         <Route path='waiting' element={<WaitingPage />}></Route>
       </Route>
       <Route path='presenter' element={
         <ProtectedRoutes>
-          <PresenterScreen />
+          <RealTimeDataProvider>
+            <PresenterScreen />
+          </RealTimeDataProvider>
         </ProtectedRoutes>
       }>
         <Route path='waiting' element={

@@ -1,4 +1,4 @@
-function connectWebSocketServer(roomCode, userId) {
+function connectWebSocketServer(roomCode, userId, setWs) {
     return new Promise((resolve, reject) => {
         const ws = new WebSocket('ws://localhost:3000/participant');
 
@@ -12,6 +12,7 @@ function connectWebSocketServer(roomCode, userId) {
             console.log("********connected********");
             try {
                 ws.send(JSON.stringify(payLoad));
+                resolve(ws);
             } catch (e) {
                 console.log(e);
             }
@@ -21,13 +22,12 @@ function connectWebSocketServer(roomCode, userId) {
             console.log(parsedMessage);
         }
         ws.onclose = () => {
-            console.log(num);
             console.log("closed");
         }
         ws.onerror = (error) => {
             console.log(error);
         }
-    })
+    });
 } 
 
 export {connectWebSocketServer};

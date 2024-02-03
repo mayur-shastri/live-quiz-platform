@@ -20,7 +20,7 @@ router.ws('/presenter', (ws, req) => {
     ws.on('message', async (message) => {
         const parsedMessage = JSON.parse(message);
         // console.log(parsedMessage);
-        if(parsedMessage.method === "initializePresenter") {
+        if (parsedMessage.method === "initializePresenter") {
             const quiz = await Quiz.findById(parsedMessage.quiz_id).populate('slides');
             console.log("Recieved quiz from presenter LOLOL");
             console.log(quiz);
@@ -33,29 +33,41 @@ router.ws('/presenter', (ws, req) => {
                 participants: [],
             } // might change later
         }
+
     });
 });
 
 router.ws('/participant', (ws, req) => {
 
+    let room_code = null;
+
     ws.on('message', function incoming(message) {
         const parsedMessage = JSON.parse(message);
         console.log(parsedMessage);
-        if(parsedMessage.method === "initializeParticipant"){
+        if (parsedMessage.method === "initializeParticipant") {
             const roomCode = parsedMessage.roomCode;
-            if(activeRooms[roomCode]){
+            room_code = roomCode;
+            if (activeRooms[roomCode]) {
                 const participantData = {
-                  connection: ws,
-                  user_id: parsedMessage.user_id,
+                    connection: ws,
+                    user_id: parsedMessage.user_id,
                 }
                 activeRooms[roomCode].participants.push(participantData);
             }
+            const numParticipants = activeRooms[roomCode].participants.length;
+            activeRooms[roomCode].connection.send(JSON.stringify({ method: "numParticipants", numParticipants: numParticipants }));
             // console.log(activeRooms);
         }
     });
 
     ws.on('close', () => {
         console.log(`Participant disconnected!`);
+        activeRooms[room_code].participants = activeRooms[room_code].participants.filter((participant)=>{
+            return participant.connection !== ws;
+        });
+        const numParticipants = activeRooms[room_code].participants.length;
+        activeRooms[room_code].connection.send(JSON.stringify(
+            { method: "numParticipants", numParticipants: numParticipants }));
     });
 
     const dummyData = {
