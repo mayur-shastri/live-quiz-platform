@@ -19,7 +19,7 @@ const connectPresenterToWebSocketServer = (user_id,quiz_id, setNumParticipants) 
         ws.onmessage = (message) => {
             const parsedMessage = JSON.parse(message.data);
             console.log(parsedMessage);
-            if(parsedMessage.method === "numParticipants"){
+            if(parsedMessage.method === "numParticipants" || parsedMessage.method === "established"){
                 setNumParticipants(parsedMessage.numParticipants);
             }
         }

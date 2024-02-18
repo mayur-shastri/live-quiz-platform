@@ -14,10 +14,10 @@ function PresenterScreen() {
 
     useEffect(() => {
         const connect = async () => {
-            await connectPresenterToWebSocketServer(user_id,quiz_id, setNumParticipants);
+            const ws = await connectPresenterToWebSocketServer(user_id,quiz_id, setNumParticipants);
         }
-        connect();
         setLoading(false);
+        connect();
         // setLoading(false); should be done after the connection is established, but
         // the way it is being done right now, it would be done before the connection is established
     }, []);

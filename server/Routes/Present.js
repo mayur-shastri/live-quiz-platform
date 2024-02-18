@@ -1,7 +1,12 @@
 const router = require('express').Router();
 const Quiz = require('../Models/Quiz');
 
-const activeRooms = {};
+let activeRooms = {};
+
+router.get('/debug/:roomCode/activeRooms', (req,res)=>{
+    const {roomCode} = req.params;
+    res.send({...activeRooms[roomCode].participants});
+});
 
 router.ws('/presenter', (ws, req) => {
 
@@ -11,35 +16,44 @@ router.ws('/presenter', (ws, req) => {
         text: "This is a dummy message for the presenter",
     }
 
-    ws.send(JSON.stringify(dummyData));
-
-    ws.on('closed', () => {
-        console.log('Presenter disconnected!');
-    });
-
     ws.on('message', async (message) => {
         const parsedMessage = JSON.parse(message);
-        // console.log(parsedMessage);
+        console.log(parsedMessage);
         if (parsedMessage.method === "initializePresenter") {
             const quiz = await Quiz.findById(parsedMessage.quiz_id).populate('slides');
             console.log("Recieved quiz from presenter LOLOL");
-            console.log(quiz);
             const roomCode = quiz.roomCode;
             room_code = roomCode;
-            activeRooms[roomCode] = {
-                connection: ws,
-                quiz_id: parsedMessage.quiz_id,
-                creator_id: parsedMessage.user_id,
-                participants: [],
-            } // might change later
+            if(activeRooms[roomCode]){
+                activeRooms[roomCode].connection = ws;
+                console.log("Presenter reconnected!");
+                ws.send(JSON.stringify({ method: "established", numParticipants: activeRooms[roomCode].participants.length}));
+            }
+            else{
+                activeRooms[roomCode] = {
+                    connection: ws,
+                    quiz_id: parsedMessage.quiz_id,
+                    creator_id: parsedMessage.user_id,
+                    participants: [],
+                } // might change later
+                console.log("********");
+                console.log(activeRooms[roomCode].quiz_id);
+                console.log("********");
+            }
         }
+    });
 
+    ws.send(JSON.stringify(dummyData));
+
+    ws.on('close', () => {
+        console.log('Presenter disconnected!');
     });
 });
 
 router.ws('/participant', (ws, req) => {
 
     let room_code = null;
+    let fullyEstablished = false;
 
     ws.on('message', function incoming(message) {
         const parsedMessage = JSON.parse(message);
@@ -47,6 +61,7 @@ router.ws('/participant', (ws, req) => {
         if (parsedMessage.method === "initializeParticipant") {
             const roomCode = parsedMessage.roomCode;
             room_code = roomCode;
+            console.log(room_code);
             if (activeRooms[roomCode]) {
                 const participantData = {
                     connection: ws,
@@ -56,18 +71,20 @@ router.ws('/participant', (ws, req) => {
             }
             const numParticipants = activeRooms[roomCode].participants.length;
             activeRooms[roomCode].connection.send(JSON.stringify({ method: "numParticipants", numParticipants: numParticipants }));
-            // console.log(activeRooms);
+            fullyEstablished = true;
         }
     });
 
     ws.on('close', () => {
-        console.log(`Participant disconnected!`);
-        activeRooms[room_code].participants = activeRooms[room_code].participants.filter((participant)=>{
-            return participant.connection !== ws;
-        });
-        const numParticipants = activeRooms[room_code].participants.length;
-        activeRooms[room_code].connection.send(JSON.stringify(
-            { method: "numParticipants", numParticipants: numParticipants }));
+        console.log(`Participant disconnected!`);   
+        if(fullyEstablished){
+            activeRooms[room_code].participants = activeRooms[room_code].participants.filter((participant)=>{
+                return participant.connection !== ws;
+            });
+            const numParticipants = activeRooms[room_code].participants.length;
+            activeRooms[room_code].connection.send(JSON.stringify(
+                { method: "numParticipants", numParticipants: numParticipants }));
+        }
     });
 
     const dummyData = {

@@ -14,10 +14,10 @@ function ParticipantScreen() {
     useEffect(() => {
         const connect = async () => {
             const ws = await connectWebSocketServer(roomCode,userId, setWs);
+            setLoading(false);
             setWs(ws);
         }
         connect();
-        setLoading(false);
         // setLoading(false); should be done after the connection is established, but
         // the way it is being done right now, it would be done before the connection is established
     }, []);

@@ -18,6 +18,7 @@ const LocalStrategy = require('passport-local').Strategy;
 // const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const User = require('./Models/User');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 
 const sessionConfig = {
     secret: 'replace-with-a-real-secret',
@@ -28,7 +29,8 @@ const sessionConfig = {
         httpOnly: true,
         maxAge: 1000*60*60*24*7, // 1 week
         expires: Date.now() + 1000*60*60*24*7,
-    }
+    },
+    store: MongoStore.create({ mongoUrl: 'mongodb://localhost:27017/live-quiz-app' })
 }
 
 app.use(session(sessionConfig));
