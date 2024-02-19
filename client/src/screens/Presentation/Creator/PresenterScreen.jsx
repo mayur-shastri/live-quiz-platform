@@ -6,7 +6,7 @@ import RealTimeDataContext from '../../../context providers/RealTimeData (presen
 
 function PresenterScreen() {
 
-    const {setNumParticipants} = useContext(RealTimeDataContext);
+    const {setNumParticipants, setWs} = useContext(RealTimeDataContext);
 
     const [loading, setLoading] = useState(true);
     const location = useLocation();
@@ -15,6 +15,8 @@ function PresenterScreen() {
     useEffect(() => {
         const connect = async () => {
             const ws = await connectPresenterToWebSocketServer(user_id,quiz_id, setNumParticipants);
+            console.log(ws);
+            setWs(ws);
         }
         setLoading(false);
         connect();

@@ -11,6 +11,7 @@ const connectPresenterToWebSocketServer = (user_id,quiz_id, setNumParticipants) 
         ws.onopen = () => {
             try {
                 ws.send(JSON.stringify(payLoad));
+                resolve(ws);
             } catch (e) {
                 console.log(e);
             }

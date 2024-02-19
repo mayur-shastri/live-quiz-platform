@@ -17,7 +17,10 @@ export default function EditQuiz() {
     const [isSaving, setIsSaving] = useState(false);
 
     const slidesRef = useRef(null);
-    slidesRef.current = slides;
+    
+    useEffect(()=>{
+        slidesRef.current = slides;
+    }, [slides]);
 
     const saveTimeoutRef = useRef(null);
 

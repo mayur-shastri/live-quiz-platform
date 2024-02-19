@@ -4,8 +4,10 @@ import RealTimeDataContext from '../../../context providers/RealTimeData (presen
 
 function WaitingPagePresenter() {
 
-    const {numParticipants} = useContext(RealTimeDataContext);
-
+    const {numParticipants, ws} = useContext(RealTimeDataContext);
+    const startPresentation = ()=>{
+        ws.send(JSON.stringify({method: 'start'}));
+    }
     return (
         <div className='flex flex-col h-screen justify-center items-center'>
             <h1>Waiting for the players to join...</h1>
@@ -15,6 +17,7 @@ function WaitingPagePresenter() {
                 className="inline-flex items-center rounded-md 
                 bg-primary-400 px-3 py-2 text-sm font-semibold 
                 text-white hover:bg-primary-700 mt-10"
+                onClick={startPresentation}
             >
                 Start Presentation
                 <ArrowRight className="ml-2 h-4 w-4" />

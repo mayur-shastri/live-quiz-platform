@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Loading from '../../Splash/Loading';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { connectWebSocketServer } from './connectWebSocketServer';
 import RealTimeParticipantDataContext from '../../../context providers/RealTimeData (participant)/RealTimeParticipantDataContext';
 
@@ -9,11 +9,11 @@ function ParticipantScreen() {
     const location = useLocation();
     const [loading, setLoading] = useState(true);
     const {roomCode, userId} = location.state;
-    const {setWs} = useContext(RealTimeParticipantDataContext);
-    
+    const {setWs, setCurrentSlideData} = useContext(RealTimeParticipantDataContext);
+    const navigate = useNavigate();
     useEffect(() => {
         const connect = async () => {
-            const ws = await connectWebSocketServer(roomCode,userId, setWs);
+            const ws = await connectWebSocketServer(roomCode,userId, setWs, setCurrentSlideData, navigate);
             setLoading(false);
             setWs(ws);
         }

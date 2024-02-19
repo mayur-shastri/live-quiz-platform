@@ -30,7 +30,7 @@ export default function SlidesBar() {
             const newSlides = Array.from(currentSlides);
             const [removed] = newSlides.splice(source.index, 1);
             newSlides.splice(destination.index, 0, removed);
-            return newSlides;
+            return [...newSlides];
         });
     }
 

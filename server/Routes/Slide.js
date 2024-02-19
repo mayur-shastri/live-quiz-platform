@@ -38,7 +38,7 @@ router.route('/:user_id/:quiz_id/slides')
                 // for (let slideId of deletedSlideIds) {
                 //     const result = await Slide.deleteOne({ id: slideId });
                 // } //delete slides that are not present in the slides array
-                const result = await Slide.deleteMany({id: {$in: Array.from(deletedSlideIds)}});
+                const result = await Slide.deleteMany({ id: { $in: Array.from(deletedSlideIds) } });
                 quiz.slides = quiz.slides.map((slide) => {
                     return slide._id;
                 });
@@ -66,6 +66,16 @@ router.route('/:user_id/:quiz_id/slides')
                         await quiz.save(); //add new slides to quiz.slides
                     }
                 }
+                for(let i=0; i<slides.length; i++){
+                    for(let j=i; j<slides.length; j++){
+                        if((slides[i]._id).toString() === (quiz.slides[j]).toString()){
+                            let temp = quiz.slides[i];
+                            quiz.slides[i] = quiz.slides[j];
+                            quiz.slides[j] = temp;
+                        }
+                    }
+                }
+                await quiz.save();
                 res.status(200).send({ message: "Slides updated" });
             } else {
                 res.status(404).send({ message: "Quiz not found" });

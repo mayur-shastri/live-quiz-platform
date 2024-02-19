@@ -3,14 +3,15 @@ const Quiz = require('../Models/Quiz');
 
 let activeRooms = {};
 
-router.get('/debug/:roomCode/activeRooms', (req,res)=>{
-    const {roomCode} = req.params;
-    res.send({...activeRooms[roomCode].participants});
+router.get('/debug/:roomCode/activeRooms', (req, res) => {
+    const { roomCode } = req.params;
+    res.send({ ...activeRooms[roomCode].participants });
 });
 
 router.ws('/presenter', (ws, req) => {
 
     let room_code = null;
+    let quiz_data = null;
 
     const dummyData = {
         text: "This is a dummy message for the presenter",
@@ -21,15 +22,16 @@ router.ws('/presenter', (ws, req) => {
         console.log(parsedMessage);
         if (parsedMessage.method === "initializePresenter") {
             const quiz = await Quiz.findById(parsedMessage.quiz_id).populate('slides');
+            quiz_data = quiz;
             console.log("Recieved quiz from presenter LOLOL");
             const roomCode = quiz.roomCode;
             room_code = roomCode;
-            if(activeRooms[roomCode]){
+            if (activeRooms[roomCode]) {
                 activeRooms[roomCode].connection = ws;
                 console.log("Presenter reconnected!");
-                ws.send(JSON.stringify({ method: "established", numParticipants: activeRooms[roomCode].participants.length}));
+                ws.send(JSON.stringify({ method: "established", numParticipants: activeRooms[roomCode].participants.length }));
             }
-            else{
+            else {
                 activeRooms[roomCode] = {
                     connection: ws,
                     quiz_id: parsedMessage.quiz_id,
@@ -40,6 +42,15 @@ router.ws('/presenter', (ws, req) => {
                 console.log(activeRooms[roomCode].quiz_id);
                 console.log("********");
             }
+        }
+        if (parsedMessage.method === "start") {
+            const participants = activeRooms[room_code].participants;
+            participants.forEach((participant) => {
+                participant.connection.send(JSON.stringify({ method: "start", firstSlide: quiz_data.slides[0] }));
+            });
+        }
+        if (parsedMessage.method === "nextSlide") {
+            //...
         }
     });
 
@@ -76,9 +87,9 @@ router.ws('/participant', (ws, req) => {
     });
 
     ws.on('close', () => {
-        console.log(`Participant disconnected!`);   
-        if(fullyEstablished){
-            activeRooms[room_code].participants = activeRooms[room_code].participants.filter((participant)=>{
+        console.log(`Participant disconnected!`);
+        if (fullyEstablished) {
+            activeRooms[room_code].participants = activeRooms[room_code].participants.filter((participant) => {
                 return participant.connection !== ws;
             });
             const numParticipants = activeRooms[room_code].participants.length;
