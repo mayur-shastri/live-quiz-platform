@@ -37,6 +37,7 @@ router.ws('/presenter', (ws, req) => {
                     quiz_id: parsedMessage.quiz_id,
                     creator_id: parsedMessage.user_id,
                     participants: [],
+                    activeSlideNumber: 0,
                 } // might change later
                 console.log("********");
                 console.log(activeRooms[roomCode].quiz_id);
@@ -48,9 +49,24 @@ router.ws('/presenter', (ws, req) => {
             participants.forEach((participant) => {
                 participant.connection.send(JSON.stringify({ method: "start", firstSlide: quiz_data.slides[0] }));
             });
+            console.log("Slides Length: ", quiz_data.slides.length);
+            ws.send(JSON.stringify({ method: "start", firstSlide: quiz_data.slides[0], slidesLength: quiz_data.slides.length}));
         }
-        if (parsedMessage.method === "nextSlide") {
-            //...
+        if(parsedMessage.method === "slideChange"){
+            const currentSlideNumber = parsedMessage.currentSlideNumber;
+            activeRooms[room_code].activeSlideNumber = currentSlideNumber;
+            const participants = activeRooms[room_code].participants;
+            participants.forEach((participant)=>{
+                participant.connection.send(JSON.stringify({method: "slideChange", slideData: quiz_data.slides[currentSlideNumber]}));
+            });
+            ws.send(JSON.stringify({method: "slideChange", slideData: quiz_data.slides[currentSlideNumber]}));
+        }
+        if(parsedMessage.method === "refreshed"){
+            const currentSlideNumber = parsedMessage.currentSlideNumber;
+            const participants = activeRooms[room_code].participants;
+            participants.forEach((participant)=>{
+                participant.connection.send(JSON.stringify({method: "refreshed", slideData: quiz_data.slides[currentSlideNumber]}));
+            });
         }
     });
 
@@ -83,6 +99,9 @@ router.ws('/participant', (ws, req) => {
             const numParticipants = activeRooms[roomCode].participants.length;
             activeRooms[roomCode].connection.send(JSON.stringify({ method: "numParticipants", numParticipants: numParticipants }));
             fullyEstablished = true;
+        }
+        if(parsedMessage.method === "participantResponse"){
+            //...
         }
     });
 
