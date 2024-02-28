@@ -11,6 +11,7 @@ const RealTimeDataProvider = ({ children }) => {
     const [slidesLength, setSlidesLength] = useState(0);
     const [quizId, setQuizId] = useState(null);
     const [userId, setUserId] = useState(null);
+
     return (
         <RealTimeDataContext.Provider value={
             { numParticipants, setNumParticipants,

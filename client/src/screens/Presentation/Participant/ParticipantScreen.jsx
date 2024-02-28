@@ -9,11 +9,15 @@ function ParticipantScreen() {
     const location = useLocation();
     const [loading, setLoading] = useState(true);
     const {roomCode, userId} = location.state;
-    const {setWs, setCurrentSlideData, currentSlideData} = useContext(RealTimeParticipantDataContext);
+    const {setWs, setCurrentSlideData, currentSlideData,
+           takeResponses, setTakeResponses,
+           resetResponses, setResetResponses,} = useContext(RealTimeParticipantDataContext);
     const navigate = useNavigate();
     useEffect(() => {
         const connect = async () => {
-            const ws = await connectWebSocketServer(roomCode,userId, setWs, currentSlideData, setCurrentSlideData, navigate);
+            const ws = await connectWebSocketServer(roomCode,userId, setWs, 
+                                currentSlideData, setCurrentSlideData, navigate,
+                                setTakeResponses, setResetResponses);
             setLoading(false);
             setWs(ws);
         }

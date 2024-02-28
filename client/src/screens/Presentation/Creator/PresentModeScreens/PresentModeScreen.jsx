@@ -5,13 +5,31 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import IconButton from '@mui/material/IconButton'
 import RealTimeDataContext from '../../../../context providers/RealTimeData (presenter)/RealTimeDataContext';
 import QuizContext from '../../../EditQuiz/Context Provider/QuizContext';
+import { Button } from '@mui/material';
+
+function invertColor(rgbColor) {
+    // Split the color into its components
+    const colorParts = rgbColor.match(/\d+/g);
+
+    // Invert each color component
+    const invertedColorParts = colorParts.map(part => 255 - parseInt(part));
+
+    // Combine the inverted color components back into a color
+    const invertedColor = `rgb(${invertedColorParts.join(", ")})`;
+
+    return invertedColor;
+}
+
+console.log(invertColor("rgb(255, 0, 0)")); // Outputs: rgb(0, 255, 255)
 
 function PresentModeScreen() {
 
     const [showControls, setShowControls] = useState(true);
     const {currentSlideNumber, setCurrentSlideNumber, ws, currentSlideData, slidesLength} = useContext(RealTimeDataContext);
     // const currentSlideNumberRef = useRef(currentSlideNumber);
-
+    const [style, setStyle] = useState({
+        width: '180px',
+    });
     useEffect(()=>{
         setCurrentSlideNumber(0);
     }, []);
@@ -22,6 +40,18 @@ function PresentModeScreen() {
         console.log("Current slide data: ", currentSlideData);
         // currentSlideNumberRef.current = currentSlideNumber;
     }, [currentSlideNumber]);
+
+    useEffect(()=>{
+        console.log("Color badlo chalo");
+        setStyle((currentStyle)=>{
+            console.log(currentSlideData.backgroundColor);
+            console.log(invertColor(currentSlideData.backgroundColor));
+            return {...currentStyle, 
+                   color: invertColor(currentSlideData.backgroundColor), 
+                //    color: 'white', 
+                   };
+        });
+    }, [currentSlideData]);
 
     useEffect(()=>{
         document.addEventListener('keydown', function (e) {
@@ -69,6 +99,21 @@ function PresentModeScreen() {
         });
     }
 
+    const takeResponses = ()=>{
+        ws.send(JSON.stringify({method: "takeResponses", currentSlideNumber: currentSlideNumber}));
+    }
+
+    const resetResponses = ()=>{
+        ws.send(JSON.stringify({method: "resetResponses", currentSlideNumber: currentSlideNumber}));
+    }
+
+    const stopResponses = ()=>{
+        ws.send(JSON.stringify({method: "stopResponses", currentSlideNumber: currentSlideNumber}));
+    }
+
+    const seeResults = ()=>{
+        ws.send(JSON.stringify({method: "seeResults", currentSlideNumber: currentSlideNumber}));
+    }
 
     return (
         <div className='flex flex-row w-100 h-screen'>
@@ -96,6 +141,13 @@ function PresentModeScreen() {
                         }}>
                         <ArrowForwardIosIcon />
                     </IconButton>
+                    <div style={{ position: 'absolute', bottom: '10px', left: '10px' }}>
+                    <Button variant="outlined" sx = {style} onClick={takeResponses}>Enable Responses</Button>
+                    <Button variant="outlined" sx = {style} onClick={resetResponses}>Reset Responses</Button>
+                    <Button variant="outlined" sx = {style} onClick={stopResponses}>Stop Responses</Button>
+                    <Button variant="outlined" sx = {style} onClick={seeResults}>See Results</Button>
+                    {/* replace enable/disable with a toggle button */}
+                </div>
                 </>
             )}
         </div>

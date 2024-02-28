@@ -8,21 +8,19 @@ function PresenterScreen() {
 
     const { setNumParticipants, setWs,
         setCurrentSlideData, setSlidesLength,
-         ws, currentSlideNumber} = useContext(RealTimeDataContext);
+         ws, currentSlideNumber,} = useContext(RealTimeDataContext);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const location = useLocation();
 
     let {user_id, quiz_id} = location.state;
     useEffect(()=>{
-        if(localStorage.getItem('hasLoadedOnce')){
-            ws?.send(JSON.stringify({method: "refreshed", currentSlideNumber: currentSlideNumber}));
-        }
         console.log("user_id", user_id, "quiz_id", quiz_id);
+        // const isLoadedOnceKey = `presenter-${quiz_id}`;
         if(user_id && quiz_id){
             localStorage.setItem('userId', user_id);
             localStorage.setItem('quizId', quiz_id);
-            localStorage.setItem('hasLoadedOnce', true);
+            // localStorage.setItem(isLoadedOnceKey, true);
         } else{
             console.log("I entered here");
             user_id = localStorage.getItem('userId');
@@ -32,7 +30,8 @@ function PresenterScreen() {
         }
         const connect = async () => {
             const ws = await connectPresenterToWebSocketServer(user_id, quiz_id,
-                setNumParticipants, setCurrentSlideData, navigate, setSlidesLength);
+                setNumParticipants, setCurrentSlideData, navigate, setSlidesLength,
+                currentSlideNumber);
             console.log(ws);
             setWs(ws);
         }

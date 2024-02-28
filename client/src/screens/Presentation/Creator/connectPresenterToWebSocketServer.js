@@ -1,5 +1,6 @@
 const connectPresenterToWebSocketServer = (user_id, quiz_id,
-    setNumParticipants, setCurrentSlideData, navigate, setSlidesLength) => {
+    setNumParticipants, setCurrentSlideData, navigate, setSlidesLength,
+    currentSlideNumber) => {
     return new Promise((resolve, reject) => {
         const ws = new WebSocket('ws://localhost:3000/presenter');
 
@@ -13,7 +14,11 @@ const connectPresenterToWebSocketServer = (user_id, quiz_id,
 
         ws.onopen = () => {
             try {
-                ws.send(JSON.stringify(payLoad));
+                // if(localStorage.getItem(`presenter-${quiz_id}`)){
+                //     ws.send(JSON.stringify({...payLoad, currentSlideNumber: currentSlideNumber, method: "refreshed"}));
+                // } else{
+                    ws.send(JSON.stringify(payLoad));
+                // }
                 resolve(ws);
             } catch (e) {
                 console.log(e);
@@ -37,11 +42,6 @@ const connectPresenterToWebSocketServer = (user_id, quiz_id,
             }
             if(parsedMessage.method === "slideChange"){
                 console.log("slideChange");
-                const slideData = parsedMessage.slideData;
-                setCurrentSlideData(slideData);
-            }
-            if(parsedMessage.method === "refreshed"){
-                console.log("refreshed");
                 const slideData = parsedMessage.slideData;
                 setCurrentSlideData(slideData);
             }

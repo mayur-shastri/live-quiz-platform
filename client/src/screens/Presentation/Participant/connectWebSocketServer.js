@@ -1,4 +1,5 @@
-function connectWebSocketServer(roomCode, userId, setWs, currentSlideData, setCurrentSlideData, navigate) {
+function connectWebSocketServer(roomCode, userId, setWs, currentSlideData, 
+    setCurrentSlideData, navigate, setTakeResponses, setResetResponses) {
     return new Promise((resolve, reject) => {
         const ws = new WebSocket('ws://localhost:3000/participant');
 
@@ -23,20 +24,27 @@ function connectWebSocketServer(roomCode, userId, setWs, currentSlideData, setCu
             if(parsedMessage.method === "start"){
                 console.log("start");
                 const firstSlide = parsedMessage.firstSlide;
+                console.log("First Slide", firstSlide);
                 setCurrentSlideData(firstSlide);
                 navigate('presentation', {state: {roomCode: roomCode, userId: userId}});
             }
             if(parsedMessage.method === "slideChange"){
-                console.log("slideChange");
-                // if(currentSlideData.selectedSlideType === ){
-
-                // } else if()
-                // kuch aisa karna chahiye ki presenter button dabayegatabhi question
-                // open hoga, aur jab dusra button dabayega to question ke liye responses
-                // disable ho jayenge
+                setTakeResponses(false);
+                setResetResponses(false);
                 const slideData = parsedMessage.slideData;
+                console.log("slideChange", slideData);
                 setCurrentSlideData(slideData);
-                
+            }
+            if(parsedMessage.method === "takeResponses"){
+                setTakeResponses(true);
+                setResetResponses(false);
+            }
+            if(parsedMessage.method === "resetResponses"){
+                setResetResponses(true);
+            }
+            if(parsedMessage.method === "stopResponses"){
+                setTakeResponses(false);
+                setResetResponses(false);
             }
         }
         ws.onclose = () => {
