@@ -4,7 +4,6 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import IconButton from '@mui/material/IconButton'
 import RealTimeDataContext from '../../../../context providers/RealTimeData (presenter)/RealTimeDataContext';
-import QuizContext from '../../../EditQuiz/Context Provider/QuizContext';
 import { Button } from '@mui/material';
 
 function invertColor(rgbColor) {
@@ -143,8 +142,8 @@ function PresentModeScreen() {
                     </IconButton>
                     <div style={{ position: 'absolute', bottom: '10px', left: '10px' }}>
                     <Button variant="outlined" sx = {style} onClick={takeResponses}>Enable Responses</Button>
-                    <Button variant="outlined" sx = {style} onClick={resetResponses}>Reset Responses</Button>
                     <Button variant="outlined" sx = {style} onClick={stopResponses}>Stop Responses</Button>
+                    <Button variant="outlined" sx = {style} onClick={resetResponses}>Reset Responses</Button>
                     <Button variant="outlined" sx = {style} onClick={seeResults}>See Results</Button>
                     {/* replace enable/disable with a toggle button */}
                 </div>

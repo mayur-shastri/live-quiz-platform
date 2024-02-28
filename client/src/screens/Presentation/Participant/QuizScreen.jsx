@@ -1,6 +1,9 @@
 import React, { useContext } from 'react'
 import RealTimeParticipantDataContext from '../../../context providers/RealTimeData (participant)/RealTimeParticipantDataContext';
 import SingleCorrectMCQ from './QuestionScreens/SingleCorrectMCQ';
+import MultipleCorrectMCQ from './QuestionScreens/MultipleCorrectMCQ';
+import DescriptiveAnswer from './QuestionScreens/DescriptiveAnswer';
+import Leaderboard from './QuestionScreens/Leaderboard';
 
 function QuizScreen() {
 

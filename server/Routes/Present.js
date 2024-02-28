@@ -46,9 +46,6 @@ router.ws('/presenter', (ws, req) => {
                     participants: [],
                     activeSlideNumber: 0,
                 } // might change later
-                console.log("********");
-                console.log(activeRooms[roomCode].quiz_id);
-                console.log("********");
             }
         }
         if (parsedMessage.method === "start") {
@@ -60,12 +57,12 @@ router.ws('/presenter', (ws, req) => {
             // }
             // console.log("participantData", participantSlideData.options);
             participants.forEach((participant) => {
-                participant.connection.send(JSON.stringify({ method: "start", firstSlide:  quiz_data.slides[0]}));
+                participant.connection.send(JSON.stringify({ method: "start", firstSlide: quiz_data.slides[0] }));
             });
             console.log("Slides Length: ", quiz_data.slides.length);
-            ws.send(JSON.stringify({ method: "start", firstSlide: quiz_data.slides[0], slidesLength: quiz_data.slides.length}));
+            ws.send(JSON.stringify({ method: "start", firstSlide: quiz_data.slides[0], slidesLength: quiz_data.slides.length }));
         }
-        if(parsedMessage.method === "slideChange"){
+        if (parsedMessage.method === "slideChange") {
             const currentSlideNumber = parsedMessage.currentSlideNumber;
             activeRooms[room_code].activeSlideNumber = currentSlideNumber;
             const participants = activeRooms[room_code].participants;
@@ -73,25 +70,25 @@ router.ws('/presenter', (ws, req) => {
             // if(participantSlideData.options){
             //     participantSlideData.options = participantSlideData.options.map((option)=>{return {...option, correct: null}});
             // }
-            participants.forEach((participant)=>{
-                participant.connection.send(JSON.stringify({method: "slideChange", slideData: quiz_data.slides[currentSlideNumber]}));
+            participants.forEach((participant) => {
+                participant.connection.send(JSON.stringify({ method: "slideChange", slideData: quiz_data.slides[currentSlideNumber] }));
             });
-            ws.send(JSON.stringify({method: "slideChange", slideData: quiz_data.slides[currentSlideNumber]}));
+            ws.send(JSON.stringify({ method: "slideChange", slideData: quiz_data.slides[currentSlideNumber] }));
         }
-        if(parsedMessage.method === "takeResponses"){
+        if (parsedMessage.method === "takeResponses") {
             //...
-            const participants = activeRooms[room_code].participants;   
-            participants.forEach((participant)=>{
-                participant.connection.send(JSON.stringify({method: "takeResponses"}));
-            });
-        }
-        if(parsedMessage.method === "resetResponses"){
-            //...
-        }
-        if(parsedMessage.method === "stopResponses"){
             const participants = activeRooms[room_code].participants;
-            participants.forEach((participant)=>{
-                participant.connection.send(JSON.stringify({method: "stopResponses"}));
+            participants.forEach((participant) => {
+                participant.connection.send(JSON.stringify({ method: "takeResponses" }));
+            });
+        }
+        if (parsedMessage.method === "resetResponses") {
+            //...
+        }
+        if (parsedMessage.method === "stopResponses") {
+            const participants = activeRooms[room_code].participants;
+            participants.forEach((participant) => {
+                participant.connection.send(JSON.stringify({ method: "stopResponses" }));
             });
         }
         // if(parsedMessage.method == "refreshed"){
@@ -133,18 +130,43 @@ router.ws('/participant', (ws, req) => {
             activeRooms[roomCode].connection.send(JSON.stringify({ method: "numParticipants", numParticipants: numParticipants }));
             fullyEstablished = true;
         }
-        if(parsedMessage.method === "response"){
-            const optionId = parsedMessage.option;
+        if (parsedMessage.method === "response") {
             const questionType = parsedMessage.questionType;
-            const slideId = parsedMessage.slideId;
-            const quizSession = QuizSession.findById(activeRooms[room_code].quiz_session);
-            quizSession.responses.push({
-                userId: userId,
-                questionType: questionType,
-                optionId: optionId,
-                slideId: slideId,
-            });
-            await quizSession.save();
+            if (questionType === "Single Correct MCQ") {
+                const optionId = parsedMessage.option;
+                const slideId = parsedMessage.slideId;
+                const quizSession = await QuizSession.findById(activeRooms[room_code].quiz_session);
+                quizSession.responses.push({
+                    userId: userId,
+                    questionType: questionType,
+                    optionId: optionId,
+                    slideId: slideId,
+                });
+                await quizSession.save();
+            } else if (questionType === "Multiple Correct MCQ") {
+                const optionIds = parsedMessage.options;
+                const slideId = parsedMessage.slideId;
+                const quizSession = await QuizSession.findById(activeRooms[room_code].quiz_session);
+                quizSession.responses.push({
+                    userId: userId,
+                    questionType: questionType,
+                    optionIds: optionIds,
+                    slideId: slideId,
+                });
+                await quizSession.save();
+            } else if (questionType === "Descriptive Answer") {
+                const typedAnswer = parsedMessage.answer;
+                console.log("Typed Answer: ", typedAnswer);
+                const slideId = parsedMessage.slideId;
+                const quizSession = await QuizSession.findById(activeRooms[room_code].quiz_session);
+                quizSession.responses.push({
+                    userId: userId,
+                    questionType: questionType,
+                    typedAnswer: typedAnswer,
+                    slideId: slideId,
+                });
+                await quizSession.save();
+            }
         }
     });
 
