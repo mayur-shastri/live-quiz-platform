@@ -12,6 +12,7 @@ const UserRoutes = require('./Routes/User');
 const SlideRoutes = require('./Routes/Slide');
 const ImageUploadRoutes = require('./Routes/ImageUpload');
 const PresentRoutes = require('./Routes/Present');
+const LeaderboardRoutes = require('./Routes/Leaderboard');
 
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
@@ -75,6 +76,7 @@ app.use('/',QuizRoutes);
 app.use('/',UserRoutes);
 app.use('/',SlideRoutes);
 app.use('/', PresentRoutes);
+app.use('/', LeaderboardRoutes);
 
 app.get('/',(req,res)=>{
     res.send({greeting: "Hello World"});

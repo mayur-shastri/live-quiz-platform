@@ -8,7 +8,7 @@ function PresenterScreen() {
 
     const { setNumParticipants, setWs,
         setCurrentSlideData, setSlidesLength,
-         ws, currentSlideNumber,} = useContext(RealTimeDataContext);
+         ws, currentSlideNumber,setQuizSessionId} = useContext(RealTimeDataContext);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const location = useLocation();
@@ -31,7 +31,7 @@ function PresenterScreen() {
         const connect = async () => {
             const ws = await connectPresenterToWebSocketServer(user_id, quiz_id,
                 setNumParticipants, setCurrentSlideData, navigate, setSlidesLength,
-                currentSlideNumber);
+                currentSlideNumber, setQuizSessionId);
             console.log(ws);
             setWs(ws);
         }

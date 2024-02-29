@@ -11,6 +11,7 @@ const RealTimeDataProvider = ({ children }) => {
     const [slidesLength, setSlidesLength] = useState(0);
     const [quizId, setQuizId] = useState(null);
     const [userId, setUserId] = useState(null);
+    const [quizSessionId, setQuizSessionId] = useState(null);
 
     return (
         <RealTimeDataContext.Provider value={
@@ -20,6 +21,7 @@ const RealTimeDataProvider = ({ children }) => {
               currentSlideNumber, setCurrentSlideNumber,
               currentSlideData, setCurrentSlideData,
               slidesLength, setSlidesLength,
+              quizSessionId, setQuizSessionId,
             }}>
             {children}
         </RealTimeDataContext.Provider>

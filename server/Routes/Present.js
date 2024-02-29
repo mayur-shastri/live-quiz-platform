@@ -60,7 +60,10 @@ router.ws('/presenter', (ws, req) => {
                 participant.connection.send(JSON.stringify({ method: "start", firstSlide: quiz_data.slides[0] }));
             });
             console.log("Slides Length: ", quiz_data.slides.length);
-            ws.send(JSON.stringify({ method: "start", firstSlide: quiz_data.slides[0], slidesLength: quiz_data.slides.length }));
+            ws.send(JSON.stringify({ method: "start", 
+            firstSlide: quiz_data.slides[0], 
+            slidesLength: quiz_data.slides.length, 
+            quizSessionId: activeRooms[room_code].quiz_session }));
         }
         if (parsedMessage.method === "slideChange") {
             const currentSlideNumber = parsedMessage.currentSlideNumber;

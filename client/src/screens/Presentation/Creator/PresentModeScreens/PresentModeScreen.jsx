@@ -5,17 +5,12 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import IconButton from '@mui/material/IconButton'
 import RealTimeDataContext from '../../../../context providers/RealTimeData (presenter)/RealTimeDataContext';
 import { Button } from '@mui/material';
+import LeaderboardSlide from './LeaderboardSlide';
 
 function invertColor(rgbColor) {
-    // Split the color into its components
     const colorParts = rgbColor.match(/\d+/g);
-
-    // Invert each color component
     const invertedColorParts = colorParts.map(part => 255 - parseInt(part));
-
-    // Combine the inverted color components back into a color
     const invertedColor = `rgb(${invertedColorParts.join(", ")})`;
-
     return invertedColor;
 }
 
@@ -24,7 +19,8 @@ console.log(invertColor("rgb(255, 0, 0)")); // Outputs: rgb(0, 255, 255)
 function PresentModeScreen() {
 
     const [showControls, setShowControls] = useState(true);
-    const {currentSlideNumber, setCurrentSlideNumber, ws, currentSlideData, slidesLength} = useContext(RealTimeDataContext);
+    const {currentSlideNumber, setCurrentSlideNumber, 
+        ws, currentSlideData, slidesLength} = useContext(RealTimeDataContext);
     // const currentSlideNumberRef = useRef(currentSlideNumber);
     const [style, setStyle] = useState({
         width: '180px',
@@ -116,7 +112,11 @@ function PresentModeScreen() {
 
     return (
         <div className='flex flex-row w-100 h-screen'>
-            <SlideView slide={currentSlideData} />
+            {
+                currentSlideData.selectedSlideType !== "Leaderboard"?
+                <SlideView slide={currentSlideData} />
+                : <LeaderboardSlide/>
+            }
             {showControls && (
                 <>
                     <IconButton aria-label="" onClick={prev}

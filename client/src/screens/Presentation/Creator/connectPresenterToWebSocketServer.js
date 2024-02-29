@@ -1,6 +1,6 @@
 const connectPresenterToWebSocketServer = (user_id, quiz_id,
     setNumParticipants, setCurrentSlideData, navigate, setSlidesLength,
-    currentSlideNumber) => {
+    currentSlideNumber, setQuizSessionId) => {
     return new Promise((resolve, reject) => {
         const ws = new WebSocket('ws://localhost:3000/presenter');
 
@@ -35,9 +35,11 @@ const connectPresenterToWebSocketServer = (user_id, quiz_id,
                 console.log("start");
                 const firstSlide = parsedMessage.firstSlide;
                 const slidesLength = parsedMessage.slidesLength;
+                const quizSessionId = parsedMessage.quizSessionId;
                 console.log(firstSlide);
                 setCurrentSlideData(firstSlide);
                 setSlidesLength(slidesLength);
+                setQuizSessionId(quizSessionId);
                 navigate('/presenter/presentation', {state: {roomCode: null, userId: null}});
             }
             if(parsedMessage.method === "slideChange"){
