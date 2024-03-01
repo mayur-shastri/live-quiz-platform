@@ -2,11 +2,9 @@ const express = require('express');
 const QuizSession = require('../Models/QuizSession');
 const mongoose = require('mongoose');
 const User = require('../Models/User');
+const Slide = require('../Models/Slide');
 const router = express.Router();
-
-// 1)should points be pre-defined for a question type or should that be taken as an
-// input from the creator?
-// 2)
+const catchAsync = require('../Utilities/catchAsync');
 
 const generateRandomColor = ()=>{
   const letters = '0123456789ABCDEF';
@@ -17,7 +15,7 @@ const generateRandomColor = ()=>{
   return color;
 }
 
-router.get('/:quiz_session_id/leaderboard', async (req, res) => {
+router.get('/:quiz_session_id/leaderboard', catchAsync(async (req, res) => {
     const { quiz_session_id } = req.params;
     const quizSessionObjectId = new mongoose.Types.ObjectId(quiz_session_id);
   
@@ -90,11 +88,44 @@ router.get('/:quiz_session_id/leaderboard', async (req, res) => {
         }
 
         res.send(aggregationResult);
-});
+}));
 
-router.get('/:quiz_session_id/:slide_number/results', (req,res)=>{
-    const {quiz_session_id, slide_number} = req.params;
-    // ...
-});
+router.get('/:quiz_session_id/:slide_id/results', catchAsync(async (req,res)=>{
+        const {quiz_session_id, slide_id} = req.params;
+        const quizSessionObjectId = new mongoose.Types.ObjectId(quiz_session_id);
+        const slide = await Slide.findById(slide_id);
+        let aggregatedResults;
+        if(slide.selectedSlideType === "Single Correct MCQ"){
+            aggregatedResults = await QuizSession.aggregate([
+                {$match: {_id: quizSessionObjectId}},
+                {$unwind: "$responses"},
+                {$match: {"responses.slideId" : slide_id, "responses.questionType": "Single Correct MCQ"}},
+                {$unwind: "$responses.optionId"},
+                {
+                    $group: {
+                        _id: "$responses.optionId",
+                        count: {$sum: 1},
+                    }
+                }
+            ]);
+        } else if(slide.selectedSlideType === "Multiple Correct MCQ"){
+            aggregatedResults = await QuizSession.aggregate([
+                {$match: {_id: quizSessionObjectId}},
+                {$unwind: "$responses"},
+                {$match: {"responses.slideId" : slide_id, "responses.questionType": "Multiple Correct MCQ"}},
+                {$unwind: "$responses.optionIds"},
+                {
+                    $group: {
+                        _id: "$responses.optionIds",
+                        count: {$sum: 1}
+                    }
+                }
+            ]);
+        } else{
+            res.send("This question type does not have options.");
+            return;
+        }
+        res.send(aggregatedResults);
+}));
 
 module.exports = router;

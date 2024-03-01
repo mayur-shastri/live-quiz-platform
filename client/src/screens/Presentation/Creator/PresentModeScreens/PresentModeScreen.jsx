@@ -6,6 +6,8 @@ import IconButton from '@mui/material/IconButton'
 import RealTimeDataContext from '../../../../context providers/RealTimeData (presenter)/RealTimeDataContext';
 import { Button } from '@mui/material';
 import LeaderboardSlide from './LeaderboardSlide';
+import { instance as configuredAxios } from '../../../../axiosConfig';
+import ResultsChart from './ResultsChart';
 
 function invertColor(rgbColor) {
     const colorParts = rgbColor.match(/\d+/g);
@@ -14,41 +16,40 @@ function invertColor(rgbColor) {
     return invertedColor;
 }
 
-console.log(invertColor("rgb(255, 0, 0)")); // Outputs: rgb(0, 255, 255)
-
 function PresentModeScreen() {
 
     const [showControls, setShowControls] = useState(true);
-    const {currentSlideNumber, setCurrentSlideNumber, 
-        ws, currentSlideData, slidesLength} = useContext(RealTimeDataContext);
+    const { currentSlideNumber, setCurrentSlideNumber,
+        ws, currentSlideData, slidesLength, quizSessionId } = useContext(RealTimeDataContext);
     // const currentSlideNumberRef = useRef(currentSlideNumber);
-    const [style, setStyle] = useState({
-        width: '180px',
-    });
-    useEffect(()=>{
+    const [style, setStyle] = useState({ width: '180px', });
+    const [showResults, setShowResults] = useState(false);
+    const [results, setResults] = useState(null);
+    useEffect(() => {
         setCurrentSlideNumber(0);
     }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         // console.log("Current slide number Ref: ", currentSlideNumberRef.current);
         console.log("Current slide number: ", currentSlideNumber);
         console.log("Current slide data: ", currentSlideData);
         // currentSlideNumberRef.current = currentSlideNumber;
     }, [currentSlideNumber]);
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log("Color badlo chalo");
-        setStyle((currentStyle)=>{
+        setStyle((currentStyle) => {
             console.log(currentSlideData.backgroundColor);
             console.log(invertColor(currentSlideData.backgroundColor));
-            return {...currentStyle, 
-                   color: invertColor(currentSlideData.backgroundColor), 
+            return {
+                ...currentStyle,
+                color: invertColor(currentSlideData.backgroundColor),
                 //    color: 'white', 
-                   };
+            };
         });
     }, [currentSlideData]);
 
-    useEffect(()=>{
+    useEffect(() => {
         document.addEventListener('keydown', function (e) {
             if (e.key === 'f' || e.key === 'F') {
                 if (document.documentElement.requestFullscreen) {
@@ -62,7 +63,7 @@ function PresentModeScreen() {
                 }
             }
         });
-    
+
         // document.addEventListener('mousemove', function (e) {
         //     setShowControls(true);
         //     setTimeout(() => {
@@ -72,50 +73,55 @@ function PresentModeScreen() {
     }, []);
 
     const prev = () => {
+        setShowResults(false);
         setCurrentSlideNumber((currentNumber) => {
             if (currentNumber === 0) {
-                ws.send(JSON.stringify({ method: "slideChange", currentSlideNumber: currentSlideNumber}));
+                ws.send(JSON.stringify({ method: "slideChange", currentSlideNumber: currentSlideNumber }));
                 return currentNumber;
             }
-            ws.send(JSON.stringify({ method: "slideChange", currentSlideNumber: currentSlideNumber - 1}));
+            ws.send(JSON.stringify({ method: "slideChange", currentSlideNumber: currentSlideNumber - 1 }));
             return currentNumber - 1;
         });
     }
 
     const next = () => {
-        setCurrentSlideNumber((currentNumber)=>{
+        setShowResults(false);
+        setCurrentSlideNumber((currentNumber) => {
             console.log("Length: ", slidesLength);
-            if(currentNumber === slidesLength-1){
+            if (currentNumber === slidesLength - 1) {
                 ws.send(JSON.stringify({ method: "slideChange", currentSlideNumber: currentSlideNumber }));
                 return currentNumber;
             }
-            ws.send(JSON.stringify({ method: "slideChange", currentSlideNumber: currentSlideNumber + 1}));
-            return currentNumber+1;
+            ws.send(JSON.stringify({ method: "slideChange", currentSlideNumber: currentSlideNumber + 1 }));
+            return currentNumber + 1;
         });
     }
 
-    const takeResponses = ()=>{
-        ws.send(JSON.stringify({method: "takeResponses", currentSlideNumber: currentSlideNumber}));
+    const takeResponses = () => {
+        ws.send(JSON.stringify({ method: "takeResponses", currentSlideNumber: currentSlideNumber }));
     }
 
-    const resetResponses = ()=>{
-        ws.send(JSON.stringify({method: "resetResponses", currentSlideNumber: currentSlideNumber}));
+    const resetResponses = () => {
+        ws.send(JSON.stringify({ method: "resetResponses", currentSlideNumber: currentSlideNumber }));
     }
 
-    const stopResponses = ()=>{
-        ws.send(JSON.stringify({method: "stopResponses", currentSlideNumber: currentSlideNumber}));
+    const stopResponses = () => {
+        ws.send(JSON.stringify({ method: "stopResponses", currentSlideNumber: currentSlideNumber }));
     }
 
-    const seeResults = ()=>{
-        ws.send(JSON.stringify({method: "seeResults", currentSlideNumber: currentSlideNumber}));
+    const seeResults = async () => {
+        // ws.send(JSON.stringify({method: "seeResults", currentSlideNumber: currentSlideNumber}));
+        const results = await configuredAxios.get(`/${quizSessionId}/${currentSlideData._id}/results`);
+        setResults(results.data);
+        setShowResults(true);
     }
 
     return (
         <div className='flex flex-row w-100 h-screen'>
             {
-                currentSlideData.selectedSlideType !== "Leaderboard"?
-                <SlideView slide={currentSlideData} />
-                : <LeaderboardSlide/>
+                currentSlideData.selectedSlideType !== "Leaderboard" ?
+                    <SlideView slide={currentSlideData} />
+                    : <LeaderboardSlide />
             }
             {showControls && (
                 <>
@@ -141,12 +147,22 @@ function PresentModeScreen() {
                         <ArrowForwardIosIcon />
                     </IconButton>
                     <div style={{ position: 'absolute', bottom: '10px', left: '10px' }}>
-                    <Button variant="outlined" sx = {style} onClick={takeResponses}>Enable Responses</Button>
-                    <Button variant="outlined" sx = {style} onClick={stopResponses}>Stop Responses</Button>
-                    <Button variant="outlined" sx = {style} onClick={resetResponses}>Reset Responses</Button>
-                    <Button variant="outlined" sx = {style} onClick={seeResults}>See Results</Button>
-                    {/* replace enable/disable with a toggle button */}
-                </div>
+                        <Button variant="outlined" sx={style} onClick={takeResponses}>Enable Responses</Button>
+                        <Button variant="outlined" sx={style} onClick={stopResponses}>Stop Responses</Button>
+                        <Button variant="outlined" sx={style} onClick={resetResponses}>Reset Responses</Button>
+                        <Button variant="outlined" sx={style} onClick={seeResults}>See Results</Button>
+                        {/* replace enable/disable with a toggle button */}
+                        {/* replace show results with a toggle button */}
+                    </div>
+                    {
+                        showResults ?
+                            <div 
+                            style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
+                            >
+                                <ResultsChart results={results}/>
+                            </div>
+                            : null
+                    }
                 </>
             )}
         </div>
