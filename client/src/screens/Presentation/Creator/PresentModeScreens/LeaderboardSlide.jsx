@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { instance as configuredAxios } from '../../../../axiosConfig';
 import RealTimeDataContext from '../../../../context providers/RealTimeData (presenter)/RealTimeDataContext';
 import { Chart } from "react-google-charts";
+import Typography from '@mui/material/Typography'
 
 function LeaderboardSlide() {
 
@@ -78,7 +79,7 @@ function LeaderboardSlide() {
 
     return (
         <div className='flex flex-col justify-center items-center w-full h-screen'>
-            <h1>Leaderboard</h1>
+            <Typography variant="h4" color="textPrimary">Leaderboard</Typography>
             {
                 chartData &&
                 <div>

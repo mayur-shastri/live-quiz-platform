@@ -4,7 +4,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import IconButton from '@mui/material/IconButton'
 import RealTimeDataContext from '../../../../context providers/RealTimeData (presenter)/RealTimeDataContext';
-import { Button } from '@mui/material';
+import { Button, FormControlLabel, Switch, ToggleButton } from '@mui/material';
 import LeaderboardSlide from './LeaderboardSlide';
 import { instance as configuredAxios } from '../../../../axiosConfig';
 import ResultsChart from './ResultsChart';
@@ -21,19 +21,18 @@ function PresentModeScreen() {
     const [showControls, setShowControls] = useState(true);
     const { currentSlideNumber, setCurrentSlideNumber,
         ws, currentSlideData, slidesLength, quizSessionId } = useContext(RealTimeDataContext);
-    // const currentSlideNumberRef = useRef(currentSlideNumber);
     const [style, setStyle] = useState({ width: '180px', });
     const [showResults, setShowResults] = useState(false);
     const [results, setResults] = useState(null);
+    const [isEnabled, setIsEnabled] = useState(false);
+    
     useEffect(() => {
         setCurrentSlideNumber(0);
     }, []);
 
     useEffect(() => {
-        // console.log("Current slide number Ref: ", currentSlideNumberRef.current);
         console.log("Current slide number: ", currentSlideNumber);
         console.log("Current slide data: ", currentSlideData);
-        // currentSlideNumberRef.current = currentSlideNumber;
     }, [currentSlideNumber]);
 
     useEffect(() => {
@@ -44,7 +43,6 @@ function PresentModeScreen() {
             return {
                 ...currentStyle,
                 color: invertColor(currentSlideData.backgroundColor),
-                //    color: 'white', 
             };
         });
     }, [currentSlideData]);
@@ -63,13 +61,6 @@ function PresentModeScreen() {
                 }
             }
         });
-
-        // document.addEventListener('mousemove', function (e) {
-        //     setShowControls(true);
-        //     setTimeout(() => {
-        //         setShowControls(false);
-        //     }, 10000);
-        // });
     }, []);
 
     const prev = () => {
@@ -97,23 +88,25 @@ function PresentModeScreen() {
         });
     }
 
-    const takeResponses = () => {
-        ws.send(JSON.stringify({ method: "takeResponses", currentSlideNumber: currentSlideNumber }));
+    const toggleResults = async () => {
+        if (showResults === false) {
+            const results = await configuredAxios.get(`/${quizSessionId}/${currentSlideData._id}/results`);
+            setResults(results.data);
+        }
+        setShowResults((currentShowResults)=>{
+            return !currentShowResults;
+        })
     }
 
-    const resetResponses = () => {
-        ws.send(JSON.stringify({ method: "resetResponses", currentSlideNumber: currentSlideNumber }));
-    }
-
-    const stopResponses = () => {
-        ws.send(JSON.stringify({ method: "stopResponses", currentSlideNumber: currentSlideNumber }));
-    }
-
-    const seeResults = async () => {
-        // ws.send(JSON.stringify({method: "seeResults", currentSlideNumber: currentSlideNumber}));
-        const results = await configuredAxios.get(`/${quizSessionId}/${currentSlideData._id}/results`);
-        setResults(results.data);
-        setShowResults(true);
+    const toggleResponses = () => {
+        if (isEnabled) {
+            ws.send(JSON.stringify({ method: "stopResponses", currentSlideNumber: currentSlideNumber }));
+        } else {
+            ws.send(JSON.stringify({ method: "takeResponses", currentSlideNumber: currentSlideNumber }));
+        }
+        setIsEnabled((currentIsEnabled)=>{
+            return !currentIsEnabled;
+        });
     }
 
     return (
@@ -147,19 +140,35 @@ function PresentModeScreen() {
                         <ArrowForwardIosIcon />
                     </IconButton>
                     <div style={{ position: 'absolute', bottom: '10px', left: '10px' }}>
-                        <Button variant="outlined" sx={style} onClick={takeResponses}>Enable Responses</Button>
-                        <Button variant="outlined" sx={style} onClick={stopResponses}>Stop Responses</Button>
-                        <Button variant="outlined" sx={style} onClick={resetResponses}>Reset Responses</Button>
-                        <Button variant="outlined" sx={style} onClick={seeResults}>See Results</Button>
-                        {/* replace enable/disable with a toggle button */}
-                        {/* replace show results with a toggle button */}
+                        <div>
+                            <FormControlLabel
+                                sx={style}
+                                control={
+                                    <Switch
+                                        checked={isEnabled}
+                                        onChange={toggleResponses}
+                                    />
+                                }
+                                label={isEnabled ? "Disable" : "Enable"}
+                            />
+                            <FormControlLabel
+                                sx={style}
+                                control={
+                                    <Switch
+                                        checked={showResults}
+                                        onChange={toggleResults}
+                                    />
+                                }
+                                label={showResults ? "Hide Results" : "Show Results"}
+                            />
+                        </div>
                     </div>
                     {
                         showResults ?
-                            <div 
-                            style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
+                            <div
+                                style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
                             >
-                                <ResultsChart results={results}/>
+                                <ResultsChart results={results} />
                             </div>
                             : null
                     }
