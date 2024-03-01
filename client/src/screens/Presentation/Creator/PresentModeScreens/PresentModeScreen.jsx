@@ -4,7 +4,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import IconButton from '@mui/material/IconButton'
 import RealTimeDataContext from '../../../../context providers/RealTimeData (presenter)/RealTimeDataContext';
-import { Button, FormControlLabel, Switch, ToggleButton } from '@mui/material';
+import { FormControlLabel, Switch } from '@mui/material';
 import LeaderboardSlide from './LeaderboardSlide';
 import { instance as configuredAxios } from '../../../../axiosConfig';
 import ResultsChart from './ResultsChart';
@@ -31,18 +31,11 @@ function PresentModeScreen() {
     }, []);
 
     useEffect(() => {
-        console.log("Current slide number: ", currentSlideNumber);
-        console.log("Current slide data: ", currentSlideData);
-    }, [currentSlideNumber]);
-
-    useEffect(() => {
         console.log("Color badlo chalo");
         setStyle((currentStyle) => {
-            console.log(currentSlideData.backgroundColor);
-            console.log(invertColor(currentSlideData.backgroundColor));
             return {
                 ...currentStyle,
-                color: invertColor(currentSlideData.backgroundColor),
+                color: invertColor(currentSlideData?.backgroundColor),
             };
         });
     }, [currentSlideData]);
@@ -65,6 +58,7 @@ function PresentModeScreen() {
 
     const prev = () => {
         setShowResults(false);
+        setIsEnabled(false);
         setCurrentSlideNumber((currentNumber) => {
             if (currentNumber === 0) {
                 ws.send(JSON.stringify({ method: "slideChange", currentSlideNumber: currentSlideNumber }));
@@ -77,6 +71,7 @@ function PresentModeScreen() {
 
     const next = () => {
         setShowResults(false);
+        setIsEnabled(false);
         setCurrentSlideNumber((currentNumber) => {
             console.log("Length: ", slidesLength);
             if (currentNumber === slidesLength - 1) {
@@ -90,7 +85,7 @@ function PresentModeScreen() {
 
     const toggleResults = async () => {
         if (showResults === false) {
-            const results = await configuredAxios.get(`/${quizSessionId}/${currentSlideData._id}/results`);
+            const results = await configuredAxios.get(`/${quizSessionId}/${currentSlideData?._id}/results`);
             setResults(results.data);
         }
         setShowResults((currentShowResults)=>{
@@ -112,7 +107,7 @@ function PresentModeScreen() {
     return (
         <div className='flex flex-row w-100 h-screen'>
             {
-                currentSlideData.selectedSlideType !== "Leaderboard" ?
+                currentSlideData?.selectedSlideType !== "Leaderboard" ?
                     <SlideView slide={currentSlideData} />
                     : <LeaderboardSlide />
             }
