@@ -4,7 +4,7 @@ import Navbar from "./components/Appbar/Navbar";
 import ProtectedRoutes from "./Utilities/ProtectedRoutes";
 import { CssBaseline } from "@mui/material";
 import FlashCard from "./components/FlashCard/FlashCard";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import FlashContext from "./context providers/Flash/FlashContext";
 
 export default function Layout() {

@@ -1,7 +1,7 @@
 import IconButton from '@mui/material/IconButton'
 import ClearIcon from '@mui/icons-material/Clear';
 import './FlashCard.css';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import FlashContext from '../../context providers/Flash/FlashContext';
 
 function FlashCard() {
@@ -13,6 +13,7 @@ function FlashCard() {
         // if queue is maintained, delete from queue
         setIsVisible(false);
     }
+
 
     return (
         <div className={`

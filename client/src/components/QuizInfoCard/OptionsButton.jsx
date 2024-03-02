@@ -81,28 +81,40 @@ export default function OptionsButton({ quiz_id, user_id, setUserData }) {
 
   const onDuplicate = async () => {
     setAnchorEl(null);
-    const res = await configuredAxios.post(`/${user_id}/${quiz_id}`);
-    if (res.status === 200) {
-      const userData = await configuredAxios.get(`/userdata`);
-      console.log(userData);
-      setUserData(userData.data.user);
+    try {
+      const res = await configuredAxios.post(`/${user_id}/${quiz_id}`);
+      if (res.status === 200) {
+        const userData = await configuredAxios.get(`/userdata`);
+        console.log(userData);
+        setUserData(userData.data.user);
+      }
+      setIsVisible(true);
+      setFlashMessage(res.data.message);
+      setFlashType(res.data.flashType);
+    } catch (err) {
+      setFlashMessage(err.response.data.message);
+      setFlashType(err.response.data.flashType);
+      setIsVisible(true);
     }
-    setIsVisible(true);
-    setFlashMessage(res.data.message);
-    setFlashType(res.data.flashType);
 
   }
 
   const onDelete = async () => {
     setAnchorEl(null);
-    const res = await configuredAxios.delete(`/${user_id}/${quiz_id}`);
-    if (res.status === 200) {
-      const userData = await configuredAxios.get(`/userdata`);
-      setUserData(userData.data.user);
+    try {
+      const res = await configuredAxios.delete(`/${user_id}/${quiz_id}`);
+      if (res.status === 200) {
+        const userData = await configuredAxios.get(`/userdata`);
+        setUserData(userData.data.user);
+      }
+      setIsVisible(true);
+      setFlashMessage(res.data.message);
+      setFlashType(res.data.flashType);
+    } catch(err){
+      setFlashMessage(err.response.data.message);
+      setFlashType(err.message.data.flashType);
+      setIsVisible(true);
     }
-    setIsVisible(true);
-    setFlashMessage(res.data.message);
-    setFlashType(res.data.flashType);
   }
 
   return (
