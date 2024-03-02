@@ -46,6 +46,11 @@ function connectWebSocketServer(roomCode, userId, setWs, currentSlideData,
                 setTakeResponses(false);
                 setResetResponses(false);
             }
+            if(parsedMessage.method === "endPresentation"){
+                setTakeResponses(false);
+                setResetResponses(false);
+                navigate('/end', {state: {navigatedAs: "participant"}});
+            }
         }
         ws.onclose = () => {
             console.log("closed");
@@ -54,6 +59,6 @@ function connectWebSocketServer(roomCode, userId, setWs, currentSlideData,
             console.log(error);
         }
     });
-} 
+}
 
 export {connectWebSocketServer};

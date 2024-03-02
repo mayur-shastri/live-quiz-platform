@@ -26,11 +26,15 @@ import RealTimeDataProvider from './context providers/RealTimeData (presenter)/R
 import RealTimeParticipantDataProvider from './context providers/RealTimeData (participant)/RealTimeParticipantDataProvider.jsx'
 import QuizScreen from './screens/Presentation/Participant/QuizScreen.jsx'
 import PresentModeScreen from './screens/Presentation/Creator/PresentModeScreens/PresentModeScreen.jsx'
+import PresentationEnded from './screens/Presentation/Participant/PresentationEnded.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path='/' element={<Landing />} />
+      <Route path='end' element={
+            <PresentationEnded/>
+        }></Route>
       <Route path='/login' element={
         <FlashProvider>
           <Login />

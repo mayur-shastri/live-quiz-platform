@@ -4,6 +4,7 @@ const QuizSession = require('../Models/QuizSession');
 
 let activeRooms = {};
 
+
 router.get('/debug/:roomCode/activeRooms', (req, res) => {
     const { roomCode } = req.params;
     res.send({ ...activeRooms[roomCode].participants });
@@ -94,11 +95,24 @@ router.ws('/presenter', (ws, req) => {
                 participant.connection.send(JSON.stringify({ method: "stopResponses" }));
             });
         }
-        // if(parsedMessage.method == "refreshed"){
+        // if(parsedMessage.method === "refreshed"){
         //     const currentSlideNumber = parsedMessage.currentSlideNumber;
         //     console.log("Refreshed", currentSlideNumber);
         //     ws.send(JSON.stringify({method: "slideChange", slideData: quiz_data.slides[currentSlideNumber]}));
         // }
+        if(parsedMessage.method === "endPresentation"){
+            const closePromises = activeRooms[room_code].participants.map((participant) => {
+                return new Promise((resolve) => {
+                    participant.connection.send(JSON.stringify({method: "endPresentation"}));
+                    participant.connection.on('close', resolve);
+                    participant.connection.close();
+                });
+            });
+            Promise.all(closePromises).then(() => {
+                delete activeRooms[room_code];
+                ws.close();
+            });
+        }
     });
 
     ws.send(JSON.stringify(dummyData));
@@ -183,6 +197,7 @@ router.ws('/participant', (ws, req) => {
             activeRooms[room_code].connection.send(JSON.stringify(
                 { method: "numParticipants", numParticipants: numParticipants }));
         }
+        
     });
 
     const dummyData = {

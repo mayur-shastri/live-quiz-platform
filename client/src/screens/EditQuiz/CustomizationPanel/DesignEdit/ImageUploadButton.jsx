@@ -4,7 +4,6 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { instance as configuredAxios } from '../../../../axiosConfig';
 import QuizContext from '../../Context Provider/QuizContext';
 
-
 export default function ImageUploadButton({ slide, user_id }) {
 
     const { setSlides } = useContext(QuizContext);
@@ -21,10 +20,14 @@ export default function ImageUploadButton({ slide, user_id }) {
         );
         if(!response.data.imageUrl) return alert('Error uploading image'); // replace alert with flash message
         setPreview(response.data.imageUrl);
+        const slideId = slide.id;
         setSlides((currentSlides) => {
             return currentSlides.map((s) => {
-                if (s.id === slide.id) {
+                if (s.id === slideId) {
+                    console.log(response.data.imageUrl);
                     return { ...s, imageUrl: response.data.imageUrl };
+                } else{
+                    return s;
                 }
             });
         });
@@ -43,10 +46,13 @@ export default function ImageUploadButton({ slide, user_id }) {
         if(res.data.message !== 'Image deleted successfully'){
             return alert('Error deleting image'); // replace alert with flash message
         }
+        const slideId = slide.id;
         setSlides((currentSlides) => {
             return currentSlides.map((s) => {
-                if (s.id === slide.id) {
+                if (s.id === slideId) {
                     return { ...s, imageUrl: null };
+                } else{
+                    return s;
                 }
             });
         });

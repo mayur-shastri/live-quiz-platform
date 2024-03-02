@@ -4,10 +4,11 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import IconButton from '@mui/material/IconButton'
 import RealTimeDataContext from '../../../../context providers/RealTimeData (presenter)/RealTimeDataContext';
-import { FormControlLabel, Switch } from '@mui/material';
+import { FormControlLabel, Switch, Button, appBarClasses } from '@mui/material';
 import LeaderboardSlide from './LeaderboardSlide';
 import { instance as configuredAxios } from '../../../../axiosConfig';
 import ResultsChart from './ResultsChart';
+import { useNavigate } from 'react-router-dom';
 
 function invertColor(rgbColor) {
     const colorParts = rgbColor.match(/\d+/g);
@@ -25,7 +26,8 @@ function PresentModeScreen() {
     const [showResults, setShowResults] = useState(false);
     const [results, setResults] = useState(null);
     const [isEnabled, setIsEnabled] = useState(false);
-    
+    const navigate = useNavigate();
+
     useEffect(() => {
         setCurrentSlideNumber(0);
     }, []);
@@ -104,6 +106,11 @@ function PresentModeScreen() {
         });
     }
 
+    const endPresentation = ()=>{
+        ws.send(JSON.stringify({method: "endPresentation"}));
+        navigate('/app/home');
+    }
+
     return (
         <div className='flex flex-row w-100 h-screen'>
             {
@@ -157,6 +164,11 @@ function PresentModeScreen() {
                                 label={showResults ? "Hide Results" : "Show Results"}
                             />
                         </div>
+                        <Button variant="outlined" 
+                        sx={style}
+                        onClick={endPresentation}>
+                            End Presentation
+                        </Button>
                     </div>
                     {
                         showResults ?
