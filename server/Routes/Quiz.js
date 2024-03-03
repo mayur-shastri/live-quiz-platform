@@ -108,4 +108,17 @@ router.route('/:user_id/quizzes/search')
         }
     }));
 
+router.route('/:quiz_id/creator')
+    .get(isLoggedIn, catchAsync(async (req,res)=>{
+        const {quiz_id} = req.params;
+        const quiz = await Quiz.findById(quiz_id);
+        if(quiz){
+            const creator = await User.findById(quiz.creator);
+            const creatorUsername = creator.username;
+            res.status(200).send({creator: creatorUsername});
+        } else{
+            res.status(404).send({message: 'Quiz not found!'});
+        }
+    }));
+
 module.exports = router;

@@ -47,8 +47,8 @@ export default function SideNavbar() {
                     <SideNavbarTile title="Help" to="/app/help" icon="info" selectedTile={selectedTile} setSelectedTile={setSelectedTile} />
                     <SideNavbarTile title="Feedback" to="/app/feedback" icon="feedback" selectedTile={selectedTile} setSelectedTile={setSelectedTile} />
                     <Divider />
-                    <SideNavbarTile title="Trash" to="/app/trash" icon="trash" selectedTile={selectedTile} setSelectedTile={setSelectedTile} />
-                </List>
+                    <SideNavbarTile title="Participations" to="/app/participations" icon="participations" selectedTile={selectedTile} setSelectedTile={setSelectedTile} />
+                </List> 
             </Drawer>
             <Box
                 component="main"

@@ -6,7 +6,6 @@ import Dashboard from './screens/Home/Dashboard.jsx'
 import Quizzes from './screens/Quizzes.jsx'
 import Help from './screens/Help.jsx'
 import Feedback from './screens/Feedback.jsx'
-import Trash from './screens/Trash.jsx'
 import Layout from './Layout.jsx'
 import theme from './theme'
 import { ThemeProvider } from '@mui/material/styles'
@@ -27,19 +26,24 @@ import RealTimeParticipantDataProvider from './context providers/RealTimeData (p
 import QuizScreen from './screens/Presentation/Participant/QuizScreen.jsx'
 import PresentModeScreen from './screens/Presentation/Creator/PresentModeScreens/PresentModeScreen.jsx'
 import PresentationEnded from './screens/Presentation/Participant/PresentationEnded.jsx'
+import Participations from './screens/Participations/Participations.jsx'
+import ResultScreen from './screens/Participations/ResultScreen.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path='/' element={<Landing />} />
       <Route path='end' element={
-            <PresentationEnded/>
-        }></Route>
+        <PresentationEnded />
+      }></Route>
       <Route path='/login' element={
         <FlashProvider>
           <Login />
         </FlashProvider>
       } />
+      <Route path='/:quiz_session_id/result' element={
+        <ResultScreen />
+      }></Route>
       <Route path='/register' element={
         <FlashProvider>
           <Register />
@@ -61,7 +65,7 @@ const router = createBrowserRouter(
         <Route path='quizzes' element={<Quizzes />}></Route>
         <Route path='help' element={<Help />}></Route>
         <Route path='feedback' element={<Feedback />} ></Route>
-        <Route path='trash' element={<Trash />}></Route>
+        <Route path='participations' element={<Participations />}></Route>
       </Route>
       <Route path='join' element={
         <ProtectedRoutes>
@@ -69,29 +73,29 @@ const router = createBrowserRouter(
         </ProtectedRoutes>
       }></Route>
       <Route path='participant' element={
-          <RealTimeParticipantDataProvider>
-            <ParticipantScreen />
-          </RealTimeParticipantDataProvider>
+        <RealTimeParticipantDataProvider>
+          <ParticipantScreen />
+        </RealTimeParticipantDataProvider>
       }>
         <Route path='waiting' element={
-        <WaitingPage />
+          <WaitingPage />
         }></Route>
         <Route path='presentation' element={
-            <QuizScreen/>
+          <QuizScreen />
         }></Route>
       </Route>
       <Route path='presenter' element={
-          <QuizProvider>
+        <QuizProvider>
           <RealTimeDataProvider>
             <PresenterScreen />
           </RealTimeDataProvider>
-          </QuizProvider>
+        </QuizProvider>
       }>
         <Route path='waiting' element={
-            <WaitingPagePresenter />
+          <WaitingPagePresenter />
         }></Route>
         <Route path='presentation' element={
-              <PresentModeScreen/>
+          <PresentModeScreen />
         }></Route>
       </Route>
     </>

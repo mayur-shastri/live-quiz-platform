@@ -4,15 +4,15 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import HomeIcon from '@mui/icons-material/Home';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import FolderDeleteIcon from '@mui/icons-material/FolderDelete';
 import InfoIcon from '@mui/icons-material/Info';
 import FeedbackIcon from '@mui/icons-material/Feedback';
+import HistoryIcon from '@mui/icons-material/History';
 import { cloneElement } from 'react';
 
 const icons = {
     "home": <HomeIcon />,
     "question_mark": <QuestionMarkIcon />,
-    "trash": <FolderDeleteIcon />,
+    "participations": <HistoryIcon />,
     "info": <InfoIcon />,
     "feedback": <FeedbackIcon/>
 }

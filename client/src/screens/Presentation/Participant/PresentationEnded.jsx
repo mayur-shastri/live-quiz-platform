@@ -66,7 +66,9 @@ function PresentationEnded() {
                 </Button>
             </div>
         </div>
-        : <ErrorPage status={404}/>
+        : <div className='h-screen w-full'>
+            <ErrorPage status={404}/>
+        </div>
         }
         </>
     );

@@ -1,6 +1,8 @@
+const mongoose = require('mongoose');
 const router = require('express').Router();
 const Quiz = require('../Models/Quiz');
 const QuizSession = require('../Models/QuizSession');
+const User = require('../Models/User');
 
 let activeRooms = {};
 
@@ -61,10 +63,12 @@ router.ws('/presenter', (ws, req) => {
                 participant.connection.send(JSON.stringify({ method: "start", firstSlide: quiz_data.slides[0] }));
             });
             console.log("Slides Length: ", quiz_data.slides.length);
-            ws.send(JSON.stringify({ method: "start", 
-            firstSlide: quiz_data.slides[0], 
-            slidesLength: quiz_data.slides.length, 
-            quizSessionId: activeRooms[room_code].quiz_session }));
+            ws.send(JSON.stringify({
+                method: "start",
+                firstSlide: quiz_data.slides[0],
+                slidesLength: quiz_data.slides.length,
+                quizSessionId: activeRooms[room_code].quiz_session
+            }));
         }
         if (parsedMessage.method === "slideChange") {
             const currentSlideNumber = parsedMessage.currentSlideNumber;
@@ -100,10 +104,10 @@ router.ws('/presenter', (ws, req) => {
         //     console.log("Refreshed", currentSlideNumber);
         //     ws.send(JSON.stringify({method: "slideChange", slideData: quiz_data.slides[currentSlideNumber]}));
         // }
-        if(parsedMessage.method === "endPresentation"){
+        if (parsedMessage.method === "endPresentation") {
             const closePromises = activeRooms[room_code].participants.map((participant) => {
                 return new Promise((resolve) => {
-                    participant.connection.send(JSON.stringify({method: "endPresentation"}));
+                    participant.connection.send(JSON.stringify({ method: "endPresentation" }));
                     participant.connection.on('close', resolve);
                     participant.connection.close();
                 });
@@ -142,6 +146,17 @@ router.ws('/participant', (ws, req) => {
                     user_id: parsedMessage.user_id,
                 }
                 activeRooms[roomCode].participants.push(participantData);
+                const user = await User.findById(parsedMessage.user_id);
+                const quizSessionObjectId = new mongoose.Types.ObjectId(activeRooms[roomCode].quiz_session);
+                const isParticipationAdded = user.participations.find((participation) => {
+                    if (participation._id.equals(quizSessionObjectId)) {
+                        return true;
+                    }
+                });
+                if (!isParticipationAdded) {
+                    user.participations.push(quizSessionObjectId);
+                    await user.save();
+                }
             }
             const numParticipants = activeRooms[roomCode].participants.length;
             activeRooms[roomCode].connection.send(JSON.stringify({ method: "numParticipants", numParticipants: numParticipants }));
@@ -197,7 +212,7 @@ router.ws('/participant', (ws, req) => {
             activeRooms[room_code].connection.send(JSON.stringify(
                 { method: "numParticipants", numParticipants: numParticipants }));
         }
-        
+
     });
 
     const dummyData = {

@@ -19,7 +19,13 @@ const UserSchema = new mongoose.Schema({
             }
         ],
         required: false,
-    }
+    },
+    participations: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'quizsession',
+        }
+    ]
 });
 
 UserSchema.plugin(passportLocalMongoose); // Local authentication
