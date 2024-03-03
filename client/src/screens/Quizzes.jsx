@@ -36,18 +36,13 @@ export default function Quizzes() {
                 {
                     userData.quizzes ?
                         userData.quizzes.map((quiz, index) => {
+                            const slide = quiz.slides[0];
                             return (
-                                <QuizInfoCard key={index} imageUrl="https://www.softmaker.com/images/smo/presentations/presentations_windows_en.png" title={quiz.title} lastAccessed={quiz.lastAccessed} />
+                                <QuizInfoCard key={index} slide={slide} title={quiz.title} lastAccessed={quiz.lastAccessed} />
                             );
                         })
                         : null
                 }
-                {/* cards to test the grid */}
-                {/* <QuizInfoCard imageUrl="https://www.softmaker.com/images/smo/presentations/presentations_windows_en.png" title="Untitled Quiz" lastAccessed={Date.now()} />
-                <QuizInfoCard imageUrl="https://www.softmaker.com/images/smo/presentations/presentations_windows_en.png" title="Untitled Quiz" lastAccessed={Date.now()} />
-                <QuizInfoCard imageUrl="https://www.softmaker.com/images/smo/presentations/presentations_windows_en.png" title="Untitled Quiz" lastAccessed={Date.now()} />
-                <QuizInfoCard imageUrl="https://www.softmaker.com/images/smo/presentations/presentations_windows_en.png" title="Untitled Quiz" lastAccessed={Date.now()} />
-                <QuizInfoCard imageUrl="https://www.softmaker.com/images/smo/presentations/presentations_windows_en.png" title="Untitled Quiz" lastAccessed={Date.now()} /> */}
             </div>
         </div>
     );

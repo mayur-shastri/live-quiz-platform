@@ -6,7 +6,14 @@ const catchAsync = require('../Utilities/catchAsync');
 router.route('/userdata')
     .get(isLoggedIn, catchAsync(async (req,res)=>{
         const id = req.user._id;
-        const user = await User.findById(id).populate('quizzes');
+        // const user = await User.findById(id).populate('quizzes');
+        const user = await User.findById(id).populate({
+            path: 'quizzes',
+            populate: {
+                path: 'slides',
+                model: 'slide'
+            }
+        });
         if(user){
             res.status(200).send({ user: user});
         } else{

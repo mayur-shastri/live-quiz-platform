@@ -34,7 +34,6 @@ export default function Dashboard() {
     const createQuiz = async ()=>{
         const user_id = userData._id;
         const response = await configuredAxios.post(`${user_id}/quizzes`);
-        // response: {quiz_id: ofah3oir3ij}
         const quiz_id = response.data.quiz_id;
         navigate(`/${user_id}/${quiz_id}/edit`);
     }
@@ -68,8 +67,9 @@ export default function Dashboard() {
                         //     );
                         // })
                         userData.quizzes.slice(0, 3).map((quiz, index) => {
+                            const slide = quiz.slides[0];
                             return (
-                                <QuizInfoCard key={index} imageUrl="https://www.softmaker.com/images/smo/presentations/presentations_windows_en.png" title={quiz.title} lastAccessed={quiz.lastAccessed} user_id={userData._id} quiz_id={quiz._id} setUserData={setUserData}/>
+                                <QuizInfoCard key={index} slide={slide} title={quiz.title} lastAccessed={quiz.lastAccessed} user_id={userData._id} quiz_id={quiz._id} setUserData={setUserData}/>
                             );
                         })
                         : null
