@@ -15,6 +15,7 @@ export default function EditQuiz() {
 
     const [isEditing, setIsEditing] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
+    const [quizName, setQuizName] = useState("");
 
     const slidesRef = useRef(null);
     
@@ -36,6 +37,18 @@ export default function EditQuiz() {
     useEffect(()=>{
         console.log(isSaving);
     }, [isSaving]);
+
+    useEffect(()=>{
+        try{
+            if(quizName === ""){
+                return;
+            }
+            const res = configuredAxios.patch(`/${quiz_id}/name`, {newName: quizName});
+            console.log(res.data.message);
+        } catch(e){
+            console.log(e);
+        }
+    }, [quizName]);
 
     const saveSlides = async (slidesRefCurrent) => {
         setIsEditing(false);
@@ -81,7 +94,7 @@ export default function EditQuiz() {
         <div className='flex flex-col justify-center items-center w-full h-screen'
             style={{ maxWidth: '100%' }}
         >
-            <Toolsbar isEditing={isEditing} isSaving={isSaving} user_id={user_id} quiz_id={quiz_id}/>
+            <Toolsbar isEditing={isEditing} setQuizName={setQuizName} quizName={quizName} isSaving={isSaving} user_id={user_id} quiz_id={quiz_id}/>
             <div className='flex flex-row flex-grow w-full h-full'>
                 <SlidesBar />
                 {

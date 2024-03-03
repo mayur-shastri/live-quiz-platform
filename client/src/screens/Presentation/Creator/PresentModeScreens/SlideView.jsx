@@ -3,9 +3,7 @@ import DefaultPreview from "../../../EditQuiz/SlidePreview/DefaultPreview";
 import ImageLeftPreview from "../../../EditQuiz/SlidePreview/ImageLeftPreview";
 import ImageRightPreview from "../../../EditQuiz/SlidePreview/ImageRightPreview";
 
-export default function SlideView({ slide }) {
-
-    const slideRef = useRef(slide);
+export default function SlideView({ slide, scaleX = 1, scaleY = 1, infoCardPreview=false }) {
 
     useEffect(()=>{
         console.log("Logging slide in SlideView",slide);
@@ -21,18 +19,25 @@ export default function SlideView({ slide }) {
 
     const style = slide.imageUrl !== null ? {
         flexGrow: 1,
-        backgroundImage: slide.imageUrl ? `url(${slide.imageUrl})`: null,
+        backgroundImage: !infoCardPreview && slide.imageUrl ? `url(${slide.imageUrl})`: null,
         backgroundColor: slide.backgroundColor,
-        // backgroundImage: `url('https://images.unsplash.com/photo-1682685797857-97de838c192e?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`,
     } : {
         flexGrow: 1,
         backgroundColor: slide.backgroundColor,
     }
 
+    const scaledStyle = {
+        ...style,
+        transform: `scaleX(${scaleX}) scaleY(${scaleY})`,
+        transformOrigin: '0 0',
+        width: `${100 / scaleX}%`,
+        height: `${100 / scaleY}%`,
+    };
+
     return (
-        slide.selectedLayoutButton === 'default' ?
+        slide.selectedLayoutButton === 'default' || infoCardPreview?
             <div
-                style={style}
+                style={scaledStyle}
             >
                 <DefaultPreview slide={slide} />
             </div>
@@ -59,7 +64,6 @@ export default function SlideView({ slide }) {
                     <div 
                     style={{
                         flexShrink: 0,
-                        // backgroundImage: `url('https://images.unsplash.com/photo-1682685797857-97de838c192e?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`,
                         backgroundImage: slide.imageUrl ? `url(${slide.imageUrl})`: null,
                     }}
                     className="w-72 rounded-2xl"

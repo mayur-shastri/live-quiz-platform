@@ -121,4 +121,25 @@ router.route('/:quiz_id/creator')
         }
     }));
 
+router.route('/:quiz_id/name')
+    .patch(isLoggedIn, catchAsync(async (req,res)=>{
+        const {quiz_id} = req.params;
+        const {newName} = req.body;
+        const quiz = await Quiz.findByIdAndUpdate(quiz_id, {title: newName});
+        if(quiz){
+            res.status(200).send({message: 'Quiz name updated successfully!', flashType: 'success'});
+        } else{
+            res.status(404).send({message: 'Quiz not found!', flashType: 'danger'});
+        }
+    }))
+    .get(isLoggedIn, catchAsync(async (req,res)=>{
+        const {quiz_id} = req.params;
+        const quiz = await Quiz.findById(quiz_id);
+        if(quiz){
+            res.status(200).send({title: quiz.title});
+        } else{
+            res.status(404).send({message: 'Quiz not found!'});
+        }
+    }));
+
 module.exports = router;
