@@ -52,10 +52,27 @@ function ParticipationTile({ quizSession }) {
             const res = leaderboardData.data.find((user) => {
                 return user._id === userId;
             });
+            if(!res){
+                setParticipationData(()=>{
+                    return {
+                        _id: userId,
+                        username,
+                        correctAnswers: 0,
+                        totalAnswers: 0,
+                        points: 0,
+                        accuracy: 100, 
+                    }
+                });
+                return;
+            }
             setParticipationData(res);
         }
         getParticipationData();
     }, [username, creatorUsername]);
+
+    useEffect(()=>{
+        console.log(participationData);
+    }, [participationData]);
 
     return (
         <div className='flex flex-grow'>

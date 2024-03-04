@@ -36,7 +36,7 @@ function PresentationEnded() {
     }
 
     const goToResults = ()=>{
-        // ...
+        navigate('/app/participations');
     }
 
     return (

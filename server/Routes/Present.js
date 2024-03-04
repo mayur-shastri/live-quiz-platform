@@ -3,6 +3,7 @@ const router = require('express').Router();
 const Quiz = require('../Models/Quiz');
 const QuizSession = require('../Models/QuizSession');
 const User = require('../Models/User');
+const catchAsync = require('../Utilities/catchAsync');
 
 let activeRooms = {};
 
@@ -21,7 +22,7 @@ router.ws('/presenter', (ws, req) => {
         text: "This is a dummy message for the presenter",
     }
 
-    ws.on('message', async (message) => {
+    ws.on('message', catchAsync(async (message) => {
         const parsedMessage = JSON.parse(message);
         console.log(parsedMessage);
         if (parsedMessage.method === "initializePresenter") {
@@ -117,7 +118,7 @@ router.ws('/presenter', (ws, req) => {
                 ws.close();
             });
         }
-    });
+    }));
 
     ws.send(JSON.stringify(dummyData));
 
@@ -132,7 +133,7 @@ router.ws('/participant', (ws, req) => {
     let fullyEstablished = false;
     let userId = null;
 
-    ws.on('message', async function incoming(message) {
+    ws.on('message', catchAsync(async function incoming(message) {
         const parsedMessage = JSON.parse(message);
         console.log(parsedMessage);
         if (parsedMessage.method === "initializeParticipant") {
@@ -200,7 +201,7 @@ router.ws('/participant', (ws, req) => {
                 await quizSession.save();
             }
         }
-    });
+    }));
 
     ws.on('close', () => {
         console.log(`Participant disconnected!`);

@@ -4,13 +4,13 @@ import Loading from '../Splash/Loading';
 import { Chart } from "react-google-charts";
 import Typography from '@mui/material/Typography'
 
-
 function ResultScreen() {
 
     const [data, setData] = useState(null);
     const [chartData, setChartData] = useState([
         ["Type", "Count"],
     ]);
+
     const [isLoading, setIsLoading] = useState(true);
     const location = useLocation();
 
@@ -62,7 +62,7 @@ function ResultScreen() {
                     Incorrect Answers: {data.totalAnswers - data.correctAnswers}
                 </Typography>
                 <Typography variant="body1" color="initial">
-                    Accuracy: {(data.correctAnswers/data.totalAnswers)*100}%
+                    Accuracy: {Math.round((data.accuracy)*100)/100}%
                 </Typography>
                 <div className='w-full'>
                     <Chart
