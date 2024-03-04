@@ -45,8 +45,8 @@ function ProfileIcon() {
                 onClose={handleClose}
                 sx={{marginTop: '1rem',padding: '2rem',}}
             >
-                <DropMenuItem title="Logout" handleClose={handleClose} icon="logout" />
                 <DropMenuItem title="Edit Profile" handleClose={handleClose} icon="profile" />
+                <DropMenuItem title="Logout" handleClose={handleClose} icon="logout" />
                 {/* Add more menu items here */}
             </Menu>
         </div>

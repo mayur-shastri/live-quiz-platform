@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const http = require('http');
 const cors = require('cors');
@@ -16,7 +17,6 @@ const LeaderboardRoutes = require('./Routes/Leaderboard');
 
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-// const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const User = require('./Models/User');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
@@ -31,7 +31,7 @@ const sessionConfig = {
         maxAge: 1000*60*60*24*7, // 1 week
         expires: Date.now() + 1000*60*60*24*7,
     },
-    store: MongoStore.create({ mongoUrl: 'mongodb://localhost:27017/live-quiz-app' })
+    store: MongoStore.create({ mongoUrl: process.env.MONGODB_URL })
 }
 
 app.use(session(sessionConfig));
@@ -39,7 +39,7 @@ app.use(passport.session());
 app.use(passport.initialize());
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/live-quiz-app')
+mongoose.connect(process.env.MONGODB_URL)
     .then(()=>console.log('Connected to MongoDB'))
     .catch(err=>console.log(err));
 

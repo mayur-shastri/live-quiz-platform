@@ -7,7 +7,6 @@ const catchAsync = require('../Utilities/catchAsync');
 
 let activeRooms = {};
 
-
 router.get('/debug/:roomCode/activeRooms', (req, res) => {
     const { roomCode } = req.params;
     res.send({ ...activeRooms[roomCode].participants });
