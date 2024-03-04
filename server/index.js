@@ -21,6 +21,8 @@ const User = require('./Models/User');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 
+const mongoUrl = process.env.NODE_ENV === "production" ? process.env.MONGODB_URL : 'mongodb://localhost:27017/live-quiz-app';
+
 const sessionConfig = {
     secret: 'replace-with-a-real-secret',
     resave: false,
@@ -31,7 +33,7 @@ const sessionConfig = {
         maxAge: 1000*60*60*24*7, // 1 week
         expires: Date.now() + 1000*60*60*24*7,
     },
-    store: MongoStore.create({ mongoUrl: process.env.MONGODB_URL })
+    store: MongoStore.create({ mongoUrl: mongoUrl })
 }
 
 app.use(session(sessionConfig));
@@ -39,7 +41,7 @@ app.use(passport.session());
 app.use(passport.initialize());
 
 const mongoose = require('mongoose');
-mongoose.connect(process.env.MONGODB_URL)
+mongoose.connect(mongoUrl)
     .then(()=>console.log('Connected to MongoDB'))
     .catch(err=>console.log(err));
 
@@ -49,8 +51,11 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(express.json());
 
+const corsUrl = process.env.NODE_ENV === "production" ? 
+'front-end-url' : 'http://localhost:5173';
+
 const corsOptions = {
-    origin: 'http://localhost:5173',
+    origin: corsUrl,
     credentials: true,
     optionSuccessStatus: 200,
 }
