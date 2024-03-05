@@ -136,7 +136,7 @@ router.route('/:quiz_id/name')
         const {quiz_id} = req.params;
         const quiz = await Quiz.findById(quiz_id);
         if(quiz){
-            res.status(200).send({title: quiz.title});
+            res.status(200).send({title: quiz.title, roomCode: quiz.roomCode});
         } else{
             res.status(404).send({message: 'Quiz not found!'});
         }

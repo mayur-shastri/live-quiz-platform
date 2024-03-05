@@ -13,6 +13,7 @@ import { instance as configuredAxios } from '../../../axiosConfig';
 export default function Toolsbar({ isEditing, quizName, setQuizName, isSaving, quiz_id, user_id }) {
 
     const [placeHolder, setPlaceHolder] = useState("");
+    const [roomCode, setRoomCode] = useState("");
 
     const editAnimationOptions = {
         loop: true,
@@ -46,11 +47,12 @@ export default function Toolsbar({ isEditing, quizName, setQuizName, isSaving, q
     }, [isSaving, play, goToAndStop]);
 
     useEffect(() => {
-        const getQuizName = async () => {
+        const getQuizNameAndRoomCode = async () => {
             const res = await configuredAxios.get(`/${quiz_id}/name`);
             setPlaceHolder(res.data.title);
+            setRoomCode(res.data.roomCode);
         }
-        getQuizName();
+        getQuizNameAndRoomCode();
     }, []);
 
     const editQuizName = (e) => {
@@ -71,6 +73,9 @@ export default function Toolsbar({ isEditing, quizName, setQuizName, isSaving, q
                         onChange={editQuizName}
                         defaultValue={placeHolder}
                     ></input>
+                </div>
+                <div className="bg-gray-300 text-black font-bold p-2 mx-2 border rounded-xl">
+                    {roomCode}
                 </div>
             </div>
             <div className="flex flex-row justify-center items-center mr-10">
