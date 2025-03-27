@@ -51,8 +51,7 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(express.json());
 
-const corsUrl = process.env.NODE_ENV === "production" ? 
-process.env.CORS_URL : process.env.DEVELOPMENT_FRONTEND_URL;
+const corsUrl = process.env.CORS_URL;
 
 const corsOptions = {
     origin: corsUrl,
