@@ -52,7 +52,7 @@ passport.deserializeUser(User.deserializeUser());
 app.use(express.json());
 
 const corsUrl = process.env.NODE_ENV === "production" ? 
-process.env.PRODUCTION_FRONTEND_URL : process.env.DEVELOPMENT_FRONTEND_URL;
+process.env.CORS_URL : process.env.DEVELOPMENT_FRONTEND_URL;
 
 const corsOptions = {
     origin: corsUrl,
