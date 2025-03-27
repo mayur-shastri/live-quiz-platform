@@ -52,7 +52,7 @@ passport.deserializeUser(User.deserializeUser());
 app.use(express.json());
 
 const corsUrl = process.env.NODE_ENV === "production" ? 
-'https://quizaroo-client-2.onrender.com/' : 'http://localhost:5173';
+process.env.PRODUCTION_FRONTEND_URL : process.env.DEVELOPMENT_FRONTEND_URL;
 
 const corsOptions = {
     origin: corsUrl,
