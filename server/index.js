@@ -21,7 +21,7 @@ const User = require('./Models/User');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 
-const mongoUrl = process.env.NODE_ENV === "production" ? process.env.MONGODB_URL : 'mongodb://localhost:27017/live-quiz-app';
+const mongoUrl = process.env.MONGODB_URL;
 
 const sessionConfig = {
     secret: 'replace-with-a-real-secret',
@@ -57,7 +57,7 @@ const corsOptions = {
     origin: corsUrl,
     credentials: true,
     optionSuccessStatus: 200,
-}
+    }
 
 app.use(cors(corsOptions));
 
