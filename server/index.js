@@ -84,7 +84,7 @@ app.use('/', PresentRoutes);
 app.use('/', LeaderboardRoutes);
 
 app.get('/',(req,res)=>{
-    res.send({greeting: "Hello World, Testing CI/CD"});
+    res.send({greeting: "Hello World, Testing CI/CD : 2"});
 });
 
 app.use((err,req,res,next)=>{
