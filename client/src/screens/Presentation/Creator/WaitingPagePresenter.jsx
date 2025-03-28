@@ -9,7 +9,7 @@ function WaitingPagePresenter() {
     const {numParticipants, ws} = useContext(RealTimeDataContext);
     const startPresentation = ()=>{
         ws.send(JSON.stringify({method: 'start'}));
-        // navigate('/presenter/presentation', {state: {roomCode: null, userId: null}});
+        navigate('/presenter/presentation', {state: {roomCode: null, userId: null}});
     }
     return (
         <div className='flex flex-col h-screen justify-center items-center'>
